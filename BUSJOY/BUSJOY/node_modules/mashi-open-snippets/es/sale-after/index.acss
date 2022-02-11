@@ -1,0 +1,38 @@
+.sale-after-wraper .content-wraper {
+  display: flex;
+  justify-content: space-around;
+}
+.sale-after-wraper .content-wraper .item {
+  width: 144rpx;
+}
+.sale-after-wraper .content-wraper .item .icon {
+  width: 80rpx;
+  height: 80rpx;
+  margin-bottom: 12rpx;
+}
+.sale-after-wraper .content-wraper .item .des {
+  font-size: 24rpx;
+  color: #333;
+}
+.sale-after-wraper .bill {
+  display: flex;
+  padding: 32rpx 32rpx 0;
+  border-top: 1rpx solid #eee;
+  margin-top: 61rpx;
+  justify-content: space-between;
+}
+.sale-after-wraper .bill .content .icon {
+  width: 26rpx;
+  height: 28rpx;
+  vertical-align: middle;
+  margin-right: 14rpx;
+}
+.sale-after-wraper .bill .content .text {
+  font-size: 25rpx;
+  vertical-align: middle;
+}
+.sale-after-wraper .bill .arrow {
+  width: 12rpx;
+  height: 21rpx;
+  margin-top: 7rpx;
+}

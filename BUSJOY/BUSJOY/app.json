@@ -1,0 +1,39 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/onbus/onbus",
+    "pages/my/my",
+    "pages/square/square",
+    "pages/my/carmode/carmode",
+    "pages/my/discount/discount",
+    "pages/my/gold/gold",
+    "pages/my/signin/signin",
+    "pages/my/recoord/recoord",
+    "pages/my/rank/rank",
+    "pages/friends/friends",
+    "pages/friendcircle/friendcircle",
+    "pages/roadlist/roadlist"
+  ],
+  "window": {
+    "defaultTitle": "Bus Joy"
+  },
+  "tabBar": {
+    "textColor": "#dddddd",
+    "selectedColor": "#49a9ee",
+    "backgroundColor": "#ffffff",
+    "items": [
+      {
+        "pagePath": "pages/onbus/onbus",
+        "name": "乘车"
+      },
+      {
+        "pagePath": "pages/square/square",
+        "name": "广场"
+      },
+      {
+        "pagePath": "pages/my/my",
+        "name": "个人中心"
+      }
+    ]
+  }
+}

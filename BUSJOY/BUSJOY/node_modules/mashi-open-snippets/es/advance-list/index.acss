@@ -1,0 +1,28 @@
+.advance-list .advance-item {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 20rpx;
+}
+.advance-list .advance-item:list-child {
+  margin-bottom: 0;
+}
+.advance-list .advance-item-content {
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.advance-list .advance-item-content .title {
+  color: #108EE9;
+  font-weight: 500;
+  font-size: 34rpx;
+  margin-bottom: 18rpx;
+}
+.advance-list .advance-item-content .des {
+  color: #999;
+  font-size: 24rpx;
+}
+.advance-list .advance-item-icon-image {
+  height: 200rpx;
+  width: 200rpx;
+}

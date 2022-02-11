@@ -1,0 +1,40 @@
+<import-sjs name="helper" from="./helper.sjs"/>
+<view class="selection-input">
+  <view class="label">{{label}}</view>
+  <view onTap="onOpenSelect">
+    <text>{{text}}</text>
+    <text class="choseWords">{{helper.getSelectedFuel(list, value, type, fuelTypeList, OIL_MAP)}}</text>
+    <image src="https://gw.alipayobjects.com/zos/rmsportal/UkJoMocYlEGkjVzDCUSN.png" class="rightArrow" mode="widthFix"></image>
+  </view>
+  <hy-picker 
+    show="{{pickerShow}}"
+  >
+    <view class="picker-title">
+      <text class="close" onTap="onClosePopup"></text>{{pickerTitle}}
+    </view>
+    <scroll-view 
+      scroll-y="{{true}}" 
+      style="height: 496rpx;"
+    >
+      <view a:if="{{type === 'square'}}">
+        <view a:for="{{list}}" class="listItem {{item.value===selectedValue ?'selected' : ''}}" data-value="{{item.value}}" onTap="onChange">
+          {{item.name}}
+        </view>
+      </view>
+      <view a:if="{{type === 'list'}}">
+        <view a:if="{{dieselList.length !== 0 && petrolList.length !== 0}}" class='oilTypeTitle'>汽油</view>
+        <view>
+          <view a:for="{{petrolList}}" class="listItem {{item.oilType===(selectedValue || value) ?'selected' : ''}}" data-value="{{item.oilType}}" onTap="onChange">
+            {{item.oilType}}
+          </view>
+        </view>
+        <view a:if="{{dieselList.length !== 0 && petrolList.length !== 0}}" class='oilTypeTitle'>柴油</view>
+        <view>
+          <view a:for="{{dieselList}}" class="listItem {{item.oilType===(selectedValue || value) ?'selected' : ''}}" data-value="{{item.oilType}}" onTap="onChange">
+            {{item.oilType}}
+          </view>
+        </view>
+      </view>
+    </scroll-view>
+  </hy-picker>
+</view>

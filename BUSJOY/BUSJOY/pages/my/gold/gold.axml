@@ -1,0 +1,8 @@
+<view class="container">
+  <view class="remind-box" a:if="{{remind}}">
+    <image class="remind-img" src="../loading.gif"></image>
+  </view>
+  <block a:else>
+
+  </block>
+</view>

@@ -1,0 +1,21 @@
+<view class="fuel-selection-container">
+  <selection-input 
+    label="油品型号"
+    value="{{currentFuelType}}"
+    pickerTitle="选择油品型号"
+    onSelect="onFuelTypeOpen"
+    onChange="onFuelTypeChanged"
+    list="{{fuelTypeList}}"
+    fuelTypeList="{{fuelTypeList}}"
+    type="list"
+  />
+  <selection-input 
+    label="出油枪号"
+    value="{{currentFuelNumber}}"
+    pickerTitle="选择油枪号"
+    onSelect="onFuelNumberOpen"
+    onChange="onFuelNumberChanged"
+    list="{{fuelNumberList}}"
+    type="square"
+  />
+</view>

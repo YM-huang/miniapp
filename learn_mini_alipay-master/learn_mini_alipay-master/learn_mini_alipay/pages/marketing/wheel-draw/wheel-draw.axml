@@ -1,0 +1,34 @@
+<view class="page">
+  <view class="page-description">大转盘-效果预览</view>
+  <view class="page-section">
+    <view class="page-section-demo">
+      <wheel
+        width="622rpx"
+        prizeList="{{prizeList}}" // 奖项列表
+        prizeName="{{prizeName}}" // 获奖项目名称
+        rotTimes="{{totalTimes}}" // 转盘机会次数
+        onStart="onStart" // 转盘开始旋转回调
+        onFinish="onFinish" // 转盘结束旋转回调
+        onTimesUp="onTimesUp"
+      />
+      <view class="times">
+        <text>你还有{{totalTimes - curTimes}}次抽奖机会</text>
+      </view>
+      <view class="result">
+        <text>{{result}}</text>
+      </view>
+    </view>
+  </view>
+  <view class="page-description">大转盘-使用说明</view>
+  <view class="page-section">
+    <view class="page-section-demo">
+      <view class="page-section-text help-text">玩法说明:通过点击转盘中心按钮来转动转盘进行抽奖，可以自定义转盘转动抽奖的次数。</view>
+      <view class="page-section-text">组件安装:</view>
+      <view class="code">yarn add ant-mini-wheel-draw</view>
+      <view class="page-section-text">usingComponents 引入路径:</view>
+      <view class="code">ant-mini-wheel-draw/es/wheel/index</view>
+      <view class="page-section-text">参数说明:</view>
+      <image src="{{docParamsImg}}" mode="widthFix" style="width: 100%" />
+    </view>
+  </view>
+</view>

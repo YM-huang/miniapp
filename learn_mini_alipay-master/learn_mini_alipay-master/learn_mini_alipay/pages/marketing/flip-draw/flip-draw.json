@@ -1,0 +1,6 @@
+{
+  "defaultTitle": "翻牌抽奖",
+  "usingComponents": {
+    "flipdraw": "ant-mini-flip-draw/component/index"
+  }
+}

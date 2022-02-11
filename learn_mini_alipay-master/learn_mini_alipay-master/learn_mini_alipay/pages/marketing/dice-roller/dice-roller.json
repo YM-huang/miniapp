@@ -1,0 +1,6 @@
+{
+  "defaultTitle": "摇骰子",
+  "usingComponents": {
+    "diceroller": "ant-mini-dice-roller/es/component/index"
+  }
+}

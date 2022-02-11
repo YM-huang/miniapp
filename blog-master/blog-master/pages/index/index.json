@@ -1,0 +1,6 @@
+{
+  "usingComponents": {
+    "footer": "../../components/footer/footer"
+  },
+  "defaultTitle": "个人博客"
+}

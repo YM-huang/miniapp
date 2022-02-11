@@ -1,0 +1,50 @@
+<movable-area class="area">
+    <movable-view class="ring-wrapper" x="{{x}}" y="{{y}}" direction="all">
+      <view a:if="{{ringHidden}}">
+        <view class="text-wrapperli">
+          <!-- <view class="text-wrapperinside"> -->
+            <!-- <view class="textcontent">
+              下一站：留下
+            </view>
+            <view class="textcontent">
+              下一站：留下
+            </view>
+            <view class="textcontent">
+              下一站：留下
+            </view> -->
+
+            <collapse
+              className="demo-collapse"
+              collapseKey="collapse2"
+              activeKey="{{['item-22']}}"
+              onChange="onChange"
+              accordion="{{true}}"
+            >
+              <collapse-item header="xx" itemKey="item-21" collapseKey="collapse2" showArrow="{{false}}" className="textcontent">
+                <view class="item-content">
+
+                    <view>设为目标站</view>
+        
+                </view>
+              </collapse-item>
+              <collapse-item header="留下" itemKey="item-22" collapseKey="collapse2" showArrow="{{false}}" className="textcontent" >
+                <view class="item-content">
+                  <view>设为目标站</view>
+                </view>
+              </collapse-item>
+              <collapse-item header="留下" itemKey="item-23" collapseKey="collapse2" showArrow="{{false}}" className="textcontent">
+                <view class="item-content">
+                  <view>设为目标站</view>
+                </view>
+              </collapse-item>
+            </collapse>
+          <!-- </view> -->
+        </view>
+    </view>
+    </movable-view>
+    <movable-view class="ring-wrapper" direction="all" onTap="showZanAndPinglun" onTouchMove="moveTab">
+      <image class="Ring" mode="aspectFit" src="/assets/ring.png" id="img"/>
+    </movable-view>
+</movable-area>
+
+

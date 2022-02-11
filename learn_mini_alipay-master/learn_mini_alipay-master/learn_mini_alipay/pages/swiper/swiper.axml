@@ -1,0 +1,57 @@
+<view class="page">
+    <view class="page-description">滑块视图容器</view>
+    <view class="page-section">
+        <view class="page-section-demo">
+            <swiper
+                style="height:150px"
+                class=""
+                previousMargin="10px"
+                nextMargin="10px"
+                indicator-dots="{{indicatorDots}}"
+                autoplay="{{autoplay}}"
+                vertical="{{vertical}}"
+                interval="{{interval}}"
+                circular="{{circular}}"
+                duration="{{duration}}"
+            >
+                <swiper-item key="swiper-item-{{index}}" a:for="{{background}}">
+                    <view class="swiper-item bc_{{item.color}}">{{item.text}}</view>
+                </swiper-item>
+            </swiper>
+        </view>
+        <list>
+            <list-item>
+                指示点
+                <view slot="extra">
+                    <switch onChange="changeIndicatorDots" checked="{{indicatorDots}}"/>
+                </view>
+            </list-item>
+            <list-item>
+                纵向滑动
+                <view slot="extra">
+                    <switch onChange="changeVertical" checked="{{vertical}}"/>
+                </view>
+            </list-item>
+            <list-item>
+                无限滑动
+                <view slot="extra">
+                    <switch onChange="changeCircular" checked="{{circular}}"/>
+                </view>
+            </list-item>
+            <list-item>
+                自动切换
+                <view slot="extra">
+                    <switch onChange="changeAutoplay" checked="{{autoplay}}"/>
+                </view>
+            </list-item>
+            <list-item>
+                <slider onChange="intervalChange" value="{{interval}}" show-value min="500" max="2000"/>
+                <view>自动切换时间间隔(ms)</view>
+            </list-item>
+            <list-item>
+                <slider onChange="durationChange" value="{{duration}}" show-value min="500" max="2000"/>
+                <view>滑动动画时长(ms)</view>
+            </list-item>
+		</list>
+    </view>
+</view>

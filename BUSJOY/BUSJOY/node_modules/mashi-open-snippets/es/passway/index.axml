@@ -1,0 +1,29 @@
+<view class="passway-wraper">
+  <view class="out-wraper">
+    <view class="label">{{dataSource.name}}</view>
+    <view class="more">
+      <text class="pre">更多出口</text>
+      <image class="arrow" mode="scaleToFill" src="https://gw.alipayobjects.com/mdn/rms_ec9563/afts/img/A*S44LRpc_2YQAAAAAAAAAAABkARQnAQ"/>
+    </view>
+  </view>
+  <view class="exit-wraper">
+    <view class="item" a:for="{{dataSource.exits}}">
+      <view class="name">{{item.name}}</view>
+      <view class="list">
+        <view class="exitRef" a:for="{{item.to}}" a:for-item="exit">
+          {{exit}}
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class="traffic-wraper">
+    <view class="label">
+      <text class="pre">{{dataSource.traffic.label}}</text>
+      <view class="icon">{{dataSource.traffic.iconText}}</view>
+    </view>
+    <view class="go">
+      <text class="text">{{dataSource.traffic.go}}</text>
+      <image class="arrow" mode="scaleToFill" src="https://gw.alipayobjects.com/mdn/rms_ec9563/afts/img/A*S44LRpc_2YQAAAAAAAAAAABkARQnAQ"/>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,6 @@
+{
+  "defaultTitle": "Message",
+  "usingComponents": {
+    "message": "mini-ali-ui/es/message/index"
+  }
+}

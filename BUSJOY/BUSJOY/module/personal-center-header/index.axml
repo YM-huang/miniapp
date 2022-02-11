@@ -1,0 +1,14 @@
+<view class="pcHeader">
+  <view class="fuel">
+    <view class="{{payInfo.totalAmount && payInfo.totalAmount.amount < 10000 ? 'number' : 'smallFont'}}">{{payInfo.totalCount || '0'}}</view>
+    <view class="words">加油次数</view>
+  </view>
+  <view class="fuel">
+    <view class="{{payInfo.totalAmount && payInfo.totalAmount.amount < 10000 ? 'number' : 'smallFont'}}">{{payInfo.totalAmount && payInfo.totalAmount.amount.toFixed(2) || '0.00'}}</view>
+    <view class="words">消费金额(元)</view>
+  </view>
+  <view class="fuel">
+    <view class="{{payInfo.totalAmount && payInfo.totalAmount.amount < 10000 ? 'number' : 'smallFont'}}">{{payInfo.totalDisAmount && payInfo.totalDisAmount.amount.toFixed(2) || '0.00'}}</view>
+    <view class="words">累计节省(元)</view>
+  </view>
+</view>

@@ -1,0 +1,67 @@
+page {
+  background: rgb(240, 239, 239);
+}
+.header {
+  background-color: rgba(30, 101, 255, 0.911)
+}
+.header .headerimage{
+  width: 750rpx;
+}
+.voncher-wraper {
+  height: 201rpx;
+  background: rgb(184, 179, 179);
+  position: absolute;
+  left:50%;
+  transform:translateX(-50%);
+}
+.voncher-wraper .voncher {
+  height: 790rpx;
+  width: 638rpx;
+  position: absolute;
+  border-radius: 15px;
+  background: white;
+  background-size: cover;
+  top: -50%;
+  left:50%;
+  transform:translateX(-50%);
+  padding: 35rpx 32rpx;
+  box-sizing: border-box;
+}
+.voncher-wraper .voncher .QRcode {
+  height:400rpx;
+  width: 400rpx;
+  position: absolute;
+  top: 13%;
+  left:50%;
+  transform:translateX(-50%);
+}
+
+.voncher-wraper .voncher .voncher-name {
+  font-size: 25rpx;
+  line-height: 48rpx;
+  text-align: center;
+  color:black;
+}
+
+.split{
+  text-align: center;
+  position: relative;
+  top: 64%;
+  color:rgb(219, 215, 215);
+}
+
+.extrabutton{
+  position: relative;
+  top: 70%;
+}
+
+.Bingo{
+  position: absolute;
+  text-align: center;
+  top: 66%;
+  left:50%;
+  transform:translateX(-50%);
+  color: rgb(146, 145, 145);
+  font-style:inherit;
+  width: 500rpx;
+}

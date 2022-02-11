@@ -1,0 +1,4 @@
+<cookie-manager hide='{{pageIndex==0}}' onStartLoadCookie="onLoadStart" onEndLoadCookie="onLoadEnd" />
+<auth-manager hide='{{pageIndex==1}}' onStartLoadAuth="onLoadStart" onEndLoadAuth="onLoadEnd" />
+<passwd-manager hide='{{pageIndex==2}}' />
+<left-menu onPageChange="onChangePage" />

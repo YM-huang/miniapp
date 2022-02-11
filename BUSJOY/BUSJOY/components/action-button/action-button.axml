@@ -1,0 +1,30 @@
+<view class="action-button-wraper {{fixed ? 'fixed': ''}}">
+  <view class="action-body">
+    <slot name="header" />
+    <view a:if="{{topProtocol.length > 0}}" class="top-protocol">
+      <text class="normal {{item.type=== 'blue' ? 'blue' : ''}}" a:for="{{topProtocol}}">{{item.text}}</text>
+    </view>
+    <view class="button-group">
+      <button class="button" a:for="{{buttonGroup}}" type="{{item.type}}">{{item.text}}</button>
+    </view>
+    <view a:if="{{bottomProtocol.length > 0}}" class="bottom-protocol">
+      <text class="normal {{item.type=== 'blue' ? 'blue' : ''}}" a:for="{{bottomProtocol}}">{{item.text}}</text>
+      <view class="spread-arrow"></view>
+    </view>
+  </view>
+  <view class="bottom-item" a:if="{{bottomItem}}">
+    <view class="content">
+      <image class="icon" src="{{bottomItem.iconUrl}}"></image>
+      <text a:if={{bottomItem}} class="text">{{bottomItem.text}}</text>
+    </view>
+    <image class="arrow" src="https://gw.alipayobjects.com/mdn/rms_ec9563/afts/img/A*S44LRpc_2YQAAAAAAAAAAABkARQnAQ"></image>
+  </view>
+  <view class="bottom-list" a:if="{{bottomList}}">
+    <view class="item" a:for="{{bottomList}}">
+      <view class="label">{{item.label}}</view>
+      <view class="value">{{item.value}}</view>
+      <image class="icon" src="https://gw.alipayobjects.com/mdn/rms_ec9563/afts/img/A*ElrGQYnl2_4AAAAAAAAAAABkARQnAQ" a:if="{{item.editable}}" />
+    </view>
+  </view>
+ 
+</view>

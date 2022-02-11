@@ -1,0 +1,6 @@
+{
+  "defaultTitle": "大转盘",
+  "usingComponents": {
+    "wheel": "ant-mini-wheel-draw/es/wheel/index"
+  }
+}

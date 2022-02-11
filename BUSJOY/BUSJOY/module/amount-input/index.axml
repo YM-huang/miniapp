@@ -1,0 +1,23 @@
+<view class="amount-input">
+  <view class="amount-header">
+    <view>
+      <view class="amount-input-titles">请输入加油机金额</view>
+      <text class="amount-input-discount">支付享{{disCount}}折优惠</text>
+    </view>
+    <input
+      type="digit"
+      value="{{_value}}"
+      focus="{{focus}}"
+      onInput="onInput"
+      onConfirm="onConfirm"
+      onFocus="onFocus"
+      onBlur="onBlur"
+      placeholder="¥ 0.00"
+      maxLength="7"
+      onInput="onInput"
+      onFocus="onInputFocus"
+      controlled ='{{true}}'
+    />
+  </view>
+  <view class="amount-footer">输入金额精确到分</view>
+</view>

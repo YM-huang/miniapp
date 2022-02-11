@@ -1,0 +1,22 @@
+<view>
+  <popup show="{{selectShow}}" position="bottom" onClose="onPopupClose" className="picker-popup" disableScroll="{{false}}">
+    <view class="btn-action">
+      <view class="cancel-btn" data-click="{{isConfirm}}" onTap="onCancel">取消                                                            
+      </view>
+      <view class="confirm-btn {{isConfirm?'active':'disable'}}" data-click="{{isConfirm}}" onTap="onConfirm">确定                                                            
+      </view>
+    </view>
+    <tabs className="pipick-view-tab" tabBarCls="pick-view-tab-header" activeCls="activeTab" tabBarActiveTextColor="#333333" tabBarBackgroundColor="transparent" tabs="{{selectList}}" swipeable="{{false}}" onTabClick="handleTabClick" activeTab="{{activeTab}}">
+      <block a:for="{{selectList}}" a:for-index="idx" a:for-item="itemName">
+        <tab-content key="{{idx}}">
+          <scroll-view class="pick-view-content" scroll-y="{{true}}" trap-scroll="{{true}}">
+            <block a:for="{{itemName.sub}}">
+              <view data-key="{{idx}}" data-name="{{item.name}}" data-code="{{item.code}}" data-sub="{{item.sub?item.sub:''}}" class="pick-view-content-item {{selectList[idx].title===item.name?'curret':''}}" onTap="itemSelect">{{item.name}}                                                        
+              </view>
+            </block>
+          </scroll-view>
+        </tab-content>
+      </block>
+    </tabs>
+  </popup>
+</view>

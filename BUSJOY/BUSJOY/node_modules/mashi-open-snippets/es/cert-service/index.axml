@@ -1,0 +1,14 @@
+<view class="cert-wraper" style="{{background: backgroundColor}}">
+  <view class="title-wraper">
+    <view class="icon-wraper">
+      <view class="line"></view>
+      <image class="icon" src="https://gw.alipayobjects.com/mdn/rms_ec9563/afts/img/A*R4v4TYKSGW0AAAAAAAAAAABkARQnAQ" mode="" />
+    </view>
+    <view class="title">{{title}}</view>
+    <view class="icon-wraper">
+      <image class="icon" src="https://gw.alipayobjects.com/mdn/rms_ec9563/afts/img/A*B1FcT7RqlaUAAAAAAAAAAABkARQnAQ" mode="" />
+      <view class="line"></view>
+    </view>
+  </view>
+  <view class="des" style="{{letterSpacing: letterSpacing + 'rpx'}}">{{des}}</view>
+</view>

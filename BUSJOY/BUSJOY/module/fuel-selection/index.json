@@ -1,0 +1,6 @@
+{
+  "component": true,
+  "usingComponents": {
+    "selection-input": "./selection-input/index"
+  }
+}

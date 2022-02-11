@@ -1,0 +1,70 @@
+page {
+  flex-direction: column;
+}
+
+.header-wrapper {
+  border-top: 2rpx solid #EEEEEE;
+  align-self: flex-start;
+  width: 100%;
+  box-sizing: border-box;
+  height: 78rpx;
+  background-color: #ffffff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  z-index: 100;
+  border-bottom: 1rpx solid #ddd;
+}
+
+.header-wrapper .splitLine {
+  height: 36rpx;
+  width: 2rpx;
+  background-color: #EFEFEF;
+}
+
+.header-wrapper .drop-down-wrapper {
+  height: 100%;
+  width: 192rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.header-wrapper .drop-down-wrapper .left-text {
+  font-size: 28rpx;
+}
+
+.header-wrapper .drop-down-wrapper .drop-down-arrow {
+  height: 12rpx;
+  width: 12rpx;
+  padding-left: 12rpx;
+  background-image: url("https://gw.alipayobjects.com/zos/rmsportal/mVsqYximfFGqvwvOwVtd.png");
+  background-repeat: no-repeat;
+  background-size: 12rpx 10rpx;
+}
+
+.header-wrapper .drop-down-active {
+  background-color: rgba(37, 39, 40, 0.05);
+}
+
+.header-wrapper .search-bar-wrapper {
+  flex: 1;
+}
+
+.header-wrapper .search-bar-wrapper .am-search {
+  height: 0;
+}
+
+.header-wrapper .search-bar-wrapper .am-search .am-search-input {
+  background: rgba(0, 0, 0, 0);
+}
+
+.header-wrapper .search-bar-wrapper .content {
+  width: 100%;
+}
+
+.header-wrapper .search-bar-wrapper .am-search-cancel {
+  display: none;
+}

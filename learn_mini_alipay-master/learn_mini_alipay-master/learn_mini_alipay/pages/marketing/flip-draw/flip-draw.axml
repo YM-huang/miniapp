@@ -1,0 +1,27 @@
+<view>
+  <view class="page">
+    <view class="page-description">翻牌抽奖-效果预览</view>
+  </view>
+  <flipdraw
+    prizeList="{{prizeList}}"
+    prizeName="{{prizeName}}"
+    isDrawing="{{isDrawing}}"
+    cardBgImg="{{cardBgImg}}"
+    flipAllCards="{{flipAllCards}}"
+    onFlipStart="onFlipStart"
+  />
+  <view class="page">
+    <view class="page-description">翻牌抽奖-使用说明</view>
+    <view class="page-section">
+      <view class="page-section-demo">
+        <view class="page-section-text help-text">玩法说明：页面上有 N 张卡牌，每张卡牌对应不同奖品，用户点击卡牌进行翻牌抽奖，用户可自定义卡牌数量和翻牌的次数。</view>
+        <view class="page-section-text">组件安装:</view>
+        <view class="code">yarn add ant-mini-flip-draw</view>
+        <view class="page-section-text">usingComponents 引入路径:</view>
+        <view class="code">ant-mini-flip-draw/component/index</view>
+        <view class="page-section-text">参数说明:</view>
+        <image src="{{docParamsImg}}" class="flip-card-bg" mode="scaleToFill" style="width: 100%, height: 100%" />
+      </view>
+    </view>
+  </view>
+</view>

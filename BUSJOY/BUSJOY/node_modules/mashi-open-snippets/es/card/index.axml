@@ -1,0 +1,14 @@
+<view class="card_wraper  {{noTopRadius ? 'no-top-radius' : ''}} {{HorizonatalPadding ? 'padding' : ''}} {{marginBottom ? 'margin-bottom' : ''}}">
+  <view a:if="{{title}}"  class="title-wraper {{hotTip ? 'hastip' : ''}}">
+    <view class="line"></view>
+    <view class="title">{{title}}</view>
+    <view class="line"></view>
+  </view>
+  <view a:if="{{hotTip}}" class="hot-tip">
+    <image src="{{hotTip.imageUrl}}" class="hot-image" mode="scaleToFill" />
+    <view class="gap"></view>
+    <text class="content">{{hotTip.text}}</text>
+  </view>
+  <slot></slot>
+  <text a:if="{{showBottomButton}}" class="get-more">{{bottomButtonText}}</text>
+</view>

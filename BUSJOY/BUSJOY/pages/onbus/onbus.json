@@ -1,0 +1,30 @@
+{
+  "transparentTitle": "always",
+  "usingComponents": {
+    "value-module": "/components/value-module/value-module",
+    "green-energy": "/components/green-energy/green-energy",
+    "action-button": "/components/action-button/action-button",
+    "card": "/components/card/card",
+    "market-card": "/components/market-card/market-card",
+    "evaluate": "/components/evaluate/evaluate",
+    "process": "/components/process/process",
+    "sale-after": "/components/sale-after/sale-after",
+    "cert-service": "/components/cert-service/cert-service",
+    "question": "/components/question/question",
+    "advance-list": "/components/advance-list/advance-list",
+    "super-page": "/components/super-page/super-page",
+    "pay-info": "/components/pay-info/pay-info",
+    "stand-out-card": "/components/stand-out-card/stand-out-card",
+    "passway": "/components/passway/passway",
+    "routes": "/components/routes/routes",
+    "to-desktop": "/components/to-desktop/to-desktop",
+    "transfer": "/components/transfer/transfer",
+    "operation": "/components/operation/operation",
+    "station":"/components/station/station",
+    "collapse": "/components/collapse/collapse",
+    "collapse-item": "/components/collapse-item/collapse-item",
+    "tips-dialog": "/node_modules/mini-ali-ui/es/tips/tips-dialog/index",
+    "am-button": "/node_modules/mini-ali-ui/es/button/index"
+  },
+  "pullRefresh": true
+}

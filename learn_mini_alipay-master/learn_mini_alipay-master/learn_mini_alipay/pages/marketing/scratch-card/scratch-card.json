@@ -1,0 +1,6 @@
+{
+  "defaultTitle": "刮刮卡组件",
+  "usingComponents": {
+    "scratch": "ant-mini-scratch-card/es/scratch/index"
+  }
+}

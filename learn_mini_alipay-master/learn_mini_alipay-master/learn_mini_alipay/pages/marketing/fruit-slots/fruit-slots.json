@@ -1,0 +1,6 @@
+{
+  "defaultTitle": "水果机",
+  "usingComponents": {
+    "fruit-slots": "ant-mini-fruit-slots/es/fruit-slots/index"
+  }
+}

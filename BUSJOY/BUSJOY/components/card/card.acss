@@ -1,0 +1,91 @@
+.card_wraper {
+  width: 100%;
+  background: #fff;
+  border-radius: 10rpx;
+  padding: 32rpx 0;
+  box-sizing: border-box;
+  text-align: center;
+}
+.card_wraper.margin-bottom {
+  margin-bottom: 24rpx;
+}
+.card_wraper.margin-bottom:last-child {
+  margin-bottom: 0;
+}
+.card_wraper.no-top-radius {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+.card_wraper .hot-tip {
+  display: inline-block;
+  background: #FFF5F5;
+  border: 1rpx solid #FFD7CF;
+  height: 36rpx;
+  border-radius: 18rpx;
+  font-size: 21.6rpx;
+  padding: 0 21rpx;
+  line-height: 30rpx;
+  color: #E37000;
+  margin: 32rpx 0 48rpx;
+  vertical-align: middle;
+}
+.card_wraper .hot-tip .hot-image {
+  width: 90rpx;
+  height: 22rpx;
+  vertical-align: middle;
+}
+.card_wraper .hot-tip .gap {
+  display: inline-block;
+  width: 2rpx;
+  height: 18rpx;
+  background: #F0D1D1;
+  vertical-align: middle;
+  margin: 0 13rpx;
+}
+.card_wraper .hot-tip .content {
+  vertical-align: middle;
+}
+.card_wraper .title-wraper {
+  margin-bottom: 48rpx;
+  font-size: 32rpx;
+  font-weight: 500;
+}
+.card_wraper .title-wraper.hastip {
+  margin-bottom: 0;
+}
+.card_wraper .title-wraper .line {
+  display: inline-block;
+  width: 24rpx;
+  height: 2rpx;
+  background-color: #D8D8D8;
+  vertical-align: middle;
+}
+.card_wraper .title-wraper .title {
+  display: inline-block;
+  margin: 0 12rpx;
+  color: #3A3A3A;
+}
+.card_wraper .get-more {
+  display: block;
+  height: 57rpx;
+  font-size: 24rpx;
+  line-height: 89rpx;
+  box-sizing: border-box;
+  position: relative;
+}
+.card_wraper .get-more::after {
+  position: absolute;
+  display: block;
+  content: '';
+  height: 1rpx;
+  width: 702rpx;
+  background: #eee;
+  top: 0;
+  left: 0;
+}
+.card_wraper.padding {
+  padding: 32rpx;
+}
+.card_wraper.padding .get-more::after {
+  left: -32rpx;
+}

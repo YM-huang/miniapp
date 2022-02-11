@@ -1,0 +1,78 @@
+.btn-action {
+  display: flex;
+  align-items: center;
+  padding: 30rpx;
+  box-sizing: border-box;
+  background: #FFF;
+}
+.pipick-view-tab .am-tabs-bar {
+  height: 80rpx;
+  box-sizing: border-box;
+  border-bottom: 1rpx solid #DDD;
+  padding: 0 10rpx;
+}
+.pipick-view-tab .am-tabs-bar-content {
+  height: 79rpx;
+  box-sizing: border-box;
+}
+.pipick-view-tab .am-tabs-scroll-right,
+.pipick-view-tab .am-tabs-scroll-left {
+  width: 0;
+  display: none;
+}
+.pick-view-tab-header {
+  height: 79rpx;
+  line-height: 79rpx;
+  box-sizing: border-box;
+  font-size: 26rpx;
+  color: #333;
+}
+.pick-view-tab-header .am-tabs-bar-title {
+  max-width: 180rpx;
+  height: 79rpx;
+  line-height: 79rpx;
+  border-bottom: 4rpx solid transparent;
+  box-sizing: border-box;
+  padding: 0 20rpx;
+}
+.pick-view-tab-header .am-tabs-bar-title text {
+  max-width: 180rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: block;
+}
+.pipick-view-tab .am-tabs-content-wrap {
+  margin-top: 0;
+}
+.pick-view-content {
+  height: 480rpx;
+  padding: 20rpx 0;
+  box-sizing: border-box;
+}
+.pick-view-content-item {
+  height: 60rpx;
+  line-height: 60rpx;
+  padding: 0 30rpx;
+  color: #333;
+  width: 100%;
+  box-sizing: border-box;
+  font-size: 26rpx;
+}
+.confirm-btn {
+  text-align: right;
+  flex: 1;
+}
+.cancel-btn {
+  flex: 1;
+}
+.disable {
+  color: #CCC;
+}
+.active {
+  color: #108ee9;
+}
+.curret {
+  color: #FFF;
+  background: #108ee9;
+}

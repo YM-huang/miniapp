@@ -1,0 +1,100 @@
+@import "../../style/common";
+
+@include popup;
+.popup {
+  z-index: 900;
+  &-container {
+    width: 100%;
+    box-sizing: border-box;
+    .popup-header{
+      position: relative;
+      padding-top:32rpx;
+      padding-bottom:28rpx;
+      @include borderBottom($borderColorEEE);
+      .popup-arrowup-icon{
+        position: absolute;
+        top: 0;
+        left:50%;
+        transform: translateX(-50%);
+        width:40rpx;
+        height:40rpx;
+        background: url(https://gw.alipayobjects.com/zos/rmsportal/UbhKyRHnViLIfTIWRTSB.png)  center no-repeat;
+        background-size: 36rpx 14rpx;
+      }
+      .popup-close-icon {
+        position: absolute;
+        top: 0;
+        left:0;
+        width:96rpx;
+        height:96rpx;
+        background: url(https://gw.alipayobjects.com/zos/rmsportal/eNodYVdheaEwotLHxCcS.png)  center no-repeat;
+        background-size: 32rpx 32rpx;
+      }
+      .popup-title {
+        font-size: 36rpx;
+        line-height: 50rpx;
+        color: #333;
+        text-align: center;
+        @include fontFamilyMedium;
+        letter-spacing: 0.37rpx;
+      }
+      .popup-subtitle {
+        margin-top: 8rpx;
+        font-size: 26rpx;
+        line-height: 37rpx;
+        color: #FF7755;
+        letter-spacing: 0.27rpx;
+        text-align: center;
+      }
+    }
+    .petrol-wrapper {
+      padding: 41rpx 32rpx 60rpx;
+      .petrol-item-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-flow: row wrap;
+      }
+    }
+    .diesel-wrapper {
+      padding: 0 32rpx 60rpx;
+      .diesel-item-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-flow: row wrap;
+      }
+    }
+    .title {
+      @include fontFamilyMedium;
+      padding-bottom: 4rpx;
+      font-size: 36rpx;
+      line-height: 50rpx;
+      color: #333333;
+      letter-spacing: 0;
+      text-align: left;
+    }
+    .oil-item {
+      @include fontFamilyHelveticaNeu;
+      margin-top: 20rpx;
+      width: 206rpx;
+      height: 120rpx;
+      line-height: 120rpx;
+      border: 2rpx solid rgba(16, 142, 233, 0.40);
+      border-radius: 4rpx;
+      font-size: 36rpx;
+      color: #108EE9;
+      letter-spacing: 0;
+      text-align: center;
+      background: #FFFFFF;
+    }
+    .oil-item-selected {
+      background: #108EE9;
+      border-radius: 4rpx;
+      color: #FFFFFF;
+    }
+    .button-use{
+      padding: 0 32rpx 56rpx;
+    }
+  }
+}

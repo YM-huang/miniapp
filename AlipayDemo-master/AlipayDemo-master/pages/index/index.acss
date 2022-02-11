@@ -1,0 +1,32 @@
+@import "../tabBar/tabBar.acss";
+.title{
+  text-align: center;
+  font-weight: 500;
+  font-size: 25px;
+}
+.content{
+  display: flex;
+  flex-direction: row;
+  font-weight: 200;
+  font-size: 15px;
+}
+navigator{
+  background-color: blue;
+  text-decoration:underline; 
+}
+.page-top-picture {
+  display: flex;
+  justify-content: space-around;
+}
+.swiper-item {
+  display: block;
+  background-color: gray;
+  height: 100px;
+  margin:10px;
+}
+.advertisement{
+  height: 50px;
+  width: 100%;
+  background-color: cadetblue;
+}
+

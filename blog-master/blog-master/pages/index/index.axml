@@ -1,0 +1,42 @@
+<!--index.axml-->
+<view class="container">
+  <view class="userinfo">
+    <block>
+      <view class="userinfo_img">
+        <image
+          class="userinfo-avatar"
+          src="../../images/6ae99450.png"
+          background-size="cover"
+        ></image>
+      </view>
+      <text class="userinfo-nickname">{{name}}</text>
+    </block>
+    <view class="usermotto">
+      <navigator
+        url="/pages/posts/posts"
+        class="user_link"
+        open-type="navigate"
+        hover-class="bg_g"
+      >{{posts}}</navigator>
+      <navigator
+        url="/pages/archive/archive"
+        class="user_link"
+        open-type="navigate"
+        hover-class="bg_g"
+      >{{about}}</navigator>
+      <navigator
+        url="/pages/label/label"
+        class="user_link"
+        open-type="navigate"
+        hover-class="bg_g"
+      >{{tags}}</navigator>
+      <navigator
+        url="/pages/demo/demo"
+        class="user_link"
+        open-type="navigate"
+        hover-class="bg_g"
+      >{{demo}}</navigator>
+    </view>
+  </view>
+</view>
+<footer></footer>

@@ -1,0 +1,156 @@
+<view class="page">
+  <view class="view-descrition"></view> 
+  <view class="page-section">
+        <form class="paginationButton" onSubmit="onPagination" onReset="onReset">
+            <button form-type="submit" type="primary">pagination</button>
+        </form>
+        <form class="calendarButton" onSubmit="onCalendar" onReset="onReset">
+            <button form-type="submit" type="primary">calendar</button>
+        </form>
+        <form class="steperButton" onSubmit="onSteper" onReset="onReset">
+            <button form-type="submit" type="primary">steper</button>
+        </form>
+        <form class="amIconButton" onSubmit="onAMIcon" onReset="onReset">
+            <button form-type="submit" type="primary">amIcon</button>
+        </form>
+        <form class="alphabetButton" onSubmit="onAlphabet" onReset="onReset">
+            <button form-type="submit" type="primary">alphabet</button>
+        </form>
+        <form class="loadingButton" onSubmit="onLoading" onReset="onReset">
+            <button form-type="submit" type="primary">loading</button>
+        </form>
+  </view>
+  <view class="page-section">
+        <form class="swipeActionButton" onSubmit="onSwipeAction" onReset="onReset">
+            <button form-type="submit" type="primary">swipeAction</button>
+        </form>
+  </view>
+  <view class="page-section">
+        <form class="inputItemButton" onSubmit="onInputItem" onReset="onReset">
+            <button form-type="submit" type="primary">inputItem</button>
+        </form>
+        <form class="verifyCodeButton" onSubmit="onVerifyCode" onReset="onReset">
+            <button form-type="submit" type="primary">verifyCode</button>
+        </form>
+        <form class="pickerItemButton" onSubmit="onPickerItem" onReset="onReset">
+            <button form-type="submit" type="primary">pickerItem</button>
+        </form>
+        <form class="longPasswordButton" onSubmit="onLongPassword" onReset="onReset">
+            <button form-type="submit" type="primary">longPassword</button>
+        </form>
+        <form class="multiLinerButton" onSubmit="onMultiLiner" onReset="onReset">
+            <button form-type="submit" type="primary">multiLiner</button>
+        </form>
+        <form class="amountInputButton" onSubmit="onAmountInput" onReset="onReset">
+            <button form-type="submit" type="primary">amountInput</button>
+        </form>
+        <form class="extendButton" onSubmit="onExtendButton" onReset="onReset">
+            <button form-type="submit" type="primary">extendButton</button>
+        </form>
+        <form class="amSwitchButton" onSubmit="onAmSwitch" onReset="onReset">
+            <button form-type="submit" type="primary">amSwitch</button>
+        </form>
+        <form class="searchBarButton" onSubmit="onSearchBar" onReset="onReset">
+            <button form-type="submit" type="primary">searchBar</button>
+        </form>
+        <form class="amRadioButton" onSubmit="onAMRadio" onReset="onReset">
+            <button form-type="submit" type="primary">AMRadio</button>
+        </form>
+        <form class="amCheckboxButton" onSubmit="onAMCheckbox" onReset="onReset">
+            <button form-type="submit" type="primary">AMCheckbox</button>
+        </form>
+        
+    </view>
+    <view class="page-section">
+        <form class="tipsButton" onSubmit="onTips" onReset="onReset">
+            <button form-type="submit" type="primary">tips</button>
+        </form>
+        <form class="noticeButton" onSubmit="onNotice" onReset="onReset">
+            <button form-type="submit" type="primary">notice</button>
+        </form>
+        <form class="badgeButton" onSubmit="onBadge" onReset="onReset">
+            <button form-type="submit" type="primary">badge</button>
+        </form>
+        <form class="tagButton" onSubmit="onTag" onReset="onReset">
+            <button form-type="submit" type="primary">tag</button>
+        </form>
+        <form class="maskButton" onSubmit="onMask" onReset="onReset">
+            <button form-type="submit" type="primary">mask</button>
+        </form>
+        <form class="guideButton" onSubmit="onGuide" onReset="onReset">
+            <button form-type="submit" type="primary">guide</button>
+        </form>
+        <form class="avatarButton" onSubmit="onAvatar" onReset="onReset">
+            <button form-type="submit" type="primary">avatar</button>
+        </form>
+    </view>
+    <view class="page-section">
+        <form class="pageResultButton" onSubmit="onPageResult" onReset="onReset">
+            <button form-type="submit" type="primary">pageResult</button>
+        </form>
+        <form class="messageButton" onSubmit="onMessage" onReset="onReset">
+            <button form-type="submit" type="primary">message</button>
+        </form>
+    </view>
+    <view class="page-section">
+        <form class="popoverButton" onSubmit="onPopover" onReset="onReset">
+            <button form-type="submit" type="primary">popover</button>
+        </form>
+        <form class="filterButton" onSubmit="onFilter" onReset="onReset">
+            <button form-type="submit" type="primary">filter</button>
+        </form>
+        <form class="modalButton" onSubmit="onModal" onReset="onReset">
+            <button form-type="submit" type="primary">modal</button>
+        </form>
+        <form class="popupButton" onSubmit="onPopup" onReset="onReset">
+            <button form-type="submit" type="primary">popup</button>
+        </form>
+    </view>
+  <view class="page-section">
+    <form class="flexButton" onSubmit="onFlex" onReset="onReset">
+            <button form-type="submit" type="primary">flex</button>
+    </form>
+    <form class="collapseButton" onSubmit="onCollapse" onReset="onReset">
+            <button form-type="submit" type="primary">collapse</button>
+    </form>
+    <form class="containerButton" onSubmit="onContainer" onReset="onReset">
+            <button form-type="submit" type="primary">container</button>
+    </form>
+    <form class="titleButton" onSubmit="onTitle" onReset="onReset">
+            <button form-type="submit" type="primary">title</button>
+    </form>
+    <form class="listButton" onSubmit="onList" onReset="onReset">
+            <button form-type="submit" type="primary">list</button>
+    </form>
+    <form class="listItemButton" onSubmit="onListItem" onReset="onReset">
+            <button form-type="submit" type="primary">listItem</button>
+    </form>
+    <form class="listSecondaryButton" onSubmit="onListSecondary" onReset="onReset">
+            <button form-type="submit" type="primary">listSecondary</button>
+    </form>
+    <form class="tabsButton" onSubmit="onTabs" onReset="onReset">
+            <button form-type="submit" type="primary">tabs</button>
+    </form>
+    <form class="vTabsButton" onSubmit="onVTabs" onReset="onReset">
+            <button form-type="submit" type="primary">vTabs</button>
+    </form>
+    <form class="cardButton" onSubmit="onCard" onReset="onReset">
+            <button form-type="submit" type="primary">card</button>
+    </form>
+    <form class="couponButton" onSubmit="onCoupon" onReset="onReset">
+            <button form-type="submit" type="primary">coupon</button>
+    </form>
+    <form class="gridButton" onSubmit="onGrid" onReset="onReset">
+            <button form-type="submit" type="primary">grid</button>
+    </form>
+    <form class="stepsButton" onSubmit="onSteps" onReset="onReset">
+            <button form-type="submit" type="primary">steps</button>
+    </form>
+    <form class="footerButton" onSubmit="onFooter" onReset="onReset">
+            <button form-type="submit" type="primary">footer</button>
+    </form>
+    <form class="termsButton" onSubmit="onTerms" onReset="onReset">
+            <button form-type="submit" type="primary">terms</button>
+    </form>
+  </view>
+</view>

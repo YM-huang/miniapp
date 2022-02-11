@@ -1,0 +1,23 @@
+<view class="process-wraper">
+  <view class="main" a:if="{{type === 'main'}}">
+    <view class="item" a:for="{{list}}">
+      <view class="content">
+        <image class="icon" src="{{item.iconUrl}}"></image>
+        <view class="des">{{item.des}}</view>
+      </view>
+      <image class="arrow" a:if="{{index !== list.length - 1}}" src="https://gw.alipayobjects.com/mdn/rms_ec9563/afts/img/A*6rkWS5Zv188AAAAAAAAAAABkARQnAQ"></image>  
+    </view>
+  </view>
+  <view class="particular" a:if="{{type === 'particular'}}">
+    <view class="item" a:for="{{list}}">
+      <view class="content">
+        <image class="icon" src="{{item.iconUrl}}"></image>
+        <view class="info">
+          <view class="title">{{index + 1 + '.'}}{{item.title}}</view>
+          <view class="des">{{item.des}}</view>
+        </view>
+      </view>
+      <view class="dashed" a:if="{{index !== list.length - 1}}"></view>
+    </view>
+  </view>
+</view>

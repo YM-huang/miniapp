@@ -1,0 +1,42 @@
+<import src="/wxParse/wxParse.axml"/>
+<view a:if='{{hide}}' class='pdcontainer'>
+  <view class='certTable'>
+    <view>实名认证状态：
+    </view>
+    <view class='certSta'>{{CertStatus}}
+    </view>
+  </view>
+  <view class='certTable'>
+    <view>手机认证状态：
+    </view>
+    <view class='certSta'>{{PhoneStatus}}
+    </view>
+  </view>
+  <form a:if='{{CertFormShow}}' class='vcodeMode' id='Cert' onSubmit='onEnterAuth'>
+    <view class="SelectCd">
+      <picker onChange="onPickerChange" value="{{Cindex}}" range="{{Carray}}">
+        <view class="picker">          选择国家：{{Carray[Cindex]}}          
+        </view>
+      </picker>
+    </view>
+    <input class='McodeInput' name='phonenumber' type='number' placeholder='输入手机号' confirm-type='done'>
+    </input>
+    <input class='McodeInput' name='verifycode' type='text' maxlength='5' placeholder='输入验证码' confirm-type='done'>
+    </input>
+    <image a:if='{{vCodeLoading}}' class='verifyCode' mode='aspectFit' src='../../imgs/loading.gif' onTap='onTapVerifyCode'>
+    </image>
+    <image class='verifyCode {{vCodeLoading?"verifyCodeHid":""}}' mode='aspectFit' src='{{verifyCodeURL}}' onTap='onTapVerifyCode'>
+    </image>
+    <button class='Uenter' form-type='submit' loading='{{EnterButLoading}}' type='primary'>确认操作
+    </button>
+    <button class='Uclose' type='warn' onTap='onAuthClose'>取消操作
+    </button>
+  </form>
+  <template a:if='{{ShowCertMsg}}' is="wxParse" data="{{wxParseData:CertMsg}}"/>
+  <button a:if='{{ShowCertMsg}}' class='PhoneCertBut' type='primary' loading='{{CopyLoading}}' onTap='onCopyAuthPhoneNumber'>复制手机号
+  </button>
+  <button a:if='{{CanCert && (!ShowCertMsg && !CertFormShow)}}' class='PhoneCertBut' type='primary' onTap='onPhoneCert'>手机实名认证
+  </button>
+  <button a:if='{{CanCert && (!ShowCertMsg && !CertFormShow)}}' class='PhoneCertBut' type='primary' loading="{{AliPayAuthing}}" onTap='onAlipayAuthTap'>支付宝实名认证
+  </button>
+</view>

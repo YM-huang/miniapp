@@ -1,0 +1,14 @@
+.red {
+  background-color: red;
+  border-color: red;
+  color: #fff;
+}
+
+.scratch-demo {
+  display: flex;
+  justify-content: center;
+}
+
+button + button {
+  margin-top: 32rpx;
+}

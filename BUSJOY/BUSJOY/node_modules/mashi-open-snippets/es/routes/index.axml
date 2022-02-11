@@ -1,0 +1,31 @@
+<view class="routes-wraper">
+  <view class="top-wraper">
+    <view class="label">{{dataSource.name}}</view>
+    <view class="more">
+      <text class="pre">更多线路</text>
+      <image class="arrow" mode="scaleToFill" src="https://gw.alipayobjects.com/mdn/rms_ec9563/afts/img/A*S44LRpc_2YQAAAAAAAAAAABkARQnAQ"/>
+    </view>
+  </view>
+  <view class="content-wraper">
+    <view class="item" a:for="{{dataSource.routes}}">
+      <view class="label">
+        <view class="route" style="{{backgroundColor: colorArray[index]}}">{{item.name}}</view>
+        <view class="price">票{{item.lowPrice}}-{{item.highPrice}}元</view>
+      </view>
+      <view class="detail">
+        <view class="line" a:for={{item.directs}} a:for-item="direct">
+          <view class="info">
+            <view class="content">
+              <view class="tartget">开往 {{direct.targetPlace}}</view>
+              <view class="time">首{{direct.startTime}} 末{{direct.lastTime}}</view>
+            </view>
+            <image class="arrow" mode="scaleToFill" src="https://gw.alipayobjects.com/mdn/rms_ec9563/afts/img/A*bGSpQ4JWd3AAAAAAAAAAAABkARQnAQ"/>
+          </view>
+          <view class="gap">5分钟一班</view>
+        </view>
+       
+        
+      </view>
+    </view>
+  </view>
+</view>

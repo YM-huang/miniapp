@@ -1,0 +1,13 @@
+.swiper-item{
+  display: block;
+  height: 150px;
+  margin:10px;
+  color: #fff;
+  text-align: center;
+  line-height: 150px;
+  font-size: 20px;
+}
+
+.margin-t {
+  margin-top: 24px;
+}

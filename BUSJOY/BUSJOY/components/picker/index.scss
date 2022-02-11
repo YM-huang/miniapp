@@ -1,0 +1,22 @@
+
+.hy-filter-mask {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  height: 100%;
+  width: 100%;
+  min-height: 100%;
+  background-color: rgba(0,0,0,.2);
+  z-index: 160;
+}
+
+.hy-filter-document {
+  position: absolute;
+  left: 0;
+  bottom: -500px;
+  background-color: #fff;
+  width: 100%;
+  min-height: 400rpx;
+  max-height: 1000rpx;
+}
+

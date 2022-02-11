@@ -1,0 +1,90 @@
+<view>
+    <view class='header'>
+        <text class='iconfont icon-arrow-right1'>发现</text>
+        <text>朋友圈</text>
+        <text class='iconfont icon-xiangji' onTap='showEditPage'></text>
+    </view>
+        <view class='single'>
+           <image class="avatar" src="user.jpg" mode="cover"></image>
+            <view class='main'>
+                <view class='nickname'>miaomiao</view>
+                <view>
+                    <view class='main-comtent' style='{{isShowOrHideComtent ? "" : "max-height: 60pt"}}'>
+                    hahaha
+                    </view>
+                    <text class='comtent-showOrHide' catchtap='ShowOrHideComtent'>{{allOrPart}}</text>
+                </view>
+                <view class='imgArea' a:if="{{!item.imgArea}}" onTap='showImg' data-Outidx="{{index}}">
+                     <view class="page-section">
+                        <enlarge-image url="user.jpg"/>
+                    </view>
+                </view>
+                <view class='location'>
+                    <text class='iconfont icon-zuobiaonormal'></text>
+                    <text>平阳县水头镇</text>
+                </view>
+                <view class='timeArea'>
+                    <text>14:50</text>
+                    <view class='timeArea-right'>
+                        <view class='zan-pinglun' a:if="{{showZanAndPinglunNum == 1}}">
+                            <text class='iconfont icon-xin' data-idx="{{index}}" catchtap='dianzan'> 赞</text>
+                            <text class='iconfont icon-pinglun'> 评论</text>
+                        </view>
+                        <text class='iconfont icon-pinglun1' data-idx="{{index}}" onTap='showZanAndPinglun'>z</text>
+                    </view>
+                </view>
+                <view class='commentArea' onTap='hideZanAndPinglun'>
+                    <view class='like'>
+                        <text class='iconfont icon-xin'></text>
+                        <text>aaaaaaa</text>
+                    </view>
+                    <view class='comment'>
+                        <text class='comment-nickname'>用户名:</text>
+                        <text>评论内容</text>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <view class='single'>
+           <image class="avatar" src="user.jpg" mode="cover"></image>
+            <view class='main'>
+                <view class='nickname'>miaomiao</view>
+                <view>
+                    <view class='main-comtent' style='{{isShowOrHideComtent ? "" : "max-height: 60pt"}}'>
+                    hahaha
+                    </view>
+                    <text class='comtent-showOrHide' catchtap='ShowOrHideComtent'>{{allOrPart}}</text>
+                </view>
+                <view class='imgArea' a:if="{{!item.imgArea}}" onTap='showImg' data-Outidx="{{index}}">
+                     <view class="page-section">
+                        <enlarge-image url="user.jpg"/>
+                    </view>
+                </view>
+                <view class='location'>
+                    <text class='iconfont icon-zuobiaonormal'></text>
+                    <text>平阳县水头镇</text>
+                </view>
+                <view class='timeArea'>
+                    <text>14:50</text>
+                    <view class='timeArea-right'>
+                        <view class='zan-pinglun' a:if="{{showZanAndPinglunNum == 1}}">
+                            <text class='iconfont icon-xin' data-idx="{{index}}" catchtap='dianzan'> 赞</text>
+                            <text class='iconfont icon-pinglun'> 评论</text>
+                        </view>
+                        <text class='iconfont icon-pinglun1' data-idx="{{index}}" onTap='showZanAndPinglun2'>z</text>
+                    </view>
+                </view>
+                <view class='commentArea' onTap='hideZanAndPinglun2'>
+                    <view class='like'>
+                        <text class='iconfont icon-xin'></text>
+                        <text>aaaaaaa</text>
+                    </view>
+                    <view class='comment'>
+                        <text class='comment-nickname'>用户名:</text>
+                        <text>评论内容</text>
+                    </view>
+                </view>
+            </view>
+        </view>
+</view>
+

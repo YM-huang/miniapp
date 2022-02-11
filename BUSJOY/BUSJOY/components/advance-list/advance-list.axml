@@ -1,0 +1,19 @@
+<view class="advance-list">
+  <view class="advance-item" a:for="{{list}}">
+    <view class="advance-item-content" a:if="{{index % 2 === 1}}">
+      <view class="title">{{item.title}}</view>
+      <view class="des">{{item.des}}</view>
+    </view>
+    <view class="advance-item-icon" a:if="{{index % 2 === 1}}">
+      <image class="advance-item-icon-image" src="{{item.icon}}" mode="scaleToFill" />
+    </view>
+    <view class="advance-item-icon" a:if="{{index % 2 === 0}}">
+      <image class="advance-item-icon-image" src="{{item.icon}}" mode="scaleToFill" />
+    </view>
+    <view class="advance-item-content" a:if="{{index % 2 === 0}}">
+      <view class="title">{{item.title}}</view>
+      <view class="des">{{item.des}}</view>
+    </view>
+   
+  </view>
+</view>

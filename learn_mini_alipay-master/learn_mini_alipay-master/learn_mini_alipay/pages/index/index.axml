@@ -1,0 +1,140 @@
+
+<view class="page">
+<view class="view-descrition"></view>  
+    <view class="page-section">
+        <form class="Button" onSubmit="onExtend" onReset="onReset">
+            <button form-type="submit" type="primary">extend</button>
+        </form>
+    </view>
+
+    <view class="page-section">
+        <form class="marketingButton" onSubmit="onMarketing" onReset="onReset">
+            <button form-type="submit" type="primary">marketing</button>
+        </form>
+    </view>
+
+    <view class="page-section">
+        <form class="mapButton" onSubmit="onMap" onReset="onReset">
+            <button form-type="submit" type="primary">map</button>
+        </form>
+    </view>
+
+    <view class="page-section">
+        <form class="canvasButton" onSubmit="onCanvas" onReset="onReset">
+            <button form-type="submit" type="primary">canvas</button>
+        </form>
+    </view>
+
+    <view class="page-section">
+        <form class="mediaImageButton" onSubmit="onMediaImage" onReset="onReset">
+            <button form-type="submit" type="primary">mediaImage</button>
+        </form>
+
+        <form class="meidaVideoButton" onSubmit="onMediaVideo" onReset="onReset">
+            <button form-type="submit" type="primary">mediaVideo</button>
+        </form>
+    </view>
+
+    <view class="page-section">
+        <form class="radioButton" onSubmit="onRadio" onReset="onReset">
+            <button form-type="submit" type="primary">radio</button>
+        </form>
+
+        <form class="navigatorButton" onSubmit="onNavigator" onReset="onReset">
+            <button form-type="submit" type="primary">navigator</button>
+        </form>
+
+        <form class="pickerViewButton" onSubmit="onPickerView" onReset="onReset">
+            <button form-type="submit" type="primary">pickerView</button>
+        </form>
+
+        <form class="pickerButton" onSubmit="onPicker" onReset="onReset">
+            <button form-type="submit" type="primary">picker</button>
+        </form>
+
+        <form class="switchButton" onSubmit="onSwitch" onReset="onReset">
+            <button form-type="submit" type="primary">switch</button>
+        </form>
+
+        <form class="sliderButton" onSubmit="onSlider" onReset="onReset">
+            <button form-type="submit" type="primary">slider</button>
+        </form>
+
+        <form class="textareaButton" onSubmit="onTextarea" onReset="onReset">
+            <button form-type="submit" type="primary">textarea</button>
+        </form>
+
+        <form class="labelButton" onSubmit="onLabel" onReset="onReset">
+            <button form-type="submit" type="primary">label</button>
+        </form>
+
+        <form class="inputButton" onSubmit="onInput" onReset="onReset">
+            <button form-type="submit" type="primary">input</button>
+        </form>
+
+    </view>
+
+  <view class="page-section">
+
+    <form class="viewButton" onSubmit="onSubmit" onReset="onReset">
+        <button form-type="submit" type="primary">view</button>
+    </form>
+
+    <form class="swiperButton" onSubmit="onSwiper" onReset="onReset">
+        <button form-type="submit" type="primary">swiper</button>
+    </form>
+
+    <form class="scrollViewButton" onSubmit="onScrollView" onReset="onReset">
+        <button form-type="submit" type="primary">scrollView</button>
+    </form>
+
+    <form class="coverViewButton" onSubmit="onCoverView" onReset="onReset">
+        <button form-type="submit" type="primary">coverView</button>
+    </form>
+
+    <form class="coverImageButton" onSubmit="onCoverImage" onReset="onReset">
+        <button form-type="submit" type="primary">coverImage</button>
+    </form>
+
+    <form class="movableViewButton" onSubmit="onMovableView" onReset="onReset">
+        <button form-type="submit" type="primary">MovableView</button>
+    </form>
+
+    <form class="movableAreaButton" onSubmit="onMovableArea" onReset="onReset">
+        <button form-type="submit" type="primary">MovableArea</button>
+    </form>
+
+    <form class="textButton" onSubmit="onText" onReset="onReset">
+        <button form-type="submit" type="primary">text</button>
+    </form>
+
+    <form class="iconButton" onSubmit="onIcon" onReset="onReset">
+        <button form-type="submit" type="primary">icon</button>
+    </form>
+
+    <form class="progressButton" onSubmit="onProgress" onReset="onReset">
+        <button form-type="submit" type="primary">progress</button>
+    </form>
+
+    <form class="richTextButton" onSubmit="onRichText" onReset="onReset">
+        <button form-type="submit" type="primary">richText</button>
+    </form>
+
+    <form class="button" onSubmit="onButton" onReset="onReset">
+        <button form-type="submit" type="primary">Button</button>
+    </form>
+
+    <form class="formButton" onSubmit="onForm" onReset="onReset">
+        <button form-type="submit" type="primary">form</button>
+    </form>
+
+    <form class="loginButton" onSubmit="onLogin" onReset="onReset">
+        <button form-type="submit" type="primary">login</button>
+    </form>
+
+  </view>
+  
+</view>
+
+
+

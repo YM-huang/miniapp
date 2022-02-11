@@ -1,0 +1,23 @@
+<!-- 在页面上放一个隐藏区域，并用image组件去加载一个或多个图片资源 -->
+<view style="display:none" class="img_box">
+  <image
+    a:for="{{images}}"
+    a:key="id"
+    id="{{item.id}}"
+    src="{{item.pic}}"
+    onLoad="onImageLoad"
+    mode="aspectFill"
+  ></image>
+</view>
+<view class="masonry">
+  <view class="item">
+    <block a:for="{{col1}}" a:key="{{index}}">
+      <image src="{{item.pic}}" style="height:{{item.height}}px"></image>
+    </block>
+  </view>
+  <view class="item">
+    <block a:for="{{col2}}" a:key="{{index}}">
+      <image src="{{item.pic}}" style="height:{{item.height}}px"></image>
+    </block>
+  </view>
+</view>

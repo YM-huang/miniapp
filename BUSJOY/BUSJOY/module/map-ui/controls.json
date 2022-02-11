@@ -1,0 +1,21 @@
+[{
+  "id": 1,
+  "iconPath": "https://gw.alipayobjects.com/zos/rmsportal/JIYAEtoRFrbDFMkzHrIk.png",
+  "position": {
+    "left": 8,
+    "top": 281,
+    "width": 44,
+    "height": 44
+  },
+  "clickable": true
+}, {
+  "id": 2,
+  "iconPath": "https://gw.alipayobjects.com/zos/rmsportal/vLFTreDdbEuGwmSKaoBT.png",
+  "position": {
+    "left": 8,
+    "top": 334,
+    "width": 44,
+    "height": 44
+  },
+  "clickable": true
+}]

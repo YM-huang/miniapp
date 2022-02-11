@@ -1,0 +1,141 @@
+@charset "utf-8";
+
+$fontColor333: #333;
+$fontColor999: #999;
+$fontColor888: #888;
+$fontColorBlue: #108EE9;
+
+$windowBackgroundColor: #ECECEC;
+$borderColorDDD: #ddd;
+$borderColorEEE: #eee;
+$contentTopBackgroundColor: #29AB91;
+
+$contentTopHeight: 392rpx;
+
+
+page {
+  flex-direction: column;
+}
+
+@mixin borderBottomDDD {
+  border-bottom: 1rpx solid #ddd;
+}
+
+@mixin borderTopDDD {
+  border-top: 1rpx solid #ddd;
+}
+
+@mixin borderBottom($Color: $borderColorDDD){
+  border-bottom: 1rpx solid $Color;
+}
+
+@mixin fontFamilyMedium {
+  font-family: PingFangSC-Medium;
+}
+
+@mixin fontFamilyHelveticaNeu {
+  font-family: HelveticaNeue-Medium;
+}
+
+
+@mixin transform($val...){
+  transform: $val;
+}
+
+@mixin transition($val...){
+  transition: $val;
+}
+
+@mixin arrow($direction, $size, $color) {
+  width: 0;
+  height: 0;
+  line-height: 0;
+  font-size: 0;
+  overflow: hidden;
+  border-width: $size;
+  cursor: pointer;
+  @if $direction==top {
+    border-style: dashed dashed solid dashed;
+    border-color: transparent transparent $color transparent;
+    border-top: none;
+  } @else if $direction==bottom {
+    border-style: solid dashed dashed dashed;
+    border-color: $color transparent transparent transparent;
+    border-bottom: none;
+  } @else if $direction==right {
+    border-style: dashed dashed dashed solid;
+    border-color: transparent transparent transparent $color;
+    border-right: none;
+  } @else if $direction==left {
+    border-style: dashed solid dashed dashed;
+    border-color: transparent $color transparent transparent;
+    border-left: none;
+  }
+}
+
+@mixin top-fix($top: 0){
+  position: fixed;
+  top: $top;
+  left: 0;
+  right: 0;
+  width: 750rpx;
+  margin: 0 auto;
+}
+
+@mixin bottom-fix($bottom: 0){
+  position: fixed;
+  bottom: $bottom;
+  left: 0;
+  right: 0;
+  width: 750rpx;
+  margin: 0 auto;
+}
+
+@mixin text-overflow-multi($line: 2) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: $line;
+  -webkit-box-orient: vertical;
+}
+
+@mixin popup {
+  .popup {
+    visibility: hidden;
+    &-show {
+      visibility: visible;
+      & .popup-mask {
+        display: block;
+        opacity: 1;
+        pointer-events: auto;
+        transition: all 0.15s linear;
+      }
+      & .popup-container {
+        opacity: 1;
+        transform: none;
+        transition: all 0.15s linear;
+      }
+    }
+    &-mask {
+      opacity: 0;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.6);
+      pointer-events: none;
+    }
+    &-container {
+      position: fixed;
+      right:0;
+      left:0;
+      bottom:0;
+      width: 100vw;
+      transform: translateY(100%);
+      transform-origin: center;
+      opacity: 0;
+      background-color: #FFFFFF;
+    }
+  }
+}

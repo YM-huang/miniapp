@@ -1,0 +1,96 @@
+.selection-input {
+  display: flex;
+  height: 94rpx;
+  border-bottom: solid 1rpx #EEEEEE;
+  justify-content: space-between;
+  align-items: center;
+  padding: 25rpx 0 24rpx;
+  .choseWords{
+    font-family: PingFangSC-Regular;
+    font-size: 32rpx;
+    color: #333333;
+    letter-spacing: 0;
+    line-height: 45rpx;
+    font-weight: bold;
+  }
+  .rightArrow{
+    margin-left: 8rpx;
+    width: 14rpx;
+    height: 24rpx;
+    color: #333333;
+  }
+  .label {
+    font-family: PingFangSC-Light;
+    font-size: 32rpx;
+    line-height: 45rpx;
+    color: #999999;
+    letter-spacing: 0;
+  }
+  .picker-title {
+    font-size: 36rpx;
+    line-height: 50rpx;
+    padding: 32rpx 0;
+    text-align: center;
+    border-bottom: solid 1px #EEEEEE;
+    .close{
+      position: absolute;
+      left:32rpx;
+      width:34rpx;
+      height:34rpx;
+      background-image: url(https://gw.alipayobjects.com/zos/rmsportal/raBVLnimUnhcQNmZDaMO.png);
+      background-size: 34rpx 34rpx;
+      margin-top: 0.08rem;
+      color: #999999;
+    }
+  }
+  .a-scroll-view{
+    padding: 0 0 32rpx 2rpx;
+    // display: flex;
+    // flex-direction: row wrap;
+    // justify-content: space-between;
+    // align-items: center;
+    .a-view{
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      .oilTypeTitle{
+        width: 100%;
+        margin: 32rpx 0 0 32rpx;
+        font-size: 36rpx;
+        line-height: 50rpx;
+        color: #333;
+        text-align: center;
+        font-family: PingFangSC-Medium;
+        letter-spacing: 0.37rpx;
+      }
+      .listItem{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        // float: left;
+        margin-top: 32rpx;
+        margin-left: 32rpx;
+        box-sizing: content-box;
+        width: 202rpx; 
+        height: 120rpx;
+        background: #FFFFFF;
+        border: 2rpx solid rgba(16,142,233,0.40);
+        border-radius: 4rpx;
+        padding: 0;
+        text-align: center;
+        line-height: 120rpx;
+        text-align: center;
+        font-family: HelveticaNeue;
+        font-size: 36rpx;
+        color: #108EE9;
+        letter-spacing: 0;
+      }
+      .selected{
+        background-color: #108EE9;;
+        color: #FFFFFF;
+      }
+    }
+  }
+}
+
+ 

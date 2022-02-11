@@ -1,0 +1,67 @@
+.question-wraper {
+  text-align: left;
+  margin: 0 auto;
+}
+.question-wraper .item {
+  padding: 40rpx 0 35rpx;
+  border-bottom: 1rpx solid #eee;
+}
+.question-wraper .item:first-child {
+  padding-top: 0;
+}
+.question-wraper .item:last-of-type {
+  border-bottom: none;
+}
+.question-wraper .item .ask-wraper {
+  margin-bottom: 14rpx;
+}
+.question-wraper .item .ask-wraper .icon {
+  width: 33rpx;
+  height: 35rpx;
+  background-size: cover;
+  vertical-align: middle;
+  margin-right: 16rpx;
+}
+.question-wraper .item .ask-wraper .text {
+  vertical-align: middle;
+  font-size: 28rpx;
+  color: #333;
+}
+.question-wraper .item .answer-wraper .answer {
+  margin-bottom: 14rpx;
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 24rpx;
+  color: #999;
+}
+.question-wraper .item .answer-wraper .answer .icon {
+  width: 33rpx;
+  height: 35rpx;
+  margin-right: 16rpx;
+  background: url('https://gw.alipayobjects.com/mdn/rms_ec9563/afts/img/A*1xhVRqh6cRUAAAAAAAAAAABkARQnAQ') no-repeat;
+  background-size: cover;
+  display: inline-block;
+  vertical-align: top;
+}
+.question-wraper .item .answer-wraper .answer .icon.hidden {
+  background: none;
+}
+.question-wraper .item .answer-wraper .answer .content {
+  display: inline-block;
+  width: 587rpx;
+  letter-spacing: 0.5rpx;
+  line-height: 36rpx;
+}
+.question-wraper .item .answer-wraper .answer .content .normal.blue {
+  color: #0098EF;
+}
+.question-wraper .item .answer-wraper .answer .image {
+  margin: 16rpx 0 32rpx 49rpx;
+  display: block;
+  width: 529rpx;
+  height: 327rpx;
+  background-size: cover;
+}
+.question-wraper .item .answer-wraper .answer .image:last-child {
+  margin-bottom: 0;
+}

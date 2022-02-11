@@ -1,0 +1,13 @@
+<view class="operation-wraper">
+  <view class="operation-wraper-item" a:for="{{dataSource}}">
+    <view class="operation-wraper-item-label">
+      <image class="operation-wraper-item-label-icon" src="{{item.iconPath}}" mode="scaleToFill" />
+      <view class="operation-wraper-item-label-content">
+        <view class="operation-wraper-item-label-content-title">{{item.title}}</view>
+         <view class="operation-wraper-item-label-content-des">{{item.des}}</view>
+      </view>
+    </view>
+    <button class="operation-wraper-item-button {{item.buttonType}}"  type="{{item.buttonType}}" size="defaultSize" onTap="defaultTap">{{item.buttonText}}</button>
+  </view>
+  
+</view>

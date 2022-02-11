@@ -1,0 +1,6 @@
+{
+  "component": true,
+  "usingComponents": {
+    "green-energy": "/components/green-energy/green-energy"
+  }
+}

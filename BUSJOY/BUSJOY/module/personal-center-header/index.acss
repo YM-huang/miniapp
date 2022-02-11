@@ -1,0 +1,38 @@
+page {
+  flex-direction: column;
+}
+
+.pcHeader {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 180rpx;
+  background-image: url(https://gw.alipayobjects.com/zos/rmsportal/QRnuxNyyhceIHzgjPdmS.png);
+  background-size: 100% 180rpx;
+  background-repeat: no-repeat;
+  color: #FFFFFF;
+}
+
+.pcHeader .fuel {
+  text-align: center;
+}
+
+.pcHeader .fuel .number {
+  font-family: HelveticaNeue;
+  font-size: 48rpx;
+  letter-spacing: 0;
+}
+
+.pcHeader .fuel .smallFont {
+  font-family: HelveticaNeue;
+  letter-spacing: 0;
+  font-size: 40rpx;
+}
+
+.pcHeader .fuel .words {
+  opacity: 0.5;
+  font-family: PingFangSC-Regular;
+  font-size: 26rpx;
+  line-height: 32rpx;
+  margin-top: 9rpx;
+}

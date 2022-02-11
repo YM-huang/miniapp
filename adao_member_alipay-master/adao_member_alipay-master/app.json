@@ -1,0 +1,12 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/userMember/userMember",
+    "pages/about/about"
+  ],
+  "window": {
+    "defaultTitle": "A岛注册实名系统",
+    "titleBarColor": "#334054",
+    "pullRefresh": false
+  }
+}

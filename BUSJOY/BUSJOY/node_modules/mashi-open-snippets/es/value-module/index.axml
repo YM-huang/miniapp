@@ -1,0 +1,6 @@
+<view class="value-wraper">
+  <view a:for="{{list}}" class="item">
+    <image class="icon" src="{{item.icon}}" mode="" />
+    <view class="label">{{item.label}}</view>
+  </view>
+</view> 

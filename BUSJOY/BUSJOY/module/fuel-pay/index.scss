@@ -1,0 +1,63 @@
+.footer{
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  height: 138rpx;
+  width: 100%;
+  border-top: 2rpx solid #EEEEEE;
+  position: fixed;
+  bottom: 0;
+  background-color: #FFFFFF;
+  .discount{
+    margin: 24rpx 0 22rpx 27rpx;
+    .totalAmount{
+      font-family: PingFangSC-Regular;
+      font-size: 24rpx;
+      color: #999999;
+    }
+    .redMoneySign{
+      font-family: PingFangSC-Semibold;
+      font-size: 24rpx;
+      margin-right: 10rpx;
+      color: #E8541E;
+    }
+    .payNum{
+      font-family: PingFangSC-Semibold;
+      font-size: 48rpx;
+      line-height: 67rpx;
+      color: #FF7755;
+    }
+    .hasDiscount{
+      font-family: PingFangSC-Medium;
+      font-size: 28rpx;
+      color: #333333;
+      letter-spacing: 0.58rpx;
+    }
+    .hasDiscountWords{
+      margin: 0 10rpx 0 20rpx;
+    }
+  }
+  .canPay{
+    margin: 29rpx 32rpx 29rpx 0;
+    width: 240rpx;
+    height: 80rpx;
+    background: #108EE9;
+    border-radius: 4px;
+    line-height: 80rpx;
+    font-family: PingFangSC-Regular;
+    font-size: 36rpx;
+    color: #FFFFFF;
+  }
+  .notPay{
+    margin: 29rpx 32rpx 29rpx 0;
+    width: 240rpx;
+    height: 80rpx;
+    opacity: 0.6;
+    background: #108EE9;
+    border-radius: 4px;
+    line-height: 80rpx;
+    font-family: PingFangSC-Regular;
+    font-size: 36rpx;
+    color: #FFFFFF;
+  }
+}

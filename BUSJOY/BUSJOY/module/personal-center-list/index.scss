@@ -1,0 +1,103 @@
+@import "../../style/common";
+
+.footerQuestion{
+  position: sticky;
+  top: 100vh;
+  background-color: #FFFFFF;
+  font-family: PingFangSC-Regular;
+  font-size: 32rpx;
+  height: 125rpx;
+  line-height: 125rpx;
+  color: #108EE9;
+  letter-spacing: 0.58px;
+  text-align: center;
+}
+.am-list-line-bottom{
+  border-bottom: 2rpx solid rgb(238, 238, 238)
+}
+.am-list-item{
+  height: 156rpx;
+  .am-list-content{
+    line-height: 1;
+    .line{
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      font-family: PingFangSC-Medium;
+      color: #151515;
+      .fuelName{
+        font-family: PingFangSC-Regular;
+        font-size: 32rpx;
+        line-height: 45rpx;
+        text-align: left;
+      }
+      .oilDiscount{
+        display: inline-block;
+        height: 40rpx;
+        border: 2rpx solid #FFE1D9;
+        border-radius: 4rpx;
+        font-family: PingFangSC-Regular;
+        .oilType{
+          // padding: 0 8rpx;
+          font-size: 24rpx;
+          line-height: 40rpx;
+          color: #999999;
+          border-right: 2rpx solid #FFE1D9;
+          padding: 4rpx 8rpx 2rpx;
+        }
+        .discount{
+          font-size: 24rpx;
+          line-height: 40rpx;
+          color: #FF663F;
+          background-color: #FFF8F6;
+          padding: 4rpx 8rpx 0 8rpx;
+        }
+      }
+      .moneySign{
+        margin-left: 8rpx;
+        font-size: 24rpx;
+        letter-spacing: 0.55rpx;
+        line-height: 30rpx;
+        vertical-align: bottom;
+      }
+      .moneyNum{
+        color: #333333;
+        font-size: 40rpx;
+        line-height: 56rpx;
+        letter-spacing: 0.55rpx;
+        line-height: 33rpx;
+        vertical-align: middle;
+      }
+    }
+    .line2{
+      font-family: PingFangSC-Regular;
+      color: #999999;
+      margin-top: 16rpx;
+      .fuelType{
+        font-size: 28rpx;
+        letter-spacing: 0.58rpx;
+      }
+      .fuelTime{
+        font-size: 24rpx;
+        line-height: 28rpx;
+        letter-spacing: 0.5rpx;
+      }
+      .payStatusSuccess{
+        font-size: 24rpx;
+        line-height: 33rpx;
+        letter-spacing: 0.58rpx;
+        .origionPrice{
+          margin-left: 16rpx;
+          text-decoration: line-through;
+        }
+      }
+      .payStatusFail{
+        font-family: PingFangSC-Medium;
+        font-size: 28rpx;
+        color: #F15A4A;
+        letter-spacing: 0.58rpx;
+      }
+    }
+  }
+}

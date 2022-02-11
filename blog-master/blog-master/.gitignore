@@ -1,0 +1,17 @@
+.projectKnowledge
+.sass-cache
+.project.sh
+*.project
+.idea
+nbproject
+node_modules
+npm-debug.log
+/.buildpath
+.vscode
+.settings
+#src/libs
+project.sh
+README.html
+/vendor
+composer.lock
+.tea

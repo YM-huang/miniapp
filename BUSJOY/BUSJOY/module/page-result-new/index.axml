@@ -1,0 +1,7 @@
+<view class="am-page-result {{className}} {{local ? 'am-local-page': ''}}">
+  <view class="am-page-result-pic page-{{type}}" />
+  <view class="am-page-result-title" a:if="{{!local && title}}">{{title}}</view>
+  <view class="am-page-result-brief" a:if="{{brief}}">{{brief}}</view>
+  <view class="am-page-result-option" a:if="{{option}}" onTap="onOption">{{option}}</view>
+  <view class="am-page-result-Two" a:if="{{optionTwo}}" onTap="onOptionTwo">{{onOptionTwo}}</view>
+</view>

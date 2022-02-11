@@ -1,0 +1,29 @@
+<view class="page">
+  <view class="page-description">水果机-效果预览</view>
+  <view class="page-section">
+    <view class="page-section-demo">
+      <fruit-slots
+        width="620"
+        prizeList="{{prizeList}}"
+        prizeName="{{prizeName}}"
+        disabled="{{disabled}}"
+        currentIndex="{{currentIndex}}"
+        onStart="onStart"
+        onFinish="onFinish"
+      />
+      <view class='tip-text'>{{tipText}}</view>
+    </view>
+  </view>
+  <view class="page-description">水果机-使用说明</view>
+  <view class="page-section">
+    <view class="page-section-demo">
+      <view class="page-section-text help-text">玩法说明:通过点击水果机中心按钮来进行抽奖，可以自定义转动抽奖的次数。</view>
+      <view class="page-section-text">组件安装:</view>
+      <view class="code">yarn add ant-mini-fruit-slots</view>
+      <view class="page-section-text">usingComponents 引入路径:</view>
+      <view class="code">ant-mini-fruit-slots/es/fruit-slots/index</view>
+      <view class="page-section-text">参数说明:</view>
+      <image src="{{docParamsImg}}" mode="widthFix" style="width: 100%" />
+    </view>
+  </view>
+</view>

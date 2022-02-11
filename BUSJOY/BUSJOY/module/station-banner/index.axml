@@ -1,0 +1,10 @@
+<view class="station-banner-container">
+  <view class="stationDes">
+    <view class="station">{{stationDetailInfo.oilStationName}}</view>
+    <view class="location">{{stationDetailInfo.address}}</view>
+  </view>
+  <view class="stationDiscount">
+    <view class="fuelPrice"><text class="moneySign">{{"¥ "}}</text>{{stationDetailInfo.salePrice.amount}}</view>
+    <view class="fuelPriceDiscount">每升优惠 ¥{{stationDetailInfo.pocketAmount.amount}}</view>
+  </view>
+</view>

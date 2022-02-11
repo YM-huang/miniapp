@@ -1,0 +1,184 @@
+.containerButton{
+    padding:30rpx;
+    background:f7f7f7,
+}
+.titleButton {
+    padding:30rpx;
+    background:f7f7f7,
+}
+.listButton {
+    padding:30rpx;
+    background:f7f7f7,
+}
+.listItemButton {
+    padding:30rpx;
+    background:f7f7f7,
+}
+.listSecondaryButton {
+    padding:30rpx;
+    background:f7f7f7,
+}
+.tabsButton {
+    padding:30rpx;
+    background:f7f7f7,
+}
+.vTabsButton {
+    padding:30rpx;
+    background:f7f7f7,
+}
+.cardButton {
+    padding:30rpx;
+    background:f7f7f7,
+}
+.couponButton {
+    padding:30rpx;
+    background:f7f7f7,
+}
+.gridButton {
+    padding:30rpx;
+    background:f7f7f7,
+}
+.stepsButton{
+    padding:30rpx;
+    background:f7f7f7,
+}
+.footerButton {
+    padding:30rpx;
+    background:f7f7f7,
+}
+.termsButton{
+    padding:30rpx;
+    background:f7f7f7,
+}
+.flexButton{
+    padding:30rpx;
+    background:f7f7f7,
+}
+.collapseButton{
+    padding:30rpx;
+    background:f7f7f7,
+}
+.popoverButton{
+    padding:30rpx;
+    background:f7f7f7,
+}
+.filterButton{
+    padding:30rpx;
+    background:f7f7f7,
+}
+.modalButton{
+    padding:30rpx;
+    background:f7f7f7,
+}
+.popupButton{
+    padding:30rpx;
+    background:f7f7f7,
+}
+.pageResultButton{
+    padding:30rpx;
+    background:f7f7f7,
+}
+.messageButton{
+    padding:30rpx;
+    background:f7f7f7,
+}
+.tipsButton{
+    padding:30rpx;
+    background:f7f7f7,
+}
+.noticeButton{
+    padding:30rpx;
+    background:f7f7f7,
+}
+.badgeButton{
+    padding:30rpx;
+    background:f7f7f7,
+}
+.tagButton{
+    padding:30rpx;
+    background:f7f7f7,
+}
+.maskButton{
+    padding:30rpx;
+    background:f7f7f7,
+}
+.guideButton{
+    padding:30rpx;
+    background:f7f7f7,
+}
+.avatarButton{
+    padding:30rpx;
+    background:f7f7f7,
+}
+.inputItemButton{
+    padding:30rpx;
+    background:f7f7f7,
+}
+.verifyCodeButton{
+    padding:30rpx;
+    background:f7f7f7,
+}
+.pickerItemButton{
+    padding:30rpx;
+    background:f7f7f7,
+}
+.longPasswordButton{
+    padding:30rpx;
+    background:f7f7f7,
+}
+.multiLinerButton{
+    padding:30rpx;
+    background:f7f7f7,
+}
+.amountInputButton{
+    padding:30rpx;
+    background:f7f7f7,
+}
+.extendButton{
+    padding:30rpx;
+    background:f7f7f7,
+}
+.amSwitchButton{
+    padding:30rpx;
+    background:f7f7f7,
+}
+.searchBarButton{
+    padding:30rpx;
+    background:f7f7f7,
+}
+.amRadioButton{
+    padding:30rpx;
+    background:f7f7f7,
+}
+.amCheckboxButton{
+    padding:30rpx;
+    background:f7f7f7,
+}
+.swipeActionButton{
+    padding:30rpx;
+    background:f7f7f7,
+}
+.paginationButton{
+    padding:30rpx;
+    background:f7f7f7,
+}
+.calendarButton{
+    padding:30rpx;
+    background:f7f7f7,
+}
+.steperButton{
+    padding:30rpx;
+    background:f7f7f7,
+}
+.amIconButton{
+    padding:30rpx;
+    background:f7f7f7,
+}
+.alphabetButton{
+    padding:30rpx;
+    background:f7f7f7,
+}
+.loadingButton{
+    padding:30rpx;
+    background:f7f7f7,
+}

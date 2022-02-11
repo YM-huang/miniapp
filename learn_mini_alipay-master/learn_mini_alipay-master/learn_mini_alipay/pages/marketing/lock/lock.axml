@@ -1,0 +1,29 @@
+<view class="page">
+  <view class="page-description">手势解锁-效果预览</view>
+  <view class="page-section">
+    <view class="page-section-demo lock-demo">
+      <lock 
+        canvasWidth="300" 
+        canvasHeight="300" 
+        drawColor="#3985ff" 
+        canvasId="canvasLock" 
+        chooseType="3"
+        titleColor="#000000"
+        titleText="绘制解锁图案"
+        onFinish="onFinish">
+      </lock>
+    </view>
+  </view>
+  <view class="page-description">手势解锁-使用说明</view>
+  <view class="page-section">
+    <view class="page-section-demo">
+      <view class="page-section-text help-text">玩法说明:类似手机屏幕解锁，需要两次绘制图案一致。</view>
+      <view class="page-section-text">组件安装:</view>
+      <view class="code">yarn add ant-mini-lock</view>
+      <view class="page-section-text">usingComponents 引入路径:</view>
+      <view class="code">ant-mini-lock/src/lock/index</view>
+      <view class="page-section-text">参数说明:</view>
+      <image src="{{docParamsImg}}" mode="widthFix" style="width: 100%" />
+    </view>
+  </view>
+</view>

@@ -1,0 +1,183 @@
+<view class="container">
+  <view class="remind-box" a:if="{{remind}}">
+    <image class="remind-img" src="loading.gif"></image>
+  </view>
+  <block a:else>
+
+      <view class="weui-grids2">
+        <view onTap="onDiscount" class="weui-grid5" hover-class="weui-grid_active">
+          <view class="weui-grid__label4">
+            <picker onChange="bindPickerChange" value="{{index}}" range="{{array}}">
+              
+                <view><am-icon type="location"/>{{array[index]}}</view>
+             
+            </picker>
+          </view>
+        </view>
+         <view onTap="onDiscount" class="weui-grid5" hover-class="weui-grid_active">
+          <view class="weui-grid__labelname1">
+            <text>
+            关注                                                                                                  
+            </text>
+          </view>
+        </view>
+        <view onTap="onDiscount" class="weui-grid6" hover-class="weui-grid_active">
+          <view class="weui-grid__labelname2">
+            <text>
+            推荐                                                                                                  
+            </text>
+          </view>
+        </view>
+      </view>
+
+
+      <view class="weui-grids2">
+         <view onTap="onDiscount" class="weui-grid7" hover-class="weui-grid_active">
+          <view class="marks">
+              <text>2</text>
+          </view>
+          <image class="weui-grid__icon" src="user.jpg" />
+        </view>
+        <view onTap="onDiscount" class="weui-grid8" hover-class="weui-grid_active">
+          <view class="item-text">
+            <view class="text_box">
+              <view class="flex">
+                <text class="title">hym</text>
+              </view>
+              <view class="flex">
+                <text class="message">正在载入聊天列表，请稍后</text>
+              </view>
+            </view>
+          </view>
+          <view class="item-time padding_half">
+            <text class="messagetime">2021/08/30 10:40:13</text>
+          </view>  
+        </view>
+        
+      </view>
+
+      <view onTap="onDiscount" class="weui-grids2">
+                  <view class="line"></view>
+      </view>
+
+      <view class="weui-grids2">
+        <view onTap="onDiscount" class="weui-grid" hover-class="weui-grid_active">
+          <view class="weui-grid__label1">
+            <text>
+            2                                                                                                  
+            </text>
+          </view>
+        </view>
+         <view onTap="onDiscount" class="weui-grid2" hover-class="weui-grid_active">
+          <image class="weui-grid__icon" src="user.jpg" />
+        </view>
+        <view onTap="onDiscount" class="weui-grid2" hover-class="weui-grid_active">
+          <view class="weui-grid__labelname">
+            <text>
+            hym                                                                                                  
+            </text>
+          </view>
+        </view>
+        <view onTap="onDiscount" class="weui-grid3" hover-class="weui-grid_active">
+          <view class="weui-grid__labelkm">
+            <text>
+            10086                                                                                                  
+            </text>
+          </view>
+        </view>
+        <view onTap="onDiscount" class="weui-grid" hover-class="weui-grid_active">
+          <am-icon type="like" size="18" style="color: rgb(94,208,254);" />
+        </view>
+      </view>
+
+      <view class="weui-grids2">
+        <view onTap="onDiscount" class="weui-grid" hover-class="weui-grid_active">
+          <view class="weui-grid__label1">
+            <text>
+            3                                                                                                  
+            </text>
+          </view>
+        </view>
+         <view onTap="onDiscount" class="weui-grid2" hover-class="weui-grid_active">
+          <image class="weui-grid__icon" src="user.jpg" />
+        </view>
+        <view onTap="onDiscount" class="weui-grid2" hover-class="weui-grid_active">
+          <view class="weui-grid__labelname">
+            <text>
+            hym                                                                                                  
+            </text>
+          </view>
+        </view>
+        <view onTap="onDiscount" class="weui-grid3" hover-class="weui-grid_active">
+          <view class="weui-grid__labelkm">
+            <text>
+            10086                                                                                                  
+            </text>
+          </view>
+        </view>
+        <view onTap="onDiscount" class="weui-grid" hover-class="weui-grid_active">
+          <am-icon type="like" size="18" style="color: rgb(94,208,254);" />
+        </view>
+      </view>
+
+      <view class="weui-grids2">
+        <view onTap="onDiscount" class="weui-grid" hover-class="weui-grid_active">
+          <view class="weui-grid__label1">
+            <text>
+            4                                                                                                  
+            </text>
+          </view>
+        </view>
+         <view onTap="onDiscount" class="weui-grid2" hover-class="weui-grid_active">
+          <image class="weui-grid__icon" src="user.jpg" />
+        </view>
+        <view onTap="onDiscount" class="weui-grid2" hover-class="weui-grid_active">
+          <view class="weui-grid__labelname">
+            <text>
+            hym                                                                                                  
+            </text>
+          </view>
+        </view>
+        <view onTap="onDiscount" class="weui-grid3" hover-class="weui-grid_active">
+          <view class="weui-grid__labelkm">
+            <text>
+            10086                                                                                                  
+            </text>
+          </view>
+        </view>
+        <view onTap="onDiscount" class="weui-grid" hover-class="weui-grid_active">
+          <am-icon type="like" size="18" style="color: rgb(94,208,254);" />
+        </view>
+      </view>
+
+      <view class="weui-grids2">
+        <view onTap="onDiscount" class="weui-grid" hover-class="weui-grid_active">
+          <view class="weui-grid__label1">
+            <text>
+            5                                                                                                  
+            </text>
+          </view>
+        </view>
+         <view onTap="onDiscount" class="weui-grid2" hover-class="weui-grid_active">
+          <image class="weui-grid__icon" src="user.jpg" />
+        </view>
+        <view onTap="onDiscount" class="weui-grid2" hover-class="weui-grid_active">
+          <view class="weui-grid__labelname">
+            <text>
+            hym                                                                                                  
+            </text>
+          </view>
+        </view>
+        <view onTap="onDiscount" class="weui-grid3" hover-class="weui-grid_active">
+          <view class="weui-grid__labelkm">
+            <text>
+            10086                                                                                                  
+            </text>
+          </view>
+        </view>
+        <view onTap="onDiscount" class="weui-grid" hover-class="weui-grid_active">
+          <am-icon type="like" size="18" style="color: rgb(94,208,254);" />
+        </view>
+      </view>
+  </block>
+</view>

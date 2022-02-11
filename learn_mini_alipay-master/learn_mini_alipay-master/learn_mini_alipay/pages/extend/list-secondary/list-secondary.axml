@@ -1,0 +1,21 @@
+<list>
+ <view slot="header">
+   列表头部
+ </view>
+ <list-item thumb="http://thumb.link.png"
+   arrow="{{true}}"
+   onClick="onItemClick"
+   upperSubtitle="上副标题"
+   lowerSubtitle="下副标题" >
+   主标题
+   <list-secondary
+     title="次级标题"
+     subtitle="次级副标题"
+     thumb="http://thumb.url.jpg"
+     thumbSize="20"
+     slot="extra" />
+ </list-item>
+ <view slot="footer">
+   列表尾部
+ </view>
+</list>

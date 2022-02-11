@@ -1,0 +1,18 @@
+<view class="question-wraper">
+  <view class="item" a:for="{{list}}" a:for-item="question" a:for-index="i">
+      <view class="ask-wraper">
+        <image class="icon" src="https://gw.alipayobjects.com/mdn/rms_ec9563/afts/img/A*Kep_Tr0TUfAAAAAAAAAAAABkARQnAQ" mode="" />
+        <text class="text">{{question.question}}</text>
+      </view>
+      <view class="answer-wraper" a:for="{{question.answers}}" a:for-item="answer" a:for-index="j">
+        <view class="answer" a:for="{{answer.steps}}" a:for-item="step" a:for-index="k">
+          <view class="icon {{k === 0 ? '': 'hidden'}}"></view>
+          <view class="content">
+            <text>{{answer.steps.length > 1 ? k + 1 +'.' :''}}</text>
+            <text class="normal {{snipet.type === 'blue' ? 'blue' : ''}}" a:for="{{step.text}}" a:for-item="snipet" a:for-index="n">{{snipet.content}}</text>
+          </view>
+          <image a:if="{{step.imageUrl}}" class="image" src="{{step.imageUrl}}"/>
+        </view>
+      </view>
+  </view>
+</view>

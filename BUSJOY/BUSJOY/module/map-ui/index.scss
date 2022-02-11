@@ -1,0 +1,7 @@
+@import "../../style/common";
+.map-wrapper {
+  flex:1;
+  .map-content {
+    height: calc(100vh - 216px);
+  }
+}

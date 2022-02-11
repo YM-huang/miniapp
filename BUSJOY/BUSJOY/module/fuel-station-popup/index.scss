@@ -1,0 +1,165 @@
+@import "../../style/common";
+
+.station {
+  &-wrapper {
+    padding-top: 44rpx;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 900;
+    background: #fff;
+    box-shadow: 0 -1rpx 0 0 #EAEAEA, 0 -5rpx 20rpx 0 rgba(200, 200, 200, 0.50);
+    @include transition(all .32s ease-out);
+    &-mask{
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, .3);
+      z-index: 900;
+      transition: all .2s ease-in-out;
+      opacity: 0;
+      visibility: hidden;
+      &.mask-show{
+        opacity: 0;
+        visibility: visible;
+      }
+    }
+  }
+  &-header {
+    position: relative;
+    .arrow-up {
+      position: absolute;
+      top: -40rpx;
+      left:50%;
+      transform: translateX(-50%);
+      width:40rpx;
+      height:40rpx;
+      background: url(https://gw.alipayobjects.com/zos/rmsportal/UbhKyRHnViLIfTIWRTSB.png)  center no-repeat;
+      background-size: 36rpx 14rpx;
+    }
+    .arrow-down {
+      position: absolute;
+      top: -40rpx;
+      left:50%;
+      transform: translateX(-50%);
+      width:40rpx;
+      height:40rpx;
+      background: url(https://gw.alipayobjects.com/zos/rmsportal/xueLMPQIQImOYiLJHzlx.png)  center no-repeat;
+      background-size: 36rpx 36rpx;
+      // @include transform(rotate(180deg));
+    }
+  }
+  &-list {
+    padding-left: 32rpx;
+    height:100%;
+    overflow-y: scroll;
+    &-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 32rpx;
+      margin-right: 32rpx;
+      padding: 0 0 26rpx 0;
+      @include borderBottom($borderColorEEE);
+      .left {
+        .name {
+          @include fontFamilyMedium;
+          font-size: 32rpx;
+          line-height: 40rpx;
+          color: #333333;
+        }
+        .addr {
+          font-size: 28rpx;
+          font-family: PingFangSC-Regular;
+          color: #999999;
+          letter-spacing: 0;
+          text-align: justify;
+          line-height: 40rpx;
+          margin-top: 4rpx;
+        }
+        .price {
+          display: flex;
+          align-items: center;
+          @include fontFamilyMedium;
+          font-size: 48rpx;
+          color: #FF7755;
+          letter-spacing: 0;
+          line-height: 67rpx;
+          margin-top: 16rpx;
+          text{
+            font-size: 32rpx;
+            height: 52rpx;
+          }
+        }
+        .old {
+          box-sizing: border-box;
+          padding: 1rpx 8rpx;
+          margin-left: 8rpx;
+          font-family: PingFangSC-Regular;
+          font-size: 24rpx;
+          line-height: 36rpx;
+          color: #FF7755;
+          letter-spacing: 0.58rpx;
+          text-align: right;
+          height: 36rpx;
+          background-color: #FFF1EE; 
+          
+        }
+        .oilType{
+          box-sizing: border-box;
+          padding: 1rpx 8rpx;
+          font-family: PingFangSC-Regular;
+          font-size: 24rpx;
+          line-height: 33rpx;
+          height: 36rpx;
+          color: #999999;
+          letter-spacing: 0.5;
+          border: 2rpx solid #FFE1D9;
+          border-radius: 0 4rpx 4rpx 0;
+        }
+      }
+      .right {
+        text-align: center;
+        image {
+          width: 56rpx;
+        }
+        view {
+          margin-top: 8rpx;
+          font-size: 24rpx;
+          line-height: 33rpx;
+          color: #999999;
+          letter-spacing: 0;
+          text-align: center;
+        }
+      }
+    }
+    .bottomLine{
+      height: 97rpx;
+      margin-bottom: 40rpx;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: flex-end;
+      .leftLine{
+        margin-right: 26rpx;
+        height: 2rpx;
+        width: 80rpx;
+        background-color: #D8D8D8
+      }
+      .bottomWords{
+        color: #ccc;
+        font-size: 26rpx;
+        font-family: PingFangSC-Regular;
+      }
+      .rightLine{
+        margin-left: 26rpx;
+        height: 2rpx;
+        width: 80rpx;
+        background-color: #D8D8D8
+      }
+    }
+  }
+}

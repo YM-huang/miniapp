@@ -1,0 +1,103 @@
+.action-button-wraper.fixed {
+  position: fixed;
+  bottom: 0;
+  background: #FFF;
+  padding-bottom: 32rpx;
+}
+.action-button-wraper .action-body {
+  padding: 0 32rpx;
+}
+.action-button-wraper .action-body .top-protocol {
+  text-align: left;
+}
+.action-button-wraper .action-body .top-protocol .normal {
+  font-size: 22rpx;
+  color: #3A3A3A;
+}
+.action-button-wraper .action-body .top-protocol .normal.blue {
+  color: #108EE9;
+}
+.action-button-wraper .action-body .button-group {
+  padding-top: 16rpx;
+}
+.action-button-wraper .action-body .button-group .button {
+  margin-bottom: 16rpx;
+  border-radius: 8rpx;
+  box-shadow: 0 2px 12px 0 rgba(16, 142, 133, 0.11);
+  font-weight: 500;
+}
+.action-button-wraper .action-body .button-group .button:last-child {
+  margin-bottom: 0;
+}
+.action-button-wraper .action-body .bottom-protocol {
+  margin-top: 16rpx;
+  text-align: left;
+}
+.action-button-wraper .action-body .bottom-protocol .normal {
+  font-size: 22rpx;
+  color: #3A3A3A;
+}
+.action-button-wraper .action-body .bottom-protocol .normal.blue {
+  color: #108EE9;
+}
+.action-button-wraper .action-body .bottom-protocol .spread-arrow {
+  display: inline-block;
+  box-sizing: border-box;
+  border-right: 2rpx solid #999;
+  border-bottom: 2rpx solid #999;
+  width: 8rpx;
+  height: 8rpx;
+  transform: rotate(45deg);
+  vertical-align: middle;
+}
+.action-button-wraper .bottom-item {
+  display: flex;
+  padding: 32rpx 32rpx 0;
+  border-top: 1rpx solid #eee;
+  margin-top: 32rpx;
+  justify-content: space-between;
+}
+.action-button-wraper .bottom-item .content .icon {
+  width: 48rpx;
+  height: 48rpx;
+  vertical-align: middle;
+  margin-right: 24rpx;
+}
+.action-button-wraper .bottom-item .content .text {
+  font-size: 28rpx;
+  vertical-align: middle;
+}
+.action-button-wraper .bottom-item .arrow {
+  width: 12rpx;
+  height: 21rpx;
+  margin-top: 12rpx;
+}
+.action-button-wraper .bottom-list {
+  text-align: left;
+  font-size: 28rpx;
+  color: #333333;
+  padding: 0 32rpx;
+  border-top: 1rpx solid #eee;
+  margin-top: 32rpx;
+}
+.action-button-wraper .bottom-list .item {
+  padding: 24.5rpx 0;
+  border-bottom: 1rpx solid #eee;
+}
+.action-button-wraper .bottom-list .item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+.action-button-wraper .bottom-list .item .label {
+  display: inline-block;
+  width: 174rpx;
+}
+.action-button-wraper .bottom-list .item .value {
+  display: inline-block;
+}
+.action-button-wraper .bottom-list .item .icon {
+  width: 32rpx;
+  height: 32rpx;
+  background-size: cover;
+  float: right;
+}

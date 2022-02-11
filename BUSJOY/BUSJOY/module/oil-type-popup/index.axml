@@ -1,0 +1,42 @@
+<view class="popup">
+  <view class="{{show ? 'popup-show' : ''}}">
+    <view class="popup-mask"/>
+    <view class="popup-container">
+      <view class="popup-header">
+        <!-- <view class="popup-arrowup-icon"></view> -->
+        <!-- <view class="popup-close-icon" onTap="onClosePopup"></view> -->
+        <view class="popup-title">选择常用油号</view>
+        <view class="popup-subtitle">选择油品查看专属优惠，笔笔有优惠</view>
+      </view>
+      <view class="petrol-wrapper">
+        <view class="title">汽油</view>
+        <view class="petrol-item-wrapper">
+          <block a:for="{{petrolList}}">
+            <view
+              class="oil-item oil-item-{{tempSelectOilType === item.oilType ? 'selected' : ''}}"
+              data-type="{{item.oilType}}"
+              onTap="onSelect">
+              {{item.oilType}}
+            </view>
+          </block>
+        </view>
+      </view>
+      <view class="diesel-wrapper">
+        <view class="title">柴油</view>
+        <view class="diesel-item-wrapper">
+          <block a:for="{{dieselList}}">
+            <view
+              class="oil-item oil-item-{{tempSelectOilType === item.oilType ? 'selected' : ''}}"
+              data-type="{{item.oilType}}"
+              onTap="onSelect">
+              {{item.oilType}}
+            </view>
+          </block>
+        </view>
+      </view>
+      <view class="button-use" onTap="onClosePopup">
+        <button type="primary">查看优惠油站</button>
+      </view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,38 @@
+<view class="evaluate-wraper">
+  <swiper style="height: 273rpx;" indicator-dots="{{false}}" autoplay="{{true}}" vertical="{{true}}" circular="{{true}}" >
+    <block a:for="{{list}}">
+      <swiper-item>
+        <view class="evaluate-item">
+          <view class="info-wraper">
+            <view class="user-info">
+              <image class="avatar" src="{{item.avatarUrl}}"></image>
+              <view class="person">
+                <view class="name">{{item.name}}</view>
+                <view class="time">{{item.time}}</view>
+              </view>
+            </view>
+            <view class="count-wraper">
+              <view class="icon-wraper up">
+                <image class="icon" src="https://gw.alipayobjects.com/mdn/rms_ec9563/afts/img/A*aPqQQL-z3vIAAAAAAAAAAABkARQnAQ" mode="" />
+                <text class="number">{{item.upCount}}</text>
+              </view>
+              <view class="icon-wraper count">
+                <image class="icon" src="https://gw.alipayobjects.com/mdn/rms_ec9563/afts/img/A*6_kPRaNKm1UAAAAAAAAAAABkARQnAQ" mode="" />
+                <text class="number">{{item.commentCount}}</text>
+              </view>
+            </view>
+          </view>
+          <view class="comment-info {{item.imageUrl ? '' : 'noImage'}}">
+            <view class="text">
+              <view class="content">
+                {{item.content}}
+              </view>
+            </view>
+            <image a:if="{{item.imageUrl}}" class="image" src="{{item.imageUrl}}"></image>
+          </view>
+        </view>
+      </swiper-item>
+    </block>
+  </swiper>
+
+</view>

@@ -1,0 +1,35 @@
+<view class="popup-{{show ? 'show' : 'hide'}}">
+	<view class="popup-mask" onTap="onClosePopup"/>
+	<view class="popup-modal">
+		<view class="popup-title">选择油号获取优惠推荐</view>
+    <view class="petrol-wrapper">
+      <view class="title">汽油</view>
+      <view class="petrol-item-wrapper">
+        <block a:for="{{petrolList}}">
+          <view
+            class="oil-item oil-item-{{selectedOilType === item.oilType ? 'selected' : ''}}"
+            data-type="{{item.oilType}}"
+            onTap="onSelect"
+          >
+            {{item.oilType}}
+          </view>
+        </block>
+      </view>
+    </view>
+    <view class="diesel-wrapper">
+      <view class="title">汽油</view>
+      <view class="diesel-item-wrapper">
+        <block a:for="{{dieselList}}">
+          <view
+            class="oil-item oil-item-{{selectedOilType === item.oilType ? 'selected' : ''}}"
+            data-type="{{item.oilType}}"
+            onTap="onSelect"
+          >
+            {{item.oilType}}
+          </view>
+        </block>
+      </view>
+    </view>
+	</view>
+	</view>
+</view>

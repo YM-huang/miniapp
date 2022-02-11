@@ -1,0 +1,7 @@
+{
+  "defaultTitle": "手势解锁",
+  "allowsBounceVertical": "NO",
+  "usingComponents": {
+    "lock": "ant-mini-lock/src/lock/index"
+  }
+}

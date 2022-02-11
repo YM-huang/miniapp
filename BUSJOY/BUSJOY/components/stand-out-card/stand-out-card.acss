@@ -1,0 +1,12 @@
+.stand-wraper {
+  background: transparent;
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: -20rpx;
+  padding: 69rpx 0;
+}
+.stand-wraper .content {
+  top: 0;
+  width: 100%;
+  box-sizing: border-box;
+}

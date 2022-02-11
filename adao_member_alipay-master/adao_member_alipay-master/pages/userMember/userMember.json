@@ -1,0 +1,9 @@
+{
+  "pullRefresh": true,
+  "usingComponents": {
+    "auth-manager": "/components/authManager/authManager",
+    "left-menu": "/components/leftMenu/leftMenu",
+    "cookie-manager": "/components/cookieManager/cookieManager",
+    "passwd-manager": "/components/passwdManager/passwdManager"
+  }
+}

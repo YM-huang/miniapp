@@ -1,0 +1,28 @@
+<view class="transfer-wraper">
+  <view class="transfer-wraper-title">
+    <text>{{dataSource.stationName}}</text>
+  </view>
+  <view class="transfer-wraper-map">
+    <view class="transfer-wraper-map-title">
+      <view class="transfer-wraper-map-title-count">
+        <text class="transfer-wraper-map-title-count-content">{{dataSource.count}}</text>
+        <text class="transfer-wraper-map-title-count-label">辆{{ dataSource.type=== 1 ? '网约车' : '共享单车'}}在附近</text>
+      </view>
+      <view class="transfer-wraper-map-title-discount">限时优惠{{dataSource.discounts}}元</view>
+    </view>
+    <view class="transfer-wraper-map-content">
+       <map class="transfer-wraper-map-content-map" id="map" longitude="120.131441" latitude="30.279383" scale="{{scale}}" controls="{{controls}}"
+        onControlTap="controltap" markers="{{dataSource.markers}}" circles="{{dataSource.circles}}"/>
+    </view>
+  </view>
+  <view class="transfer-wraper-traffic">
+    <view class="label">
+      <text class="pre">{{dataSource.traffic.label}}</text>
+      <view class="icon">{{dataSource.traffic.iconText}}</view>
+    </view>
+    <view class="go">
+      <text class="text">{{dataSource.traffic.go}}</text>
+      <image class="arrow" mode="scaleToFill" src="https://gw.alipayobjects.com/mdn/rms_ec9563/afts/img/A*S44LRpc_2YQAAAAAAAAAAABkARQnAQ"/>
+    </view>
+  </view>
+</view>

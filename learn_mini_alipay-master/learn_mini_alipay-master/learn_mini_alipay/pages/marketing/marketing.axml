@@ -1,0 +1,26 @@
+<view class="page">
+  <view class="view-descrition"></view> 
+  <view class="page-section">
+        <form class="wheelDrawButton" onSubmit="onWheelDraw" onReset="onReset">
+            <button form-type="submit" type="primary">wheelDraw</button>
+        </form>
+        <form class="fruitSlotsButton" onSubmit="onFruitSlots" onReset="onReset">
+            <button form-type="submit" type="primary">fruitSlots</button>
+        </form>
+        <form class="scratchCardButton" onSubmit="onScratchCard" onReset="onReset">
+            <button form-type="submit" type="primary">scratchCard</button>
+        </form>
+        <form class="hitEggsButton" onSubmit="onHitEggs" onReset="onReset">
+            <button form-type="submit" type="primary">hitEggs</button>
+        </form>
+        <form class="diceRollerButton" onSubmit="onDiceRoller" onReset="onReset">
+            <button form-type="submit" type="primary">diceRoller</button>
+        </form>
+        <form class="flipDrawButton" onSubmit="onFlipDraw" onReset="onReset">
+            <button form-type="submit" type="primary">flipDraw</button>
+        </form>
+        <form class="lockButton" onSubmit="onLock" onReset="onReset">
+            <button form-type="submit" type="primary">lock</button>
+        </form>
+  </view>
+</view>

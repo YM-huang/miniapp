@@ -1,0 +1,21 @@
+<import-sjs name="m1" from="./m1.sjs"/>
+<import src="../../towxml/entry.axml"/>
+<view class="detail_box">
+  <view a:if="{{loading}}" class="detail_load">
+    <image
+      class="detail_img"
+      mode="widthFix"
+      src="../../images/load2.png"
+    ></image>
+  </view>
+  <view
+    a:if="{{ !loading && item.id == listId}}"
+    a:key="{{item.id}}"
+    a:for="{{listData}}"
+    class="detail_con"
+  >
+    <text class="detail_title">{{item.title}}</text>
+    <text class="detail_time">{{m1.createTimes(item.created_at)}}</text>
+    <template is="entry" data="{{...artileDate}}"/>
+  </view>
+</view>

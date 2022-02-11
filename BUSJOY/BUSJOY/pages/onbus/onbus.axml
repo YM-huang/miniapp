@@ -1,0 +1,84 @@
+<view hidden={{waitBus}}>
+  <view class="top">
+  </view> 
+  <super-page
+    pageHeaderCls='{{headerFixed ? "page-header-fixed": "page-header"}}'
+    pageBodyCls='{{headerFixed ? "page-body-fixed":"page-body"}}'
+    >
+    <view slot='{{headerFixed ? "page-header-fixed": "page-header"}}'  onTouchStart="touchStartHandle"   onTouchMove="touchMoveHandle">
+    <!-- <view slot="page-header"> -->
+    <!-- <view class='{{headerFixed ? "page-header-fixed": "page-header"}}'> -->
+      <collapse className="collapse-header" collapseKey="c" activeKey="{{['c1', 'c2']}}">
+      <collapse-item class="collapse-item-header" isOpen=true itemKey="c1" collapseKey="c">
+        <view>
+          <pay-info id="paid"
+            dataSource="{{dataSource}}" hidden=false
+        />
+        <station id="stations" dataSource="{{dataSource}}"/>
+        </view>
+      </collapse-item>
+      <collapse-item class="desktop-wraper-top" isOpen=true itemKey="c2" collapseKey="c">
+          <image mode="scaleToFill" src="/assets/ring.png" class="ring" onTap="onRingTap"/>
+      </collapse-item>
+      </collapse>
+      
+    </view>> 
+
+    <view slot='{{headerFixed ? "page-body-fixed":"page-body"}}'>
+       <tips-dialog 
+        type="rectangle" 
+        className="rectangle" 
+        onCloseTap="onCloseTap" 
+        show="{{showTips}}" 
+        arrowPosition="top-left">
+        <view class="content" 
+          slot="content">
+          点击设置下车提醒
+        </view>
+        <am-button
+          className="am-button"
+          slot="content"
+          shape="capsule" 
+          capsuleSize="small" 
+          onTap="onRectangleTap">不再提醒</am-button>
+      </tips-dialog>
+      
+      <card>
+          <map id="busmap" longitude="120.131441" latitude="30.279383" scale="{{mapData.scale}}" controls="{{mapData.controls}}"
+          onControlTap="controltap" markers="{{mapData.markers}}"
+          onMarkerTap="markertap"
+          polyline="{{mapData.polyline}}" 
+          circles="{{mapData.circles}}"
+          panels="{{mapData.panels}}"
+          onRegionChange="regionchange"
+          onTap="tap"
+          onPanelTap="onPanelTap"
+          show-location style="width: 100%; height: 400px;"
+          include-points="{{mapData.includePoints}}"></map>
+      </card>
+
+      <card>
+        <view class="change-your-car" onTap="onChangeCarTap">
+          <view class="text-wraper">
+            <text class="normal-text">领取你的</text><text class="stress-text">专属座驾</text>
+          </view>
+          <view class="img-wraper">
+
+          </view>
+        </view>
+      </card>
+    
+      <card>
+        <routes dataSource="{{routesData}}" />
+      </card>
+      
+      <card>
+        <transfer dataSource="{{transferData}}" />
+      </card>
+      <card>
+        <operation dataSource="{{operationData}}" />
+      </card>
+    </view>
+
+  </super-page>
+</view>

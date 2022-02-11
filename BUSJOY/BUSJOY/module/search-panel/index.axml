@@ -1,0 +1,65 @@
+<view class="search-panel">
+  <page-result-new
+    a:if="{{ systemError }}"
+    type="busy"
+    title="系统繁忙，稍后再试"
+    brief="星辰沉睡时，我们仍在赶路"
+    option="刷新"
+    onOption="onOption"
+  >
+  </page-result-new>
+  <view a:else>
+    <view class="search-bar-wrapper">
+      <view class="search-bar-input">
+        <search-bar
+          value="{{value}}"
+          focus="{{focus}}"
+          disabled="{{false}}"
+          maxLength="{{20}}"
+          placeholder="请输入地址"
+          onInput="handleInput"
+          onClear="handleClear"
+          onFocus="handleFocus"
+          onCancel="handleCancel"
+          onSubmit="handleSubmit"
+          showCancelButton="{{true}}"/>
+      </view>
+    </view>
+
+    <!--搜索结果为空-->
+    <page-result-new
+      a:if="{{ !isLoading && !tempDropList.length && value }}"
+      type="empty"
+      title="什么都没有"
+      brief="前不见古人，后不见来者"
+    >
+    </page-result-new>
+
+    <!--索引-->
+    <view class="search-drop-list" a:if="{{tempDropList.length}}">
+      <list>
+        <block a:for="{{tempDropList}}">
+          <list-item index="{{item}}" onClick="handleDropItemClick" data-longitude="{{item.longitude}}" data-latitude="{{item.latitude}}">
+            {{item.name}}
+            <view class="am-list-brief">{{item.address}}</view>
+          </list-item>
+        </block>
+      </list>
+    </view>
+
+    <!--搜索历史-->
+    <view class="search-history" a:if="{{searchHistoryList.length && !value}}">
+      <view class="search-history-header">
+        <text>搜索历史</text>
+        <view class="img" onTap="handleClearHistory">
+          <image src="https://gw.alipayobjects.com/zos/rmsportal/hkhozLHvpgWdtbeoWsgj.png"></image>
+        </view>
+      </view>
+      <view class="search-history-list">
+        <view class="item-wrap" a:for="{{searchHistoryList}}" catchTap="handleHistoryItemClick" data-item="{{item}}">
+          <view class="item">{{item.name}}</view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

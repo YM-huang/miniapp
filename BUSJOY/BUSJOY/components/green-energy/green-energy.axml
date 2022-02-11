@@ -1,0 +1,6 @@
+<view class="green-wraper">
+  <view class="icon {{isBig ? 'big' : ''}}">{{count}}<text class="unit">g</text></view>
+  <view class="content">
+    {{preDes}}<text class="number {{isBig ? 'big' : ''}}">{{count}}</text><text class="unit {{isBig ? 'big' : ''}}">g</text>绿色能量
+  </view>
+</view>

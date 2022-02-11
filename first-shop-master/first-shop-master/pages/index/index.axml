@@ -1,0 +1,44 @@
+<swiper indicator-dots="{{true}}" autoplay="{{true}}">
+    <block a:for="{{carousels}}">
+      <swiper-item >
+        <image mode="scaleToFill" src="{{item.imageUrl}}"  class="swiper-img" data-item="{{item}}" onTap="showItemList"/>
+      </swiper-item>
+    </block>
+</swiper>
+<view class="feature">
+  <view>
+    <image mode="scaleToFill" src="/resources/icon/smallIco/fang.png"/>
+    全场包邮
+  </view>
+  <view>
+    <image mode="scaleToFill" src="/resources/icon/smallIco/flash.png"/>
+    先行赔付
+  </view>
+  <view>
+    <image mode="scaleToFill" src="/resources/icon/smallIco/yuan.png"/>
+    7天无理由
+  </view>
+  <view>
+    <image mode="scaleToFill" src="/resources/icon/smallIco/ling.png"/>
+    退货先补
+  </view>
+</view>
+<view class="img-item-text">
+  <view class="shop-title">
+    <image mode="scaleToFill" src="/resources/icon/smallIco/rec.png"/>
+    推荐商品
+  </view>
+</view>
+<scroll-view scroll-x="{{true}}" class="scroll-items" >
+  <block a:for="{{recommendProduct}}">
+    <image mode="scaleToFill" src="{{item.cover}}" class="shop-img" data-itemId="{{item.id}}" onTap="showItem"/>
+  </block>
+</scroll-view>
+<view class="img-item-text">
+  <view class="shop-title">
+    <image mode="scaleToFill" src="/resources/icon/smallIco/diamond.png"/>
+    商品上新
+  </view>
+</view>
+<import src="/pages/template/itemList/itemList"/>
+<template is="itemList" data="{{newItemList}}"></template>

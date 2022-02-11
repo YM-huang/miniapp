@@ -1,0 +1,43 @@
+@font-face {
+  font-family: "MFJianhei";
+  src: url("https://gw.alipayobjects.com/os/basement_prod/2c89b71b-8399-43ec-8c20-d575ebdd4b15.ttf") format("truetype");
+}
+.cert-wraper {
+  padding-top: 60rpx;
+  box-sizing: border-box;
+  position: relative;
+  text-align: center;
+  left: -24rpx;
+  width: 750rpx;
+  height: 201rpx;
+}
+.cert-wraper .title-wraper .icon-wraper {
+  display: inline-block;
+}
+.cert-wraper .title-wraper .icon-wraper .line {
+  width: 108rpx;
+  height: 1rpx;
+  background: #D8D8D8;
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0 9rpx;
+  box-sizing: border-box;
+}
+.cert-wraper .title-wraper .icon-wraper .icon {
+  width: 17rpx;
+  height: 18rpx;
+  background-size: cover;
+  vertical-align: middle;
+}
+.cert-wraper .title-wraper .title {
+  display: inline-block;
+  font-family: "MFJianhei";
+  margin: 0 11rpx 11rpx;
+  vertical-align: middle;
+  color: #FFF;
+}
+.cert-wraper .des {
+  color: rgba(255, 255, 255, 0.63);
+  font-size: 24rpx;
+  letter-spacing: 4rpx;
+}

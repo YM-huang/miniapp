@@ -1,0 +1,22 @@
+// API-DEMO page/component/video/video.axml
+<view>
+  <video id="myVideo" 
+    src="{{video.src}}" 
+    controls="{{video.showAllControls}}"
+    loop="{{video.isLooping}}"
+    muted="{{video.muteWhenPlaying}}"
+    show-fullscreen-btn="{{video.showFullScreenButton}}"
+    show-play-btn="{{video.showPlayButton}}"
+    show-center-play-btn="{{video.showCenterButton}}"
+    object-fit="{{video.objectFit}}"
+    autoplay="{{video.autoPlay}}"
+    direction="{{video.directionWhenFullScreen}}"
+    initial-time="{{video.initTime}}"
+    mobilenetHintType="{{video.mobilenetHintType}}"
+    onPlay="onPlay" 
+    onPause="onPause" 
+    onEnded="onEnded"
+    onError="onPlayError"
+    onTimeUpdate="onTimeUpdate"
+   />
+</view>

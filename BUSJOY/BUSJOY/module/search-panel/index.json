@@ -1,0 +1,9 @@
+{
+  "component": true,
+  "usingComponents":{
+    "search-bar":"mini-antui/es/search-bar/index",
+    "list": "mini-antui/es/list/index",
+    "list-item": "mini-antui/es/list/list-item/index",
+    "page-result-new": "../page-result-new/index"
+  }
+}

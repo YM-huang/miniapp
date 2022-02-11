@@ -1,0 +1,6 @@
+{
+  "defaultTitle": "砸金蛋",
+  "usingComponents": {
+    "hiteggs": "ant-mini-hit-eggs/es/hit-eggs/index"
+  }
+}

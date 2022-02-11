@@ -1,0 +1,6 @@
+<view class="stand-wraper" style="{{marginTop: - standHeight + 'rpx'}}">
+  <view class="stand" ></view>
+  <view class="content">
+    <slot />
+  </view>
+</view>

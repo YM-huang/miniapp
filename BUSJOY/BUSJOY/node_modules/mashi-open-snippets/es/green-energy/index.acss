@@ -1,0 +1,53 @@
+.green-wraper {
+  border-radius: 24rpx;
+  padding: 0rpx 16rpx;
+  background: rgba(0, 0, 0, 0.12);
+  display: inline-block;
+  height: 48rpx;
+  line-height: 48rpx;
+  box-sizing: border-box;
+}
+.green-wraper .icon {
+  display: inline-block;
+  width: 32rpx;
+  height: 32rpx;
+  line-height: 32rpx;
+  margin-right: 8rpx;
+  vertical-align: middle;
+  border-radius: 50%;
+  text-align: center;
+  color: #009D01;
+  font-family: AlipayNumber-Regular;
+  font-size: 14rpx;
+  background: url('https://gw.alipayobjects.com/mdn/rms_ec9563/afts/img/A*hoFFRqSPLNUAAAAAAAAAAABkARQnAQ') no-repeat;
+  background-size: contain;
+}
+.green-wraper .icon.big {
+  width: 39rpx;
+  height: 39rpx;
+  line-height: 39rpx;
+  background: url('https://gw.alipayobjects.com/mdn/rms_ec9563/afts/img/A*p-lhQbNBz60AAAAAAAAAAABkARQnAQ') no-repeat;
+  background-size: contain;
+}
+.green-wraper .icon .unit {
+  font-size: 13.5rpx;
+}
+.green-wraper .content {
+  display: inline-block;
+  color: #fff;
+  font-size: 24rpx;
+}
+.green-wraper .content .number {
+  color: #BFFF00;
+  font-family: AlipayNumber-Regular;
+}
+.green-wraper .content .number.big {
+  font-size: 28.2rpx;
+}
+.green-wraper .content .unit {
+  color: #BFFF00;
+  font-family: AlipayNumber-Regular;
+}
+.green-wraper .content .unit.big {
+  font-size: 28.2rpx;
+}

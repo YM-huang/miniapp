@@ -1,0 +1,13 @@
+<view onTap="onGuide" a:if="{{isNewUser}}">
+  <view class="guide" a:if="{{guideState !== 3}}">
+    <view class="guide1" a:if="{{guideState === 1}}"></view>
+    <view class="guide2" a:if="{{guideState === 2}}"></view>
+  </view>
+  <view class="guideWhiteSquare" a:if="{{guideState === 1}}">
+    <text class="guideWorlds">请选择油枪号</text>
+    <image src="https://gw.alipayobjects.com/zos/rmsportal/UkJoMocYlEGkjVzDCUSN.png" class="rightArrow" mode="widthFix"></image>
+  </view>
+  <view class="guideWhiteSquare2" a:if="{{guideState === 2}}">
+    <text class="placeHolderNum">¥ 0.00</text>
+  </view>
+</view>

@@ -1,0 +1,258 @@
+.camera_container {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  overflow: hidden;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: #222222;
+}
+.camera_container .camera_content {
+  width: 100%;
+  height: calc(100vh - 530rpx);
+  overflow: hidden;
+  background: #222222;
+  position: relative;
+}
+.camera_container .camera_content .close_camera_block {
+  width: 100%;
+  height: 100rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+.camera_container .camera_content .close_camera_block .close_camera_icon {
+  width: 23rpx;
+  height: 39rpx;
+  margin-left: 29rpx;
+  margin-bottom: 25rpx;
+}
+.camera_container .camera_content .ai-camera_box {
+  width: 682rpx;
+  height: 436rpx;
+  border-radius: 26rpx;
+  margin: 0 auto;
+  margin-top: 70rpx;
+  position: relative;
+}
+.camera_container .camera_content .ai-camera_box .ai-camera {
+  width: 100%;
+  height: 100%;
+  border-radius: 26rpx;
+}
+.camera_container .camera_content .ai-camera_box .camera_avatar {
+  position: absolute;
+  bottom: 109rpx;
+  right: 56rpx;
+  z-index: 12;
+  width: 164rpx;
+  height: 255rpx;
+}
+.camera_container .camera_content .ai-camera_box .camera_emblem {
+  position: absolute;
+  top: 40rpx;
+  left: 40rpx;
+  z-index: 12;
+  width: 149rpx;
+  height: 180rpx;
+}
+.camera_container .camera_content .ai-camera_box .camera_photo {
+  width: 682rpx;
+  height: 436rpx;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 12;
+}
+.camera_container .camera_content .ai-camera_box .camera_driver_front_tips {
+  width: 340rpx;
+  height: 23rpx;
+  position: absolute;
+  top: 82rpx;
+  left: 52rpx;
+}
+.camera_container .camera_content .ai-camera_box .camera_driver_front_center_tips {
+  width: 308rpx;
+  height: 34rpx;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -17rpx;
+  margin-left: -154rpx;
+}
+.camera_container .camera_content .ai-camera_box .camera_driver_back_tips {
+  width: 409rpx;
+  height: 81rpx;
+  position: absolute;
+  bottom: 40rpx;
+  right: 40rpx;
+}
+.camera_container .camera_content .ai-camera_box .camera_driver_rotate_tips {
+  width: 560rpx;
+  height: 235rpx;
+  position: absolute;
+  top: 101rpx;
+  left: 60rpx;
+}
+.camera_container .camera_content .ai-camera_box .camera_border {
+  width: 40rpx;
+  height: 40rpx;
+  position: absolute;
+  border-left: 4rpx solid #108EE9;
+  border-top: 4rpx solid #108EE9;
+}
+.camera_container .camera_content .ai-camera_box .camera_border_tl {
+  top: 0;
+  left: 0;
+}
+.camera_container .camera_content .ai-camera_box .camera_border_tr {
+  top: 0;
+  right: 0;
+  transform: rotate(90deg);
+}
+.camera_container .camera_content .ai-camera_box .camera_border_bl {
+  bottom: 0;
+  left: 0;
+  transform: rotate(-90deg);
+}
+.camera_container .camera_content .ai-camera_box .camera_border_br {
+  bottom: 0;
+  right: 0;
+  transform: rotate(180deg);
+}
+.camera_container .camera_content .license_tips {
+  width: 682rpx;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 40rpx;
+}
+.camera_container .camera_content .license_tips .license_tips_image {
+  width: 200rpx;
+  height: 190rpx;
+}
+.camera_container .camera_footer {
+  width: 100%;
+  height: 530rpx;
+  background: #222222;
+  position: relative;
+  z-index: 20;
+}
+.camera_container .camera_footer .title {
+  font-size: 46rpx;
+  color: #fff;
+  text-align: center;
+  padding-top: 120rpx;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  font-size: 36rpx;
+}
+.camera_container .camera_footer .title .failed_icon {
+  width: 48rpx;
+  height: 48rpx;
+  margin-right: 8rpx;
+}
+.camera_container .camera_footer .title .bold {
+  font-weight: bold;
+}
+.camera_container .camera_footer .title .red {
+  color: #FF5C17;
+}
+.camera_container .camera_footer .title .uploading {
+  font-size: 24rpx;
+  color: #999999;
+  line-height: 34rpx;
+}
+.camera_container .camera_footer .title .uploading .uploading_icon {
+  display: block;
+}
+.camera_container .camera_footer .tips {
+  font-size: 26rpx;
+  color: #888888;
+  letter-spacing: 0;
+  text-align: center;
+  padding-top: 20rpx;
+}
+.camera_container .camera_footer .take_photo_actions {
+  display: flex !important;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 48rpx;
+  position: relative;
+}
+.camera_container .camera_footer .take_photo_actions .camera_album {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  right: 70rpx;
+  font-size: 32rpx;
+  color: #FFFFFF;
+}
+.camera_container .camera_footer .take_photo_actions .camera_album .album_icon {
+  width: 30rpx;
+  height: 30rpx;
+  margin-right: 8rpx;
+  margin-bottom: 10rpx;
+}
+.camera_container .camera_footer .take_photo_actions .camera_album .album_icon_text {
+  font-size: 28rpx;
+}
+.camera_container .camera_footer .take_photo_actions .take_photo_button {
+  width: 160rpx;
+  height: 160rpx;
+  border-radius: 100%;
+  border: 2rpx solid #108EE9;
+  border-radius: 80rpx;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.camera_container .camera_footer .take_photo_actions .take_photo_button .button {
+  background: #108EE9;
+  border-radius: 100%;
+  width: 134rpx;
+  height: 134rpx;
+}
+.camera_container .camera_footer .take_photo_actions .take_photo_button .a-button-active {
+  opacity: 0.6;
+}
+.camera_container .camera_footer .confirm_photo_buttons {
+  margin: auto;
+  margin-top: 80rpx;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+.camera_container .camera_footer .confirm_photo_buttons button {
+  border-radius: 4rpx;
+  font-size: 34rpx;
+  color: #FFFFFF;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 220rpx;
+  height: 84rpx;
+}
+.camera_container .camera_footer .confirm_photo_buttons .again {
+  color: #108EE9;
+  margin-right: 60rpx;
+}
+.camera_container .camera_footer .reupload_photo_button button {
+  width: 686rpx;
+  display: block;
+  margin: auto;
+  margin-top: 100rpx;
+}

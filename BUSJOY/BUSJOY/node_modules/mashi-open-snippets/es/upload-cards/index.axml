@@ -1,0 +1,23 @@
+<view
+  class="license-img {{imgSrc ?'uploaded':''}}"
+  catchTap="upLoadImageFromCamera"
+  data-type="{{type}}"
+>
+  <image
+    class="real-license"
+    src="{{imgSrc || licensePicDefault[type]}}"
+  />
+  <view class="cover">
+    <icon
+      type="loading"
+      a:if="{{ sfzLicense_frontstate === 'pendding' }}"
+    />
+    <text
+      class="icon-add"
+      a:else
+    />
+    <view class="title">
+      {{imgSrc ? licenseTxtDefault.successTxt : licenseTxtDefault[type]}}
+    </view>
+  </view>
+</view>

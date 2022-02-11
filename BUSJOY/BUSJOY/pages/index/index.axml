@@ -1,0 +1,20 @@
+<view>
+  <view class="header">
+    <image class="headerimage" mode="aspectFit" src="header.png"/>
+  </view>
+  <view class="voncher-wraper">
+    <view class="voncher">
+      <view class="voncher-name">{{voncherData.voncherName}}</view>
+      <cover-image class="QRcode" mode="scaleToFill" src="BUSQRcode.png" onTap="ScanCode" />
+      <view class="Bingo">请点击二维码以表示乘车</view>
+      <view class="split">
+      ________________________________              
+      </view>
+      <view class="extrabutton">
+        <value-module
+          list="{{dataSource}}"
+        />
+      </view>
+    </view>
+  </view>
+</view>

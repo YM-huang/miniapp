@@ -1,0 +1,35 @@
+<import-sjs name="helper" from="./helper.sjs"/>
+<view class="list-wrapper">
+  <list>
+    <block a:for="{{payRecords}}">
+      <list-item
+        key="{{item.payDate}}"
+        last="{{index === (payRecords.length - 1)}}"
+      >
+        <view class="itemContainer">
+          <view class="line">
+            <text class="fuelName">{{item.stationName}}</text>
+            <text>
+              <text class="oilDiscount">
+                <text class="oilType">{{item.oilType}}</text>
+                <text class="discount">省</text>
+              </text>
+              <text class="moneySign">￥</text>
+              <text class="moneyNum">{{item.pocketAmount.amount.toFixed(2)}}</text>
+            </view>
+          </view>
+          <view class="line line2">
+            <text>
+              <text class="fuelTime">{{ helper.transDate(item.payDate) }}</text>
+            </text>
+            <text class="payStatusSuccess">
+              <text>实付:￥{{ item.payAmount.amount }}</text>
+              <text class="origionPrice">原价:￥{{ item.oilAmount.amount }}</text>
+            </text>
+          </view>
+        </view>
+      </list-item>
+    </block>
+  </list>
+  <view a:if="{{ listComplete }}" class="footerQuestion" onTap="onFooterQuestion">常见问题</view>
+</view>

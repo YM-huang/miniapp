@@ -1,0 +1,231 @@
+<view class="container">
+  <view class="remind-box" a:if="{{remind}}">
+    <image class="remind-img" src="loading.gif"></image>
+  </view>
+  <block a:else>
+    <view class="content">
+      <view class="hd" style="transform:rotateZ({{angle}}deg);">
+          <image class="logo" src="user.jpg" onTap="onFriendcircle"></image>
+          <image class="logocar" src="user.jpg" onTap="onRoadlist"></image>
+          <text class="nickname">niconico</text>
+          <text class="lv lvmode">lv.6</text>
+          <text class="title">马路征服者</text>
+          <image class="wave" src="wave.png" mode="aspectFill"></image>
+          <image class="wave wave-bg" src="wave.png" mode="aspectFill"></image>
+          <view class="card"></view>
+      </view>
+
+      <view class="weui-grids">
+        <view onTap="onDiscount" class="weui-grid" hover-class="weui-grid_active">
+          <view class="weui-grid__label1">
+            <text>
+            0                                                                                                  
+            </text>
+          </view>
+          <view class="weui-grid__label2">
+            <text>
+            乘车券                                                                                                  
+            </text>
+          </view>
+        </view>
+        <view onTap="onDiscount" class="weui-grid" hover-class="weui-grid_active">
+          <view class="weui-grid__label1">
+            <text>
+            10                                                                                                  
+            </text>
+          </view>
+          <view class="weui-grid__label2">
+            <text>
+            商户券                                                                                                  
+            </text>
+          </view>
+        </view>
+        <view onTap="categoryTap" class="weui-grid" hover-class="weui-grid_active">
+          <view class="weui-grid__label1">
+            <text>
+            6                                                                                                  
+            </text>
+          </view>
+          <view class="weui-grid__label2">
+            <text>
+            我的车库                                                                                                  
+            </text>
+          </view>
+        </view>
+        <view onTap="onGold" class="weui-grid" hover-class="weui-grid_active">
+          <view class="weui-grid__label1">
+            <text>
+            5000                                                                                                  
+            </text>
+          </view>
+          <view class="weui-grid__label2">
+            <text>
+            金币                                                                                                  
+            </text>
+          </view>
+        </view>
+      </view>
+
+      <view class="weui-gridsgold">
+        <view onTap="categoryTap" class="weui-gridgold">
+          <view class="weui-grid__labelgold">
+            <text space=“nbsp”>
+            金币获取                                                                                                     
+            </text>
+            <text style="color:#CFCFCF;font-size:8pt;" space=“nbsp”>
+            每日签到获取金币         连续七日更有惊喜好礼                                                                                                  
+            </text>
+          </view>
+        </view>
+      </view>
+
+      <view class="weui-gridsgoldcontent">
+        <view onTap="onSignin" class="weui-gridgoldcontent">
+          <image class="weui-grid__icon" src="user.jpg" />
+          <view class="weui-grid__label2">
+            <text>
+            签到                                                                                                  
+            </text>
+          </view>
+        </view>
+        <view onTap="onDiscount" class="weui-gridgoldcontent">
+          <image class="weui-grid__icon" src="user.jpg" />
+          <view class="weui-grid__label2">
+            <text>
+            商户券                                                                                                  
+            </text>
+          </view>
+        </view>
+        <view onTap="categoryTap" class="weui-gridgoldcontent">
+          <image class="weui-grid__icon" src="user.jpg" />
+          <view class="weui-grid__label2">
+            <text>
+            我的车库                                                                                                  
+            </text>
+          </view>
+        </view>
+        <view onTap="categoryTap" class="weui-gridgoldcontent">
+          <image class="weui-grid__icon" src="user.jpg" />
+          <view class="weui-grid__label2">
+            <text>
+            金币                                                                                                  
+            </text>
+          </view>
+        </view>
+      </view>
+
+      <view class="weui-gridsbreak">
+        <!-- <view onTap="categoryTap" class="weui-gridbreak2">
+            <view class="weui-grid__labelbreak2">
+                
+          </view>
+            <view class="weui-grid__label1" hover-class="weui-grid__label12">
+            <text>
+            乘车券                                                                                                 
+            </text>
+          </view>
+        </view>
+        <view onTap="categoryTap" class="weui-gridbreak2">
+          <view class="weui-grid__labelbreak" onTap="onDiscount">
+                更多优惠>
+          </view>
+            <view class="weui-grid__label1" hover-class="weui-grid__label12">
+            <text>
+            商家券                                                                                                  
+            </text>
+          </view>
+        </view> -->
+        <view onTap="categoryTap" class="weui-gridbreak">
+          <!-- <swiper autoplay indicator-dots circular>
+            <swiper-item>
+              <image src="ad1.jpg" class="swiper-img">
+              </image>
+            </swiper-item>
+            <swiper-item>
+              <image src="ad2.jpg" class="swiper-img">
+              </image>
+            </swiper-item>
+            <swiper-item>
+              <image src="ad3.jpg" class="swiper-img">
+              </image>
+            </swiper-item>
+          </swiper> -->
+
+          <!-- <view class="weui-gridbreakinside">
+            <image src="ad4.jpg" class="swiper-img">
+              </image>
+              <image src="ad4.jpg" class="swiper-img">
+              </image>
+              <image src="ad4.jpg" class="swiper-img">
+              </image>
+              <image src="ad4.jpg" class="swiper-img">
+              </image>
+          </view> -->
+          <tabs
+            tabs="{{tabs}}"
+            tabsName="activeTab"
+            onTabClick="handleTabClick"
+            onChange="handleTabChange"
+            onPlusClick="handlePlusClick"
+            activeTab="{{activeTab}}"
+            showPlus="{{hasPlus}}"
+            swipeable="{{hasContentHeight}}"
+            capsule="{{typeCapsule}}"
+            hasSubTitle="{{typeHasSubTitle}}"
+          >
+            <block a:for="{{tabs}}">
+              <tab-content key="{{index}}" tabId="{{index}}" activeTab="{{activeTab}}">
+                <view class="weui-gridbreakinside">
+                  <image src="ad4.jpg" class="swiper-img">
+                    </image>
+                    <image src="ad4.jpg" class="swiper-img">
+                    </image>
+                    <image src="ad4.jpg" class="swiper-img">
+                    </image>
+                    <image src="ad4.jpg" class="swiper-img">
+                    </image>
+                </view>
+              </tab-content>
+            </block>
+          </tabs>
+        </view>
+      </view>
+
+      <view class="weui-gridsgold">
+        <view onTap="categoryTap" class="weui-gridgold">
+          <view class="weui-grid__labelgold">
+            <text space=“nbsp”>
+            绿色出行                                                                                                  
+            </text>
+          </view>
+        </view>
+      </view>
+
+      <view class="weui-gridsgoldcontent">
+        <view onTap="onRecord" class="weui-gridgoldcontent">
+          <image class="weui-grid__icon" src="user.jpg" />
+          <view class="weui-grid__label2">
+            <text>
+            乘车记录                                                                                                  
+            </text>
+          </view>
+        </view>
+        <view onTap="onRank" class="weui-gridgoldcontent">
+          <image class="weui-grid__icon" src="user.jpg" />
+          <view class="weui-grid__label2">
+            <text>
+            好友排行                                                                                                  
+            </text>
+          </view>
+        </view>
+        <view onTap="onFriend" class="weui-gridgoldcontent">
+          <image class="weui-grid__iconadd" src="add.png" />
+        </view>
+        <view onTap="categoryTap" class="weui-gridgoldcontent">
+          
+        </view>
+      </view>
+
+    </view>
+  </block>
+</view>

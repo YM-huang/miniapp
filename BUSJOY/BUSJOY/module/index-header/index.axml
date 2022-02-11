@@ -1,0 +1,20 @@
+<view class="header-wrapper">
+  <view class="drop-down-wrapper" hover-class="drop-down-active" onTap="onOilTypePopup">
+    <view class="left-text">
+      {{selectedOilType || '油品型号'}}
+    </view>
+    <view class="drop-down-arrow">
+    </view>
+  </view>
+  <view class="splitLine"></view>
+  <view class="search-bar-wrapper">
+    <view class="content" onTap="onSearch">
+      <search-bar
+        value="{{searchValue}}"
+        placeholder="输入地址查看附近加油站"
+        showCancelButton="{{false}}"
+      />
+    </view>
+  </view>
+  <oil-type-popup a:if="{{showOilTypeSelect}}" show="{{showOilTypeSelect}}" onClose="onClosePopup" selectedOilType="{{selectedOilType}}"/>
+</view>

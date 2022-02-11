@@ -1,0 +1,26 @@
+<template name="itemList">
+  <view class="new-item-list">
+
+    <view class="item-outter" a:for="{{newItemList}}">
+      <navigator url="/pages/query/item/item?id={{item.id}}">
+        <image src="{{item.cover}}" class="new-item-cover" />
+
+      <view class="item-border">
+        <view class="tags" a:for="{{item.tagList}}" a:for-item="tag">{{tag}}</view>
+      </view> 
+
+      <view class="price-border">
+        <view class="price">￥{{item.priceDiscountYuan}}</view>
+        <view class="like-counts">
+          {{item.likeCounts}}
+          <image src="/resources/icon/smallIco/likes.png" class="like-ico" />
+        </view>
+      </view> 
+
+      </navigator>
+      
+    </view>
+  </view>
+
+
+</template>

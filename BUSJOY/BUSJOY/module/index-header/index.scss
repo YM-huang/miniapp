@@ -1,0 +1,58 @@
+@import "../../style/common";
+
+.header-wrapper {
+  border-top: 2rpx solid #EEEEEE;
+  align-self: flex-start;
+  width:100%;
+  box-sizing: border-box;
+  height: 78rpx;
+  background-color: #ffffff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  z-index: 100;
+  @include borderBottomDDD;
+  .splitLine{
+    height: 36rpx;
+    width: 2rpx;
+    background-color: #EFEFEF;
+  }
+  .drop-down-wrapper {
+    height: 100%;
+    width: 192rpx;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .left-text {
+      font-size: 28rpx;
+    }
+    .drop-down-arrow {
+      height: 12rpx;
+      width: 12rpx;
+      padding-left: 12rpx;
+      background-image: url('https://gw.alipayobjects.com/zos/rmsportal/mVsqYximfFGqvwvOwVtd.png');
+      background-repeat: no-repeat;
+      background-size: 12rpx 10rpx;
+    }
+  }
+  .drop-down-active {
+    background-color: rgba(37,39,40,.05);
+  }
+  .search-bar-wrapper {
+    flex: 1;
+    .am-search{
+      height: 0;
+      .am-search-input{
+        background: rgba(0, 0, 0, 0);
+      }
+    }
+    .content{
+      width:100%;
+    }
+    .am-search-cancel {
+      display: none;
+    }
+  }
+}

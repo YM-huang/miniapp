@@ -1,0 +1,56 @@
+.station-banner-container {
+  height: 240rpx;
+  background-image: url(https://gw.alipayobjects.com/zos/rmsportal/kwFVjhBQSGFkcDQiWSbS.png);
+  background-size: cover;
+  background-repeat: no-repeat;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 32rpx;
+  color: #FFFFFF;
+}
+
+.station-banner-container .stationDes .station {
+  margin-top: 42rpx;
+  font-family: PingFangSC-Medium;
+  font-size: 36rpx;
+  line-height: 50rpx;
+  letter-spacing: 0;
+  font-weight: bold;
+}
+
+.station-banner-container .stationDes .location {
+  margin-top: 8rpx;
+  font-family: PingFangSC-Regular;
+  font-size: 28rpx;
+  line-height: 40rpx;
+  width: 448rpx;
+  opacity: 0.6;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.station-banner-container .stationDiscount {
+  color: #FFFFFF;
+  text-align: center;
+  margin: 48rpx 0 108rpx 0;
+  padding-left: 32rpx;
+  border-left: 2rpx solid rgba(255, 255, 255, 0.6);
+}
+
+.station-banner-container .stationDiscount .fuelPrice {
+  font-family: PingFangSC-Medium;
+  font-size: 56rpx;
+  letter-spacing: 0;
+  text-align: left;
+}
+
+.station-banner-container .stationDiscount .fuelPrice .moneySign {
+  font-size: 36rpx;
+}
+
+.station-banner-container .stationDiscount .fuelPriceDiscount {
+  font-family: PingFangSC-Regular;
+  font-size: 24rpx;
+  opacity: 0.6;
+}

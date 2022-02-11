@@ -1,0 +1,113 @@
+.viewButton {
+    padding: 30rpx;
+    background:#f7f77f,
+}
+.swiperButton {
+    padding: 30rpx;
+    background:#f7f77f,
+}
+.scrollViewButton {
+    padding: 30rpx;
+    background:f7f7f7,
+}
+.coverViewButton {
+    padding: 30rpx;
+    background:f7f7f7,
+}
+.coverImageButton {
+    padding: 30rpx;
+    background:f7f7f7,
+}
+.movableViewButton {
+    padding: 30rpx;
+    background:f7f7f7,
+}
+.movableAreaButton {
+    padding: 30rpx;
+    background:f7f7f7,
+}
+.textButton {
+    padding: 30rpx;
+    background:f7f7f7,
+}
+.iconButton {
+    padding: 30rpx;
+    background:f7f7f7,
+}
+.loginButton {
+    padding: 30rpx;
+    background:f7f7f7,
+}
+.progressButton {
+    padding:30rpx;
+    background:f7f7f7,
+}
+.richTextButton{
+    padding:30rpx;
+    background:f7f7f7,
+}
+.button {
+    padding:30rpx;
+    background:f7f7f7,
+}
+
+.labelButton{
+    padding:30rpx;
+    background:f7f7f7,
+}
+.inputButton{
+    padding:30rpx;
+    background:f7f7f7,
+}
+.textareaButton {
+    padding:30rpx;
+    background:f7f7f7,
+}
+.radioButton{
+    padding:30rpx;
+    background:f7f7f7,
+}
+.switchButton{
+    padding:30rpx;
+    background:f7f7f7,
+}
+.sliderButton{
+    padding:30rpx;
+    background:f7f7f7,
+}
+.pickerViewButton{
+    padding:30rpx;
+    background:f7f7f7,
+}
+.pickerButton{
+    padding:30rpx;
+    background:f7f7f7,
+}
+.navigatorButton {
+    padding:30rpx;
+    background:f7f7f7,
+}
+.mediaImageButton {
+    padding:30rpx;
+    background:f7f7f7,
+}
+.meidaVideoButton{
+    padding:30rpx;
+    background:f7f7f7,
+}
+.canvasButton {
+    padding:30rpx;
+    background:f7f7f7,
+}
+.mapButton {
+    padding:30rpx;
+    background:f7f7f7,
+}
+.extendButton {
+    padding:30rpx;
+    background:f7f7f7,
+}
+.marketingButton{
+    padding:30rpx;
+    background:f7f7f7,
+}

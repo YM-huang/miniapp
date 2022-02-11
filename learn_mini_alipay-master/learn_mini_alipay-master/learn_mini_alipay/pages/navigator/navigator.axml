@@ -1,0 +1,6 @@
+<view class="page">
+  <view class="page-description">导航栏</view>
+  <navigator open-type="navigate" url="./navigate/navigate" hover-class="navigator-hover">跳转到新页面</navigator>
+  <navigator open-type="redirect" url="./redirect/redirect" hover-class="navigator-hover">在当前页打开</navigator>
+  <navigator open-type="reLaunch" url="./reLaunch/reLaunch" hover-class="navigator-hover">重新打开</navigator>
+</view>

@@ -1,0 +1,68 @@
+.market-card-wraper {
+  width: 310rpx;
+  height: 202rpx;
+  padding-top: 81rpx;
+  display: inline-block;
+  text-align: center;
+  box-sizing: border-box;
+  box-shadow: 2px 4px 12px 0 rgba(153, 153, 153, 0.11);
+}
+.market-card-wraper .content {
+  font-size: 28rpx;
+}
+.market-card-wraper .content .high-price {
+  font-size: 38rpx;
+  font-family: AlipayNumber-Regular;
+  color: #FF4A4B;
+  margin: 0 1rpx 0 6rpx;
+}
+.market-card-wraper .content .high-unit {
+  font-size: 30rpx;
+  color: #FF4A4B;
+  margin-right: 7rpx;
+}
+.market-card-wraper .des {
+  font-size: 22rpx;
+  color: #B6B6B6;
+  margin-top: 5rpx;
+}
+.market-card-wraper.jsyh {
+  background: url('https://gw.alipayobjects.com/mdn/rms_ec9563/afts/img/A*LmydSZ93s1QAAAAAAAAAAABkARQnAQ');
+  background-size: cover;
+}
+.market-card-wraper.gsyh {
+  background: url('https://gw.alipayobjects.com/mdn/rms_ec9563/afts/img/A*FBAgRL6IEp8AAAAAAAAAAABkARQnAQ');
+  background-size: cover;
+}
+.market-card-wraper.nyyh {
+  background: url('https://gw.alipayobjects.com/mdn/rms_ec9563/afts/img/A*QKIQT7JLMxAAAAAAAAAAAABkARQnAQ');
+  background-size: cover;
+}
+.market-card-wraper.large {
+  width: 678rpx;
+  text-align: left;
+  padding-left: 32rpx;
+  border-radius: 8rpx;
+}
+.market-card-wraper.large .content {
+  font-size: 34rpx;
+}
+.market-card-wraper.large .content .high-price {
+  font-size: 44rpx;
+}
+.market-card-wraper.large .des {
+  font-size: 24rpx;
+  margin-top: 4rpx;
+}
+.market-card-wraper.large.jsyh {
+  background: url('https://gw.alipayobjects.com/mdn/rms_ec9563/afts/img/A*LPlaSp6pyPAAAAAAAAAAAABkARQnAQ');
+  background-size: cover;
+}
+.market-card-wraper.large.gsyh {
+  background: url('https://gw.alipayobjects.com/mdn/rms_ec9563/afts/img/A*Bi6xRoeCVGgAAAAAAAAAAABkARQnAQ');
+  background-size: cover;
+}
+.market-card-wraper.large.nyyh {
+  background: url('https://gw.alipayobjects.com/mdn/rms_ec9563/afts/img/A*NWRAS4y41QMAAAAAAAAAAABkARQnAQ');
+  background-size: cover;
+}

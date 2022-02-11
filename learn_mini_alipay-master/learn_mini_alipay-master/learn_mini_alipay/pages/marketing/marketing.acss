@@ -1,0 +1,28 @@
+.wheelDrawButton{
+    padding:30rpx;
+    background:f7f7f7,
+}
+.fruitSlotsButton{
+    padding:30rpx;
+    background:f7f7f7,
+}
+.scratchCardButton{
+    padding:30rpx;
+    background:f7f7f7,
+}
+.hitEggsButton{
+    padding:30rpx;
+    background:f7f7f7,
+}
+.diceRollerButton{
+    padding:30rpx;
+    background:f7f7f7,
+}
+.flipDrawButton{
+    padding:30rpx;
+    background:f7f7f7,
+}
+.lockButton{
+    padding:30rpx;
+    background:f7f7f7,
+}

@@ -1,0 +1,7 @@
+{
+  "component": true,
+  "usingComponents":{
+    "search-bar":"mini-antui/es/search-bar/index",
+    "oil-type-popup": "../oil-type-popup/index"
+  }
+}

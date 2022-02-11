@@ -1,0 +1,28 @@
+<view class="page">
+  <view class="page-description">刮刮卡-效果预览</view>
+  <view class="page-section">
+    <view class="page-section-demo scratch-demo">
+      <scratch
+        tipText="刮刮我，有惊喜~"
+        tipColor="#902d02"
+        coverColor="#ffae8a"
+        ctxLogoUrl="https://gw.alipayobjects.com/zos/rmsportal/iGLmHkSxYfXveGhuzzFf.png"
+        autoFadeOut=true
+        resultText="{{resultText}}"
+        onFinish="onFinish"
+      />
+    </view>
+  </view>
+  <view class="page-description">刮刮卡-使用说明</view>
+  <view class="page-section">
+    <view class="page-section-demo">
+      <view class="page-section-text help-text">玩法说明:单指在刮刮卡区域进行刮卡抽奖。</view>
+      <view class="page-section-text">组件安装:</view>
+      <view class="code">yarn add ant-mini-scratch-card</view>
+      <view class="page-section-text">usingComponents 引入路径:</view>
+      <view class="code">ant-mini-scratch-card/es/scratch/index</view>
+      <view class="page-section-text">参数说明:</view>
+      <image src="{{docParamsImg}}" mode="widthFix" style="width: 100%" />
+    </view>
+  </view>
+</view>

@@ -1,0 +1,24 @@
+.m-super-page {
+  box-sizing: border-box;
+}
+.m-super-page .m-super-page-header {
+  box-sizing: border-box;
+}
+.m-super-page .m-super-page-body {
+  box-sizing: border-box;
+}
+.m-super-page .m-super-page-foot {
+  box-sizing: border-box;
+  position: relative;
+  min-height: 400rpx;
+}
+.m-super-page .m-super-page-foot .m-super-page-bottom-content {
+  font-size: 28rpx;
+  text-align: center;
+  color: #999;
+  padding-bottom: 32rpx;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}

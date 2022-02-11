@@ -1,0 +1,7 @@
+<view class="pullUpLoad am-loading">
+  <view class="am-loading-indicator" aria-hidden="true">
+    <view class="am-loading-item"></view>
+    <view class="am-loading-item"></view>
+    <view class="am-loading-item"></view>
+  </view>
+</view>

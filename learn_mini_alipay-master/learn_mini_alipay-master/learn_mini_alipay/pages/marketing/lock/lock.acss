@@ -1,0 +1,5 @@
+.lock-demo {
+  display: flex;
+  background: #fff;
+  justify-content: center;
+}

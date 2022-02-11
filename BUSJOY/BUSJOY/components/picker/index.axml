@@ -1,0 +1,12 @@
+<view
+  a:if={{show}}
+  class="hy-filter-mask {{className}}" 
+  disable-scroll="{{false}}"
+>
+  <view 
+    class="hy-filter-document" 
+    animation="{{animation}}"
+  >
+    <slot/>
+  </view>
+</view>

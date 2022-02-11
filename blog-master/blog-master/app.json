@@ -1,0 +1,18 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/posts/posts",
+    "pages/detail/detail",
+    "pages/logs/logs",
+    "pages/label/label",
+    "pages/archive/archive",
+    "pages/demo/demo",
+    "pages/throttle/throttle",
+    "pages/waterfall/waterfall"
+  ],
+  "window": {
+    "backgroundColor": "#fff",
+    "defaultTitle": "WeChat",
+    "titleBarColor": "#fff"
+  }
+}

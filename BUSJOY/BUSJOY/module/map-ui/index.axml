@@ -1,0 +1,19 @@
+<view class="map-wrapper">
+  <view class="map-content">
+    <map
+      id="map"
+      style="height: 100vh"
+      longitude="{{lbs.longitude}}"
+      latitude="{{lbs.latitude}}"
+      scale="{{scale}}"
+      onTap="tap"
+      controls="{{controls}}"
+      markers="{{markerList}}"
+      
+      onControlTap="controltap"
+      onMarkerTap="onMarkertap"
+      onRegionChange="regionchange"
+      show-location
+    ></map>
+  </view>
+</view>

@@ -1,0 +1,159 @@
+page {
+  flex-direction: column;
+}
+
+.popup {
+  visibility: hidden;
+}
+
+.popup-show {
+  visibility: visible;
+}
+
+.popup-show .popup-mask {
+  display: block;
+  opacity: 1;
+  pointer-events: auto;
+  transition: all 0.15s linear;
+}
+
+.popup-show .popup-container {
+  opacity: 1;
+  transform: none;
+  transition: all 0.15s linear;
+}
+
+.popup-mask {
+  opacity: 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  pointer-events: none;
+}
+
+.popup-container {
+  position: fixed;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  width: 100vw;
+  transform: translateY(100%);
+  transform-origin: center;
+  opacity: 0;
+  background-color: #FFFFFF;
+}
+
+.popup {
+  z-index: 900;
+}
+
+.popup-container {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.popup-container .popup-header {
+  position: relative;
+  padding-top: 32rpx;
+  padding-bottom: 28rpx;
+  border-bottom: 1rpx solid #eee;
+}
+
+.popup-container .popup-header .popup-arrowup-icon {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40rpx;
+  height: 40rpx;
+  background: url(https://gw.alipayobjects.com/zos/rmsportal/UbhKyRHnViLIfTIWRTSB.png) center no-repeat;
+  background-size: 36rpx 14rpx;
+}
+
+.popup-container .popup-header .popup-close-icon {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 96rpx;
+  height: 96rpx;
+  background: url(https://gw.alipayobjects.com/zos/rmsportal/eNodYVdheaEwotLHxCcS.png) center no-repeat;
+  background-size: 32rpx 32rpx;
+}
+
+.popup-container .popup-header .popup-title {
+  font-size: 36rpx;
+  line-height: 50rpx;
+  color: #333;
+  text-align: center;
+  font-family: PingFangSC-Medium;
+  letter-spacing: 0.37rpx;
+}
+
+.popup-container .popup-header .popup-subtitle {
+  margin-top: 8rpx;
+  font-size: 26rpx;
+  line-height: 37rpx;
+  color: #FF7755;
+  letter-spacing: 0.27rpx;
+  text-align: center;
+}
+
+.popup-container .petrol-wrapper {
+  padding: 41rpx 32rpx 60rpx;
+}
+
+.popup-container .petrol-wrapper .petrol-item-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-flow: row wrap;
+}
+
+.popup-container .diesel-wrapper {
+  padding: 0 32rpx 60rpx;
+}
+
+.popup-container .diesel-wrapper .diesel-item-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-flow: row wrap;
+}
+
+.popup-container .title {
+  font-family: PingFangSC-Medium;
+  padding-bottom: 4rpx;
+  font-size: 36rpx;
+  line-height: 50rpx;
+  color: #333333;
+  letter-spacing: 0;
+  text-align: left;
+}
+
+.popup-container .oil-item {
+  font-family: HelveticaNeue-Medium;
+  margin-top: 20rpx;
+  width: 206rpx;
+  height: 120rpx;
+  line-height: 120rpx;
+  border: 2rpx solid rgba(16, 142, 233, 0.4);
+  border-radius: 4rpx;
+  font-size: 36rpx;
+  color: #108EE9;
+  letter-spacing: 0;
+  text-align: center;
+  background: #FFFFFF;
+}
+
+.popup-container .oil-item-selected {
+  background: #108EE9;
+  border-radius: 4rpx;
+  color: #FFFFFF;
+}
+
+.popup-container .button-use {
+  padding: 0 32rpx 56rpx;
+}

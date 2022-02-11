@@ -1,0 +1,2 @@
+<loading size="400rpx" color="red" />
+<loading size="{{loadSize}}" color="blue" />

@@ -1,0 +1,15 @@
+<view class="footer">
+  <view class="discount">
+    <view class="totalAmount">实付金额</view>
+    <view>
+      <text class="redMoneySign">¥</text>
+      <text class="payNum">{{shouldpayNum || '0.00'}}</text>
+      <!-- <text class="hasDiscount hasDiscountWords">已优惠</text>
+      <text class="hasDiscount">¥</text>
+      <text class="hasDiscount">{{payMoney.discountNum}}</text> -->
+    </view>
+  </view>
+  <view>
+    <button class="{{ canPay ? 'canPay' : 'notPay'}}" onTap="onPay">立即支付</button>
+  </view>
+</view>

@@ -1,0 +1,11 @@
+page {
+  flex-direction: column;
+}
+
+.map-wrapper {
+  flex: 1;
+}
+
+.map-wrapper .map-content {
+  height: calc(100vh - 216px);
+}

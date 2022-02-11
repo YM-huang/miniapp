@@ -1,0 +1,9 @@
+.image {
+  background-color: red;
+  width: 100px;
+  height: 100px;
+}
+
+button + button {
+  margin-top: 32rpx;
+}

@@ -1,0 +1,15 @@
+<view class="sale-after-wraper">
+  <view class="content-wraper">
+    <view class="item" a:for="{{list}}">
+      <image class="icon" src="{{item.iconUrl}}"></image>
+      <view class="des">{{item.des}}</view>
+    </view>
+  </view>
+  <view class="bill">
+    <view class="content">
+      <image class="icon" src="https://gw.alipayobjects.com/mdn/rms_ec9563/afts/img/A*gpQzTKP0tcMAAAAAAAAAAABkARQnAQ"></image>
+      <text class="text">开电子发票</text>
+    </view>
+    <image class="arrow" src="https://gw.alipayobjects.com/mdn/rms_ec9563/afts/img/A*S44LRpc_2YQAAAAAAAAAAABkARQnAQ"></image>
+  </view>
+</view>
