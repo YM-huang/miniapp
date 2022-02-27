@@ -1,0 +1,28 @@
+/* pages/show/show.wxss */
+@import "../../wxParse/wxParse.wxss";
+.bg-box{
+  width: 90%;
+  height: 50px;
+  margin-left: 5%;
+  margin-bottom: 5%;
+  border-radius: 10px;
+  background-color: rgb(226, 171, 171);
+  border: chocolate;
+}
+.title-box{
+  display: flexbox;
+  text-align: center;
+}
+.title{
+  font-size: large;
+}
+.detial-box{
+  background-color: rgb(164, 194, 164);
+  border-radius: 20px;
+  width: 95%;
+  height: 100%;
+  margin-left: 2.5%;
+  margin-right: 2.5%;
+  margin-bottom: 2.5%;
+  margin-top: 2.5%;
+}

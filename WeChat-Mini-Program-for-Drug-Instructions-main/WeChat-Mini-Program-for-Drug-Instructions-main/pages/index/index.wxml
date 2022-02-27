@@ -1,0 +1,29 @@
+<!--index.wxml-->
+<import src="../temp/temp.wxml" />
+<view class="weui-search-bar">
+  <view class="weui-search-bar__form">
+    <view class="weui-search-bar__box">
+      <icon class="weui-icon-search_in-box" type="search" size="14"></icon>
+      <input type="text" class="weui-search-bar__input" disabled='true' placeholder="搜索药品" bindtap="wxSearchTab" />
+    </view>
+  </view>
+</view>
+
+<view>
+
+  <scroll-view scroll-y="true" style="height: 600px">
+    <view wx:for="{{NameList}}">
+      <template is="index" data="{{...item}}"></template>
+    </view>
+  </scroll-view>
+
+  <button open-type="share">
+    <image class='share-img' src='{{baseImgPath+"share.png"}}'></image>
+  </button>
+
+  <view class="weui-footer" style='padding-top:5px;padding-bottom:5px'>
+    <view class="weui-footer__text">CopyRight@洋大人</view>
+  </view>
+
+
+</view>

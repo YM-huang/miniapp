@@ -1,0 +1,9 @@
+<import src="../../wxParse/wxParse.wxml" />
+<view class="bg-box">
+  <view class="title-box">
+    <text class="title">{{ShowTitle}}的使用说明</text>
+  </view>
+</view>
+<view class="detial-box">
+  <template is="wxParse" data="{{wxParseData:article.nodes}}" />
+</view>

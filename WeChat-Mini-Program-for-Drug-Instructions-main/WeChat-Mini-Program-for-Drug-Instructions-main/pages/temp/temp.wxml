@@ -1,0 +1,7 @@
+<template name="index">
+    <view class="bg-box">
+      <view class="title-box">
+        <button class="title" bindtap="aBtn" data-title="{{title}}">药品名：{{title}}</button>
+      </view>
+    </view>
+</template>

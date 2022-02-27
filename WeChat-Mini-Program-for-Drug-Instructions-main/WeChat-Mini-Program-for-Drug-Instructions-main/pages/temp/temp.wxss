@@ -1,0 +1,17 @@
+/* pages/temp/temp.wxss */
+.bg-box{
+  width: 90%;
+  height: 50px;
+  margin-left: 5%;
+  margin-bottom: 5%;
+  border-radius: 10px;
+  background-color: rgb(226, 171, 171);
+  border: chocolate;
+}
+.title-box{
+  display: flexbox;
+  text-align: center;
+}
+.title{
+  font-size: medium;
+}
