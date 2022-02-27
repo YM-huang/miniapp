@@ -1,0 +1,23 @@
+/* pages/submit/submit.wxss */
+.index-submit-process1
+{
+    /* 按钮大小 */
+    /* width: 12em;
+    height: 2.1em; */
+
+    /* 按钮位置 */
+    margin: 40rpx;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    top: 30rpx;
+    /* margin: 6ch; */
+}
+.submit-item
+{
+    margin: 40rpx;
+    /* position: relative; */
+    /* left: 20rpx; */
+}
+
+  

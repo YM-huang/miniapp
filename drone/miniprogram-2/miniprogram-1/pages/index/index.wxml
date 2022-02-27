@@ -1,0 +1,52 @@
+<!--index-->
+<view class="page">
+    <!-- 侧边栏内容 -->
+    <view class="page-slidebar">
+        <view class="page-content">
+            <view class="wc">
+                <text>首页</text>
+            </view>
+            <view class="wc">
+                <text>发布任务</text>
+            </view>
+            <view class="wc">
+                <text>新手指南</text>
+            </view>
+        </view>
+    </view>
+    <view bindtouchmove="tap_drag" bindtouchend="tap_end" bindtouchstart="tap_start" class="page-top {{open ? ['c-state','cover'] : ''}} ">
+       <text>yiyiyi</text>
+       <swiper class="swiper-index" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}">
+        <block wx:for="{{imgItems}}">
+        <swiper-item>
+            <image src="{{item}}" class="slide-image"  mode="aspectFill" />
+        </swiper-item>
+    </block>
+</swiper>
+
+<button class="index-enter-button"  bindtap="gotoPageNewerTeach" size="mini">
+<view class="index-font-buttom">新手指南</view>
+</button>
+<view></view>
+<button class="index-enter-button" bindtap="gotoPageSubmit"  size="mini">
+<view class="index-font-buttom">发布任务</view>
+</button> 
+       
+    </view>
+</view>
+
+<!-- <view class="index-title">无人机</view>
+<view class="index-title">共享平台</view>  -->
+
+<!-- <van-popup
+  show="{{ show }}"
+  position="top"
+  custom-style="width: 100%;"
+  bind:close="onClose"
+/> -->
+
+
+
+
+
+

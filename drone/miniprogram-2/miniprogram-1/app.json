@@ -1,0 +1,50 @@
+{
+    "pages": [
+        "pages/index/index",
+        "pages/my/my",
+        "pages/index/submit/submit",
+        "pages/index/submit/process1/process1",
+        "pages/index/submit/process2/process2",
+        "pages/index/submit/process3/process3",
+        "pages/index/teaching/teaching",
+        "pages/logs/logs",
+        "pages/index/submit/process4/process4",
+        "pages/index/submit/process5/process5",
+        "pages/index/submit/process6/process6",
+        "utils/dateSetting",
+        "pages/my/discount/discount",
+        "pages/my/record/record"
+    ],
+    "window": {
+        "enablePullDownRefresh": true,
+        "backgroundTextStyle": "dark",
+        "navigationBarBackgroundColor": "#fff",
+        "navigationBarTitleText": "无人机共享平台",
+        "navigationBarTextStyle": "black"
+    },
+    "tabBar": {
+        "list": [
+            {
+                "pagePath": "pages/index/index",
+                "text": "首页",
+                "iconPath": "images/tab_home.png",
+                "selectedIconPath": "images/tab_home_selected.png"
+            },
+            {
+                "pagePath": "pages/my/my",
+                "text": "我的",
+                "iconPath": "images/tab_person.png",
+                "selectedIconPath": "images/tab_person_selected.png"
+            }
+        ],
+        "color": "#000000",
+        "selectedColor": "#000000",
+        "backgroundColor": "#ffffff"
+    },
+    "permission": {
+        "scope.userLocation": {
+            "desc": "你的位置信息将用于小程序位置接口的效果展示"
+        }
+    },
+    "sitemapLocation": "sitemap.json"
+}

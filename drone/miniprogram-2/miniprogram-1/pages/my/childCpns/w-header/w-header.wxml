@@ -1,0 +1,16 @@
+<!--pages/my/childCpns/w-header/w-header.wxml-->
+<view class='header'>
+  <view class='avatar'>
+    <image src="../../../../images/avatar.png"/>
+  </view>
+  <view class='login-info'>
+    <view class='login'>登录/注册</view>
+    <view class='phone'>
+      <image src="../../../../images/phone.png"/>
+      暂无绑定手机号
+    </view>
+  </view>
+  <view class='arrow'>
+    <image src="../../../../images/arrow-right.png"/>
+  </view>
+</view>

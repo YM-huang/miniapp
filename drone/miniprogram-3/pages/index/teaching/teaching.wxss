@@ -1,0 +1,7 @@
+/* pages/teaching/teaching.wxss */
+.index-teaching
+{
+    display:flex;
+    justify-content: center;
+    font-size: 3ch;
+}

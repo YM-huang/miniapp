@@ -1,0 +1,141 @@
+.index-enter-button
+{
+    /* 按钮大小位置 */
+    width: 40%;
+    height: 40px;
+    float:left;
+
+    /* 按钮渐变 */
+    margin-top: 40rpx;
+    background: linear-gradient(#5e8130, #61d134); 
+
+    /* 按钮镂空边框处理 */
+    margin: 15px;
+    padding: 2em 4em;
+    /* background: transparent;
+    border: 6px;
+    border-radius: 7px;
+    /* font-weight: 400; 
+    text-align: center;
+    box-shadow: 0px 6px 12px #06af77,0px 1px 2px #bf2fcb; */
+}
+.index-font-buttom
+{
+    /* 按钮字体 */
+    font-family:fantasy;
+    font-size: 1.5em;
+}
+.index-title{
+    /* 标题位置 */
+    display:flex;
+    justify-content: center;
+    align-items: center;
+
+    /* 标题边框 */
+    /* margin: 20px; */
+    /* padding: 1em 3em; */
+
+    /* 标题样式——颜色、大小、字体 */
+    color: #b0f577;
+    font-size:5ch;
+    /* font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; */
+    font-weight:bold;
+
+    
+}
+.index-images{
+    box-sizing: border-box;
+    /* border: 1px solid; */
+    width: 375px;
+    height: 550px;
+    position: fixed;
+    z-index: -1;
+}
+.slide-image{
+    box-sizing: border-box; 
+    /* border: 1px solid; */
+    width: 375px;
+    height: 550px; 
+    position: fixed; 
+    z-index: -1;
+} 
+.swiper-index
+{
+    /* height: 550px; */
+}
+/* 全局样式 */
+page, .page {
+    height: auto;
+    z-index: 5;
+    font-family: 'PingFang SC',
+                 'Helvetica Neue',
+                 Helvetica,
+                 'Droid Sans Fallback',
+                 'Microsoft Yachei',
+                 sans-serif;
+}
+ 
+/* 侧边栏样式 */
+.page-slidebar {
+    height: 100%;
+    width: 750rpx;
+    position: fixed;
+    background-color:white;
+    z-index: 0;
+}
+ 
+/* 控制侧边栏的内容距离顶部的距离 */
+.page-content {
+    padding-top: 60rpx;
+}
+ 
+/* 侧边栏内容的 css 样式 */
+.wc {
+    color:black;
+    padding: 30rpx 0 30rpx 150rpx;
+    border-bottom: 1px solid #eee; 
+}
+ 
+/* 当屏幕向左滑动，出现侧边栏的时候，主页的动画样式 */
+/* scale：取值范围 0~1 ，表示屏幕大小是原来的百分之几，可以自己修改成 0.8 试下*/
+/* translate(60%,0%) 表示向左滑动的时候，侧边栏占用平时的宽度为 60%   */
+.c-state {
+    transform: rotate(0deg) scale(1) translate(60%, 0%);
+    -webkit-transform: rotate(0deg) scale(1) translate(60%, 0%);
+}
+ 
+/* 主页样式 */
+.page-top {
+    height: 100%;
+    position: fixed;
+    width: 750rpx;
+    background-color:white;
+    z-index: 0;
+    transition: All 0.4s ease;
+    -webkit-transition: All 0.4s ease;
+}
+/* 左上角图标的样式 */
+.page-top image {
+    position: absolute;
+    width: 68rpx;
+    height: 68rpx;
+    left: 20rpx;
+    top: 20rpx;
+}
+ 
+/* 遮盖层样式 */
+.cover{
+    width: 100%;
+    height: 100%;
+    background-color:gray;
+    opacity: 0.5;
+    z-index: 9000;
+}
+ 
+.content{
+    margin-top: 100rpx; 
+} 
+
+.swi{
+    z-index: 0;
+}

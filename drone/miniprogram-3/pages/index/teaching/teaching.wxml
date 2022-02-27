@@ -1,0 +1,5 @@
+<!--pages/teaching/teaching.wxml-->
+<view class="index-teaching"><text>注意事项</text></view>
+<view>
+    1.该程序为用户端无人机共享平台小程序
+</view>

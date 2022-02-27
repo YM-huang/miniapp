@@ -1,0 +1,16 @@
+/* pages/index/submit/process3/process3.wxss */
+.index-submit-process2
+{
+    /* width: 12em;
+    height: 2.1em; */
+    margin: 40rpx;
+}
+.index-submit-process4
+{
+    /* width: 12em;
+    height: 2.1em; */
+    margin: 40rpx;
+}
+
+  
+  

@@ -1,0 +1,30 @@
+<!--pages/index/submit/process1/process1.wxml-->
+<van-tabs active="{{ active }}">
+  <van-tab title="信息一">飞行类型</van-tab>
+  <van-tab title="信息二">起始时间</van-tab>
+  <van-tab title="信息三">起始位置</van-tab>
+  <van-tab title="信息四">任务描述</van-tab>
+  <van-tab title="信息五">订单预算</van-tab>
+  <van-tab title="信息六">联系方式</van-tab>
+</van-tabs>
+
+<!-- 2.飞行起始时间 -->
+<view>飞行开始</view>
+<!-- 具体时间 -->
+<picker mode="multiSelector" bindchange="bindMultiPickerChange" bindcolumnchange="bindMultiPickerColumnChange" value="{{multiIndex}}" range="{{multiArray}}">
+    <input value='{{time}}' placeholder='选择时间'/>
+</picker>
+
+
+
+
+
+<view>飞行结束</view>
+<!-- 具体时间 -->
+<picker mode="multiSelector" bindchange="bindMultiPickerChange" bindcolumnchange="bindMultiPickerColumnChange" value="{{multiIndex}}" range="{{multiArray}}">
+    <input value='{{time}}' placeholder='选择时间'/>
+</picker>
+
+
+<!-- <button bindtap="gotoPageSubmit" type="primary" class="index-submit-process1"><text>上一步</text></button> -->
+<button bindtap="gotoPageProcess2" type="primary" class="index-submit-process3"><text>下一步</text></button>

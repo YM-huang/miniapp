@@ -1,0 +1,45 @@
+<!--pages/index/submit/process2/process2.wxml-->
+<!-- 3.飞行位置 -->
+<van-tabs active="{{ active }}">
+  <van-tab title="信息一">飞行类型</van-tab>
+  <van-tab title="信息二">起始时间</van-tab>
+  <van-tab title="信息三">起始位置</van-tab>
+  <van-tab title="信息四">任务描述</van-tab>
+  <van-tab title="信息五">订单预算</van-tab>
+  <van-tab title="信息六">联系方式</van-tab>
+</van-tabs>
+
+<view><text>起点</text></view>
+<!-- 这是地图部分 -->
+<van-index-bar>
+  <view>
+    <van-index-anchor index="A" />
+    <van-cell title="文本" />
+    <van-cell title="文本" />
+    <van-cell title="文本" />
+  </view>
+
+  <view>
+    <van-index-anchor index="B" />
+    <van-cell title="文本" />
+    <van-cell title="文本" />
+    <van-cell title="文本" />
+  </view>
+  <view>
+    <van-index-anchor index="B" />
+    <van-cell title="文本" />
+    <van-cell title="文本" />
+    <van-cell title="文本" />
+  </view>
+
+  <view>
+    <van-index-anchor index="B" />
+    <van-cell title="文本" />
+    <van-cell title="文本" />
+    <van-cell title="文本" />
+  </view>
+</van-index-bar>
+
+
+<!-- <button bindtap="gotoPageProcess1" type="primary" class="index-submit-process2"><view>上一步</view></button> -->
+<button bindtap="gotoPageProcess3" type="primary" class="index-submit-process4"><view>下一步</view></button>

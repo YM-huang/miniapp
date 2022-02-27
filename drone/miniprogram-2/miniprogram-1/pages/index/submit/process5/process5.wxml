@@ -1,0 +1,47 @@
+<!--pages/index/submit/process5/process5.wxml-->
+<!-- 6.联系方式 -->
+<!-- <view>
+    <text>联系方式</text>
+</view>
+<view>
+    <text>姓名：</text> 
+</view>
+<input type="text" name="" id=""/>
+<view>
+    <text>电话：</text> 
+</view>
+<input type="number" name="" id=""/>
+<view>
+    <text>邮箱：</text> 
+</view>
+<input type="text" name="" id=""/>
+<view></view> -->
+<van-tabs active="{{ active }}">
+  <van-tab title="信息一">飞行类型</van-tab>
+  <van-tab title="信息二">起始时间</van-tab>
+  <van-tab title="信息三">起始位置</van-tab>
+  <van-tab title="信息四">任务描述</van-tab>
+  <van-tab title="信息五">订单预算</van-tab>
+  <van-tab title="信息六">联系方式</van-tab>
+</van-tabs>
+
+<!-- 联系信息发布 -->
+<form bindsubmit='formSubmit'>
+ <view class='form'>
+ <text class='label'>姓名<text class='red'>(必填)</text></text>
+ <input class='int' name="name"></input>
+ <text class='label'>手机<text class='red'>(必填)</text></text>
+ <input class='int'name="phone" type="number" maxlength="11" bindinput="inputPhoneNum"></input>
+ <text class='label'>邮箱<text class='red'>(必填)</text></text>
+  <input class='int' name="email" bindchange="inputemail" ></input>
+  <text class='label' >单位<text class='red'>(必填)</text></text>
+  <input class='int' name="company" ></input>
+  <text class='label' >职务<text class='red'>(必填)</text></text>
+      <input class='int' name="job"></input>
+ </view>
+ <!-- 7.发布任务 -->
+ <!-- <button type="primary" bindtap="submit" class="index-submit-process4" bindtap="gotoPageProcess4">上一步</button> -->
+ <button class='index-submit' formType="submit" type="primary" >提交</button>
+</form>
+
+
