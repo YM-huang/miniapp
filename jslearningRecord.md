@@ -229,10 +229,10 @@ xiaoming.hasOwnProperty('name'); // true
 xiaoming.hasOwnProperty('toString'); // false
 ```
 
-###条件判断
+### 条件判断
 >JavaScript把null、undefined、0、NaN和空字符串''视为false，其他值一概视为true
 
-###循环
+### 循环
 ```javascript
 //要过滤掉对象继承的属性，用hasOwnProperty()来实现：
 var o = {
@@ -246,10 +246,73 @@ for (var key in o) {
     }
 }
 ```
+### Map和Set
+
+```javascript
+//初始化Map需要一个二维数组，或者直接初始化一个空Map。Map具有以下方法：
+var m = new Map(); // 空Map
+m.set('Adam', 67); // 添加新的key-value
+m.set('Bob', 59);
+m.has('Adam'); // 是否存在key 'Adam': true
+m.get('Adam'); // 67
+m.delete('Adam'); // 删除key 'Adam'
+m.get('Adam'); // undefined
+
+//由于一个key只能对应一个value，所以，多次对一个key放入value，后面的值会把前面的值冲掉：
+var m = new Map();
+m.set('Adam', 67);
+m.set('Adam', 88);
+m.get('Adam'); // 88
+```
+**set中没有重复的key**
+```javascript
+//Set和Map类似，也是一组key的集合，但不存储value。由于key不能重复，所以，在Set中，没有重复的key。
+var s1 = new Set(); // 空Set
+var s2 = new Set([1, 2, 3]); // 含1, 2, 3
+//重复元素在Set中自动被过滤：
+var s = new Set([1, 2, 3, 3, '3']);
+s; // Set {1, 2, 3, "3"}，注意数字3和字符串'3'是不同的元素。
+s.add(4);
+s; // Set {1, 2, 3, 4}
+s.add(4);
+s; // 仍然是 Set {1, 2, 3, 4}，重复添加无效
+
+var s = new Set([1, 2, 3]);
+s; // Set {1, 2, 3}
+s.delete(3);
+s; // Set {1, 2}
+```
+
+### iterable
+>for...of
+```javascript
+//遍历
+var a = ['A', 'B', 'C'];
+var s = new Set(['A', 'B', 'C']);
+var m = new Map([[1, 'x'], [2, 'y'], [3, 'z']]);
+for (var x of a) { // 遍历Array
+    console.log(x);
+}
+for (var x of s) { // 遍历Set
+    console.log(x);
+}
+for (var x of m) { // 遍历Map
+    console.log(x[0] + '=' + x[1]);
+}
 
 
+'use strict';
+var a = ['A', 'B', 'C'];
+a.forEach(function (element, index, array) {
+    // element: 指向当前元素的值
+    // index: 指向当前索引
+    // array: 指向Array对象本身
+    console.log(element + ', index = ' + index);
+});
+```
 
+## 函数
 
-
+### 函数的定义和调用
 
 
