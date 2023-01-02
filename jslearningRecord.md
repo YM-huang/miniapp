@@ -315,3 +315,36 @@ a.forEach(function (element, index, array) {
 
 ### 函数的定义和调用
 
+```javascript
+//方法一
+function abs(x) {
+    if (x >= 0) {
+        return x;
+    } else {
+        return -x;
+    }
+}
+
+//方法二
+var abs = function (x) {
+    if (x >= 0) {
+        return x;
+    } else {
+        return -x;
+    }
+};//结尾加一个;表示赋值语句结束
+
+//由于JavaScript允许传入任意个参数而不影响调用，因此传入的参数比定义的参数多也没有问题，虽然函数内部并不需要这些参数：
+abs(10, 'blablabla'); // 返回10
+abs(-9, 'haha', 'hehe', null); // 返回9
+abs(); // 返回NaN
+
+//求和
+let result = 0;
+    rest.forEach(n => {
+        result += n;
+    })
+    return result;
+}
+```
+
