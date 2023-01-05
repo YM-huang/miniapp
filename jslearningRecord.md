@@ -348,3 +348,22 @@ let result = 0;
 }
 ```
 
+### 变量作用域结构解析
+```javascript
+//javascript函数可以相互嵌套
+'use strict';
+function foo() {
+    var x = 1;
+    function bar() {
+        var x = 'A';
+        console.log('x in bar() = ' + x); // 'A'
+    }
+    console.log('x in foo() = ' + x); // 1
+    bar();
+}
+
+foo();//x in foo() = 1 x in bar() = A
+//这说明JavaScript的函数在查找变量时从自身函数定义开始，从“内”向“外”查找。如果内部函数定义了与外部函数重名的变量，则内部函数的变量将“屏蔽”外部函数的变量。
+
+
+```
