@@ -365,5 +365,130 @@ function foo() {
 foo();//x in foo() = 1 x in bar() = A
 //这说明JavaScript的函数在查找变量时从自身函数定义开始，从“内”向“外”查找。如果内部函数定义了与外部函数重名的变量，则内部函数的变量将“屏蔽”外部函数的变量。
 
+//函数提前声明
+'use strict';
 
+function foo() {
+    var x = 'Hello, ' + y;
+    console.log(x);
+    var y = 'Bob';
+}
+
+foo();
+
+//将变量提升到最顶部，实际上的解释为
+function foo() {
+    var y; // 提升变量y的申明，此时y为undefined
+    var x = 'Hello, ' + y;
+    console.log(x);
+    y = 'Bob';
+}
+
+//不在任何函数内定义的变量就具有全局作用域。实际上，JavaScript默认有一个全局对象window，全局作用域的变量实际上被绑定到window的一个属性：
+'use strict';
+
+window.alert('调用window.alert()');
+// 把alert保存到另一个变量:
+var old_alert = window.alert;
+// 给alert赋一个新函数:
+window.alert = function () {}
+
+// 恢复alert:
+window.alert = old_alert;
+alert('又可以用alert()了!');
+
+//全局变量由于会绑定到windows上，所以可能产生冲突，最好的方法是将所有变量绑定到一个全局变量上，例如：
+// 唯一的全局变量MYAPP:
+var MYAPP = 0;
+//其他变量
+MYAPP.name = 'myapp';
+MYAPP.version = 1.0;
+
+//其他函数
+MYAPP.foo = function(){
+	return 'foo'
+}
+//把自己的代码全部放入唯一的名字空间MYAPP中，会大大减少全局变量冲突的可能。
+
+//解构赋值
+'use strict';
+
+// 如果浏览器支持解构赋值就不会报错:
+var [x, y, z] = ['hello', 'JavaScript', 'ES6'];//多个变量要用[...]括起来。
+'use strict';
+// x, y, z分别被赋值为数组对应元素:
+console.log('x = ' + x + ', y = ' + y + ', z = ' + z);
+x = hello, y = JavaScript, z = ES6
+
+//如果数组本身还有嵌套，也可以通过下面的形式进行解构赋值，注意嵌套层次和位置要保持一致：
+let [x, [y, z]] = ['hello', ['JavaScript', 'ES6']];
+x; // 'hello'
+y; // 'JavaScript'
+z; // 'ES6'
+//还可以忽略某些元素
+let [, , z] = ['hello', 'JavaScript', 'ES6']; // 忽略前两个元素，只对z赋值第三个元素
+z; // 'ES6'
+
+//从某个对象中取出若干属性
+'use strict';
+
+var person = {
+    name: '小明',
+    age: 20,
+    gender: 'male',
+    passport: 'G-12345678',
+    school: 'No.4 middle school'
+};
+var {name, age, passport} = person;
+
+```
+```javascript
+//对一个对象进行解构赋值时，同样可以直接对嵌套的对象属性进行赋值，只要保证对应的层次是一致的：
+
+var person = {
+    name: '小明',
+    age: 20,
+    gender: 'male',
+    passport: 'G-12345678',
+    school: 'No.4 middle school',
+    address: {
+        city: 'Beijing',
+        street: 'No.1 Road',
+        zipcode: '100001'
+    }
+};
+var {name, address: {city, zip}} = person;
+name; // '小明'
+city; // 'Beijing'
+zip; // undefined, 因为属性名是zipcode而不是zip
+// 注意: address不是变量，而是为了让city和zip获得嵌套的address对象的属性:
+address; // Uncaught ReferenceError: address is not defined
+
+//使用解构赋值对对象属性进行赋值时，如果对应的属性不存在，变量将被赋值为undefined，这和引用一个不存在的属性获得undefined是一致的。如果要使用的变量名和属性名不一致，可以用下面的语法获取：
+
+var person = {
+    name: '小明',
+    age: 20,
+    gender: 'male',
+    passport: 'G-12345678',
+    school: 'No.4 middle school'
+};
+
+// 把passport属性赋值给变量id:
+let {name, passport:id} = person;
+name; // '小明'
+id; // 'G-12345678'
+// 注意: passport不是变量，而是为了让变量id获得passport属性:
+passport; // Uncaught ReferenceError: passport is not defined
+
+//有些时候，如果变量已经被声明了，再次赋值的时候，正确的写法也会报语法错误：
+
+// 声明变量:
+var x, y;
+// 解构赋值:
+{x, y} = { name: '小明', x: 100, y: 200};
+// 语法错误: Uncaught SyntaxError: Unexpected token =
+//这是因为JavaScript引擎把{开头的语句当作了块处理，于是=不再合法。解决方法是用小括号括起来：
+
+({x, y} = { name: '小明', x: 100, y: 200});
 ```
