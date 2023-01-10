@@ -128,6 +128,14 @@ var s = 'hello, world'
 s.substring(0, 5); // 从索引0开始到5（不包括5），返回'hello'
 s.substring(7); // 从索引7开始到结束，返回'world'
 ```
+#### split(字符串转数组)
+```javascript
+var str="How are you doing today?";
+var n=str.split();//输出结果How are you doing today?
+var n=str.split("");//H,o,w, ,a,r,e, ,y,o,u, ,d,o,i,n,g, ,t,o,d,a,y,?
+var n=str.split(" ",3);//使用limit参数，输出How,are,you
+var n=str.split("o");//H,w are y,u d,ing t,day?
+```
 
 ### 数组
 ```javascript
@@ -144,14 +152,18 @@ arr; // arr变为[1, 2]
 var arr = [1, 2, 3];
 arr[5] = 'x';
 arr; // arr变为[1, 2, 3, undefined, undefined, 'x']
-
+```
+#### indexof
+```javascript
 //indexof
 var arr = [10, 20, '30', 'xyz'];
 arr.indexOf(10); // 元素10的索引为0
 arr.indexOf(20); // 元素20的索引为1
 arr.indexOf(30); // 元素30没有找到，返回-1
 arr.indexOf('30'); // 元素'30'的索引为2
-
+```
+#### slice
+```javascript
 //slice
 var arr = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
 arr.slice(0, 3); // 从索引0开始，到索引3结束，但不包括索引3: ['A', 'B', 'C']
@@ -163,7 +175,9 @@ var aCopy = arr.slice();
 aCopy; // ['A', 'B', 'C', 'D', 'E', 'F', 'G']
 aCopy === arr; // false
 
-
+```
+#### splice(修改array万能方法)
+```javascript
 //splice
 //splice()方法是修改Array的“万能方法”，它可以从指定的索引开始删除若干元素，然后再从该位置添加若干元素：
 var arr = ['Microsoft', 'Apple', 'Yahoo', 'AOL', 'Excite', 'Oracle'];
@@ -176,8 +190,10 @@ arr; // ['Microsoft', 'Apple', 'Oracle']
 // 只添加,不删除:
 arr.splice(2, 0, 'Google', 'Facebook'); // 返回[],因为没有删除任何元素
 arr; // ['Microsoft', 'Apple', 'Google', 'Facebook', 'Oracle']
-
-//concat oncat()方法并没有修改当前Array，而是返回了一个新的Array。
+```
+#### concat
+```javascript
+//concat concat()方法并没有修改当前Array，而是返回了一个新的Array。
 var arr = ['A', 'B', 'C'];
 var added = arr.concat([1, 2, 3]);
 added; // ['A', 'B', 'C', 1, 2, 3]
@@ -185,7 +201,9 @@ arr; // ['A', 'B', 'C']
 //自动拆开
 var arr = ['A', 'B', 'C'];
 arr.concat(1, 2, [3, 4]); // ['A', 'B', 'C', 1, 2, 3, 4]
-
+```
+#### join(连接，数组转字符串)
+```javascript
 //join join()方法是一个非常实用的方法，它把当前Array的每个元素都用指定的字符串连接起来，然后返回连接后的字符串：如果Array的元素不是字符串，将自动转换为字符串后再连接。
 var arr = ['A', 'B', 'C', 1, 2, 3];
 arr.join('-'); // 'A-B-C-1-2-3'
@@ -601,4 +619,69 @@ arr.reduce(function (x, y) {
     return x + y;
 }); // 25
 
+//求积
+'use strict';
+//两种写法
+function product(arr) {
+    return arr.reduce((x,y)=>{return x*y});
+}
+function product(arr) {
+    return arr.reduce(function (x,y){
+        return x*y;
+    });
+}
+// 测试:
+if (product([1, 2, 3, 4]) === 24 && product([0, 1, 2]) === 0 && product([99, 88, 77, 66]) === 44274384) {
+    console.log('测试通过!');
+}
+else {
+    console.log('测试失败!');
+}
+
+//要把[1, 3, 5, 7, 9]变换成整数13579，reduce()也能派上用场：
+var arr = [1, 3, 5, 7, 9];
+arr.reduce(function (x, y) {
+    return x * 10 + y;
+}); // 13579
+//如果我们继续改进这个例子，想办法把一个字符串13579先变成Array——[1, 3, 5, 7, 9]，再利用reduce()就可以写出一个把字符串转换为Number的函数。
+
+//练习：不要使用JavaScript内置的parseInt()函数，利用map和reduce操作实现一个string2int()函数：
+function string2int(s) {
+    function str2array(s){//将字符串转变为数组
+        var a = [];
+        for (ch of s){
+            a.push(ch);
+        }
+        return a;
+    }
+    charArray = str2array(s);
+    intArray = charArray.map(function (ch){return ch-'0';});//与0比较
+    return intArray.reduce(function (x,y){return x*10 + y;});//计算结果
+}
+//或者使用split进行分割
+return s.split("").map((s)=>{return s-0}).reduce((x,y)=>{return x*10+y});
+
+//请把用户输入的不规范的英文名字，变为首字母大写，其他小写的规范名字。输入：['adam', 'LISA', 'barT']，输出：['Adam', 'Lisa', 'Bart']。
+//一一对应，使用map
+function normalize(arr) {
+    function norm(s){//将首字母变成大写，利用数组第一位变大写
+        s1=s[0];
+        s2=s.substring(1);
+        return s1.toUpperCase()+s2.toLowerCase();
+    }
+    return arr.map(norm);
+}
+//小明希望利用map()把字符串变成整数，他写的代码很简洁：
+'use strict';
+
+var arr = ['1', '2', '3'];
+var r;
+r=arr.map(parseInt)//1,NaN,NaN
+//原因：由于map()接收的回调函数可以有3个参数：callback(currentValue, index, array)，通常我们仅需要第一个参数，而忽略了传入的后面两个参数。不幸的是，parseInt(string, radix)没有忽略第二个参数，导致实际执行的函数分别是：
+//parseInt('1', 0); // 1, 按十进制转换
+//parseInt('2', 1); // NaN, 没有一进制
+//parseInt('3', 2); // NaN, 按二进制转换不允许出现3
+//可以改为r = arr.map(Number);，因为Number(value)函数仅接收一个参数。
 ```
+
+#### Filter
