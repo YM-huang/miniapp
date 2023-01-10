@@ -684,4 +684,553 @@ r=arr.map(parseInt)//1,NaN,NaN
 //可以改为r = arr.map(Number);，因为Number(value)函数仅接收一个参数。
 ```
 
-#### Filter
+#### Filter(过滤，去重)
+>用于把array的某些元素过滤掉，然后返回剩下的元素，true保留，false丢弃
+```javascript
+//例如，在一个Array中，删掉偶数，只保留奇数，可以这么写：
+var arr = [1, 2, 4, 5, 6, 9, 10, 15];
+var r = arr.filter(function (x) {
+    return x % 2 !== 0;
+});
+r; // [1, 5, 9, 15]
+
+//把一个Array中的空字符串删掉，可以这么写：
+var arr = ['A', '', 'B', null, undefined, 'C', '  '];
+var r = arr.filter(function (s) {
+    return s && s.trim(); // 注意：IE9以下的版本没有trim()方法
+});
+r; // ['A', 'B', 'C']
+
+//回调函数
+//filter()接收的回调函数，其实可以有多个参数。通常我们仅使用第一个参数，表示Array的某个元素。回调函数还可以接收另外两个参数，表示元素的位置和数组本身：
+var arr = ['A', 'B', 'C'];
+var r = arr.filter(function (element, index, self) {
+    console.log(element); // 依次打印'A', 'B', 'C'
+    console.log(index); // 依次打印0, 1, 2
+    console.log(self); // self就是变量arr
+    return true;
+});
+
+//利用filter，可以巧妙地去除Array的重复元素：
+'use strict';
+var
+    r,
+    arr = ['apple', 'strawberry', 'banana', 'pear', 'apple', 'orange', 'orange', 'strawberry'];
+r = arr.filter(function (element, index, self) {
+    return self.indexOf(element) === index;//去除重复元素依靠的是indexOf总是返回第一个元素的位置，后续的重复元素位置与indexOf返回的位置不相等，因此被filter滤掉了。
+});
+
+//筛选素数
+'use strict';
+
+function get_primes(arr) {
+    return arr.filter(function(x){
+            var a = x;
+            var c = 0;
+            for (var b = 2; b < a; b++) {
+                if (a % b !== 0) {
+                    c++;
+                };
+            };
+            if(c === (a - 2)) {//如果相等说明，公约数只有a和1，是质数，所以保留
+                return true;
+            }else {
+                return false;
+            }
+        });
+        
+  	//另一种解法
+  	return arr.filter((value, index, array) => {
+    // return 素数
+    for (let i = 2; i <= Math.floor(value / 2); i++) {
+        if (value % i === 0) {
+            return false
+        }
+    }
+    return value !== 1 // 1 不是素数
+ }
+ // 测试:
+var
+    x,
+    r,
+    arr = [];
+for (x = 1; x < 100; x++) {
+    arr.push(x);
+}
+r = get_primes(arr);
+if (r.toString() === [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97].toString()) {
+    console.log('测试通过!');
+} else {
+    console.log('测试失败: ' + r.toString());
+}
+```
+
+#### sort
+>先转换成字符串再进行得比较，所以会有坑
+>对于两个元素x和y，如果认为x < y，则返回-1，如果认为x == y，则返回0，如果认为x > y，则返回1
+>sort()方法会直接对Array进行修改，它返回的结果仍是当前Array：
+>1.sort 函数默认按 ASCII 排序，很多语言都是这样
+>2.sort 函数的底层是用 TimSort 算法实现的，这个算法是工业级算法，Python，JAVA 的 sort 函数底层都是这个
+>3.**不是冒泡排序！不是冒泡排序！** **不是冒泡排序！楼下涉及到冒泡排序实现的都是错的！**别被下面的教程误导！冒泡排序是最简单也是效率最低的算法，除了考试业内没几个人用！
+>4.新人学习没有必要纠结为什么这样，你先接受了，有一定的基础再研究为什么，要不然就是钻到牛角尖里了
+```javascript
+// 看上去正常的结果:
+['Google', 'Apple', 'Microsoft'].sort(); // ['Apple', 'Google', 'Microsoft'];
+
+// apple排在了最后:
+['Google', 'apple', 'Microsoft'].sort(); // ['Google', 'Microsoft", 'apple']
+
+// 无法理解的结果:
+[10, 20, 1, 2].sort(); // [1, 10, 2, 20]
+//第二个排序把apple排在了最后，是因为字符串根据ASCII码进行排序，而小写字母a的ASCII码在大写字母之后。
+//第三个排序结果是什么鬼？简单的数字排序都能错？
+//这是因为Array的sort()方法默认把所有元素先转换为String再排序，结果'10'排在了'2'的前面，因为字符'1'比字符'2'的ASCII码小。
+
+//但是可以自定义，对于数字的排序写法
+'use strict';
+var arr = [10, 20, 1, 2];
+arr.sort(function (x, y) {
+    if (x < y) {
+        return -1;
+    }
+    if (x > y) {
+        return 1;
+    }
+    return 0;
+});
+console.log(arr); // [1, 2, 10, 20]
+//如果要倒叙
+var arr = [10, 20, 1, 2];
+arr.sort(function (x, y) {
+    if (x < y) {
+        return 1;//这个地方改变
+    }
+    if (x > y) {
+        return -1;
+    }
+    return 0;
+}); // [20, 10, 2, 1]
+
+//如果要忽略大小写，直接用首字母来排序。可以自己定义
+var arr = ['Google', 'apple', 'Microsoft'];
+arr.sort(function(a,b){
+	x1 = a.toUpperCase();
+    x2 = b.toUpperCase();
+	if(x1<x2){
+		return -1;
+	}
+	else if(x1>x2)
+		return 1;
+	return 0;
+});// ['apple', 'Google', 'Microsoft']
+
+var a1 = ['B', 'A', 'C'];
+var a2 = a1.sort();
+a1; // ['A', 'B', 'C']
+a2; // ['A', 'B', 'C']
+a1 === a2; // true, a1和a2是同一对象
+```
+#### Array
+>对于数组，除了map()、reduce、filter()、sort()这些方法可以传入一个函数外，Array对象还提供了很多非常实用的高阶函数。
+
+##### every
+```javascript
+//every()方法可以判断数组的所有元素是否满足测试条件。
+//例如，给定一个包含若干字符串的数组，判断所有字符串是否满足指定的测试条件：
+'use strict';
+var arr = ['Apple', 'pear', 'orange'];
+console.log(arr.every(function (s) {
+    return s.length > 0;
+})); // true, 因为每个元素都满足s.length>0
+console.log(arr.every(function (s) {
+    return s.toLowerCase() === s;
+})); // false, 因为不是每个元素都全部是小写
+```
+
+##### find
+```javascript
+//find()方法用于查找符合条件的第一个元素，如果找到了，返回这个元素，否则，返回undefined：
+'use strict';
+var arr = ['Apple', 'pear', 'orange'];
+console.log(arr.find(function (s) {
+    return s.toLowerCase() === s;
+})); // 'pear', 因为pear全部是小写
+
+console.log(arr.find(function (s) {
+    return s.toUpperCase() === s;
+})); // undefined, 因为没有全部是大写的元素
+```
+
+##### findIndex
+```javascript
+//findIndex()和find()类似，也是查找符合条件的第一个元素，不同之处在于findIndex()会返回这个元素的索引，如果没有找到，返回-1：
+'use strict';
+var arr = ['Apple', 'pear', 'orange'];
+console.log(arr.findIndex(function (s) {
+    return s.toLowerCase() === s;
+})); // 1, 因为'pear'的索引是1
+
+console.log(arr.findIndex(function (s) {
+    return s.toUpperCase() === s;
+})); // -1
+
+```
+
+##### forEach
+```javascript
+//forEach()和map()类似，它也把每个元素依次作用于传入的函数，但不会返回新的数组。forEach()常用于遍历数组，因此，传入的函数不需要返回值：
+'use strict';
+var arr = ['Apple', 'pear', 'orange'];
+arr.forEach(console.log); // 依次打印每个元素
+
+```
+
+### 闭包
+>高阶函数除了可以接受函数作为参数外，还可以把函数作为结果值返回。
+>返回闭包时牢记的一点就是：返回函数不要引用任何循环变量，或者后续会发生变化的变量。(会取最后一次变换之后的值)
+```javascript
+//我们来实现一个对Array的求和。通常情况下，求和的函数是这样定义的：
+function sum(arr) {
+    return arr.reduce(function (x, y) {
+        return x + y;
+    });
+}
+sum([1, 2, 3, 4, 5]); // 15
+
+//但是，如果不需要立刻求和，而是在后面的代码中，根据需要再计算怎么办？可以不返回求和的结果，而是返回求和的函数！
+function lazy_sum(arr) {
+    var sum = function () {
+        return arr.reduce(function (x, y) {
+            return x + y;
+        });
+    }
+    return sum;
+}
+
+//当我们调用lazy_sum()时，返回的并不是求和结果，而是求和函数：
+var f = lazy_sum([1, 2, 3, 4, 5]); // function sum()
+//调用函数f时，才真正计算求和的结果：
+f(); // 15
+
+//请再注意一点，当我们调用lazy_sum()时，每次调用都会返回一个新的函数，即使传入相同的参数：
+var f1 = lazy_sum([1, 2, 3, 4, 5]);
+var f2 = lazy_sum([1, 2, 3, 4, 5]);
+f1 === f2; // false  f1()和f2()的调用结果互不影响。
+
+//如果一定要引用循环变量怎么办？方法是再创建一个函数，用该函数的参数绑定循环变量当前的值，无论该循环变量后续如何更改，已绑定到函数参数的值不变：
+function count() {
+    var arr = [];
+    for (var i=1; i<=3; i++) {
+        arr.push((function (n) {
+            return function () {
+                return n * n;//这样绑定的n后续不会发生变化
+            }
+        })(i));
+    }
+    return arr;
+}
+
+var results = count();
+var f1 = results[0];
+var f2 = results[1];
+var f3 = results[2];
+
+f1(); // 1
+f2(); // 4
+f3(); // 9
+
+//理论上讲，创建一个匿名函数并立刻执行可以这么写：
+function (x) { return x * x } (3);
+//但是由于JavaScript语法解析的问题，会报SyntaxError错误，因此需要用括号把整个函数定义括起来：
+(function (x) { return x * x }) (3);
+//通常，一个立即执行的匿名函数可以把函数体拆开，一般这么写：
+(function (x) {
+    return x * x;
+})(3);
+
+//在没有class机制，只有函数的语言里，借助闭包，同样可以封装一个私有变量。我们用JavaScript创建一个计数器：
+'use strict';
+function create_counter(initial) {
+    var x = initial || 0;
+    return {
+        inc: function () {
+            x += 1;
+            return x;
+        }
+    }
+}
+//使用
+var c1 = create_counter();
+c1.inc(); // 1
+c1.inc(); // 2
+c1.inc(); // 3
+
+var c2 = create_counter(10);
+c2.inc(); // 11
+c2.inc(); // 12
+c2.inc(); // 13
+
+//在返回的对象中，实现了一个闭包，该闭包携带了局部变量x，并且，从外部代码根本无法访问到变量x。换句话说，闭包就是携带状态的函数，并且它的状态可以完全对外隐藏起来。
+
+//闭包还可以把多参数的函数变成单参数的函数。例如，要计算xy可以用Math.pow(x, y)函数，不过考虑到经常计算x2或x3，我们可以利用闭包创建新的函数pow2和pow3：
+'use strict';
+
+function make_pow(n) {
+    return function (x) {
+        return Math.pow(x, n);
+    }
+}
+// 创建两个新函数:
+var pow2 = make_pow(2);
+var pow3 = make_pow(3);
+
+console.log(pow2(5)); // 25
+console.log(pow3(7)); // 343
+
+```
+#### 闭包自定义次数
+```javascript
+'use strict';
+
+// 定义数字0:
+var zero = function (f) {
+    return function (x) {
+        return x;
+    }
+};
+
+// 定义数字1:
+var one = function (f) {
+    return function (x) {
+        return f(x);
+    }
+};
+
+// 定义加法:
+function add(n, m) {
+    return function (f) {
+        return function (x) {
+            return m(f)(n(f)(x));
+        }
+    }
+}
+// 计算数字2 = 1 + 1:
+var two = add(one, one);
+
+// 计算数字3 = 1 + 2:
+var three = add(one, two);
+
+// 计算数字5 = 2 + 3:
+var five = add(two, three);
+
+// 你说它是3就是3，你说它是5就是5，你怎么证明？
+
+// 呵呵，看这里:
+
+// 给3传一个函数,会打印3次:
+(three(function () {
+    console.log('print 3 times');
+}))();
+
+// 给5传一个函数,会打印5次:
+(five(function () {
+    console.log('print 5 times');
+}))();
+
+// 继续接着玩一会...
+zero(f)(x) = x;
+one(f)(x) = f(x);
+two(f)(x) = one(f)(one(f)(x)) = one(f)(f(x)) = f(f(x));
+three(f)(x) = two(f)(one(f)(x)) = two(f)(f(x)) = f(f(f(x)));
+...
+five(f)(x) = f(f(f(f(f(x)))));
+```
+
+### 箭头函数
+```javascript
+//x => x * x 相当于 function (x) {	return x * x;}
+
+//两种定义方式
+var fn = x => x * x;//1
+
+x => {//2
+    if (x > 0) {
+        return x * x;
+    }
+    else {
+        return - x * x;
+    }
+}
+
+//如果参数不是一个，就需要用括号()括起来：
+// 两个参数:
+(x, y) => x * x + y * y
+
+// 无参数:
+() => 3.14
+
+// 可变参数:
+(x, y, ...rest) => {
+    var i, sum = x + y;
+    for (i=0; i<rest.length; i++) {
+        sum += rest[i];
+    }
+    return sum;
+}
+
+//如果要返回一个对象，就要注意，如果是单表达式，这么写的话会报错：
+// SyntaxError:
+x => { foo: x }
+//因为和函数体的{ ... }有语法冲突，所以要改为：
+// ok:
+x => ({ foo: x })
+
+```
+#### this(面试，js中this的指向)
+>箭头函数看上去是匿名函数的一种简写，但实际上，箭头函数和匿名函数有个明显的区别：箭头函数内部的this是词法作用域，由上下文确定。
+>this指向 https://juejin.cn/post/6844903746984476686
+
+```javascript
+//回顾前面的例子，由于JavaScript函数对this绑定的错误处理，下面的例子无法得到预期结果：
+var obj = {
+    birth: 1990,
+    getAge: function () {
+        var b = this.birth; // 1990
+        var fn = function () {
+            return new Date().getFullYear() - this.birth; // this指向window或undefined
+        };
+        return fn();
+    }
+};
+//现在，箭头函数完全修复了this的指向，this总是指向词法作用域，也就是外层调用者obj：
+var obj = {
+    birth: 1990,
+    getAge: function () {
+        var b = this.birth; // 1990
+        var fn = () => new Date().getFullYear() - this.birth; // this指向obj对象
+        return fn();
+    }
+};
+obj.getAge(); // 25
+
+//由于this在箭头函数中已经按照词法作用域绑定了，所以，用call()或者apply()调用箭头函数时，无法对this进行绑定，即传入的第一个参数被忽略：
+var obj = {
+    birth: 1990,
+    getAge: function (year) {
+        var b = this.birth; // 1990
+        var fn = (y) => y - this.birth; // this.birth仍是1990
+        return fn.call({birth:2000}, year);
+    }
+};
+obj.getAge(2015); // 25
+
+//箭头函数简化sort
+'use strict'
+var arr = [10, 20, 1, 2];
+arr.sort((x, y) => {
+    return x-y;//x>y的话就是1，x<y是-1，相等为0
+});
+console.log(arr); // [1, 2, 10, 20]
+```
+
+### generator
+>由function*定义，除了return还可以用yield返回多次
+>generator还有另一个巨大的好处，就是把异步回调代码变成“同步”代码。这个好处要等到后面学了AJAX以后才能体会到
+
+```javascript
+function* foo(x) {
+    yield x + 1;
+    yield x + 2;
+    return x + 3;
+}
+
+//要编写一个产生斐波那契数列的函数，可以这么写：
+function fib(max) {
+    var
+        t,
+        a = 0,
+        b = 1,
+        arr = [0, 1];
+    while (arr.length < max) {
+        [a, b] = [b, a + b];
+        arr.push(b);
+    }
+    return arr;
+}
+
+// 测试:
+fib(5); // [0, 1, 1, 2, 3]
+fib(10); // [0, 1, 1, 2, 3, 5, 8, 13, 21, 34]
+
+//函数只能返回一次，所以必须返回一个Array。但是，如果换成generator，就可以一次返回一个数，不断返回多次。用generator改写如下：
+function* fib(max) {
+    var
+        t,
+        a = 0,
+        b = 1,
+        n = 0;
+    while (n < max) {
+        yield a;
+        [a, b] = [b, a + b];
+        n ++;
+    }
+    return;
+}
+
+//直接调用试试：
+fib(5); // fib {[[GeneratorStatus]]: "suspended", [[GeneratorReceiver]]: Window}
+//直接调用一个generator和调用函数不一样，fib(5)仅仅是创建了一个generator对象，还没有去执行它。调用generator对象有两个方法，一是不断地调用generator对象的next()方法：
+
+var f = fib(5);
+f.next(); // {value: 0, done: false}
+f.next(); // {value: 1, done: false}
+f.next(); // {value: 1, done: false}
+f.next(); // {value: 2, done: false}
+f.next(); // {value: 3, done: false}
+f.next(); // {value: undefined, done: true}
+//next()方法会执行generator的代码，然后，每次遇到yield x;就返回一个对象{value: x, done: true/false}，然后“暂停”。返回的value就是yield的返回值，done表示这个generator是否已经执行结束了。如果done为true，则value就是return的返回值。当执行到done为true时，这个generator对象就已经全部执行完毕，不要再继续调用next()了。
+
+//第二个方法是直接用for ... of循环迭代generator对象，这种方式不需要我们自己判断done：
+'use strict'
+
+function* fib(max) {
+    var
+        t,
+        a = 0,
+        b = 1,
+        n = 0;
+    while (n < max) {
+        yield a;
+        [a, b] = [b, a + b];
+        n ++;
+    }
+    return;
+}
+for (var x of fib(10)) {
+    console.log(x); // 依次输出0, 1, 1, 2, 3, ...
+}
+
+//记录状态
+function* next_id() {
+let seqNo = 1;                // 从 1 开始自增采号
+    while(true) {               //  不限制自增变量的大小
+        yield seqNo++;      // 自增后暂停
+    }
+    return; // 可以省略，function 会作隐式返回，即：return undefined;
+}
+// 测试:
+var
+    x,
+    pass = true,
+    g = next_id();
+for (x = 1; x < 100; x ++) {
+    if (g.next().value !== x) {
+        pass = false;
+        console.log('测试失败!');
+        break;
+    }
+}
+if (pass) {
+    console.log('测试通过!');
+}
+```
