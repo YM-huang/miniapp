@@ -348,7 +348,7 @@ let result = 0;
 }
 ```
 
-### 变量作用域结构解析
+### 变量作用域结构解析（*解构赋值*）
 ```javascript
 //javascript函数可以相互嵌套
 'use strict';
@@ -494,3 +494,111 @@ var x, y;
 ```
 
 ### 方法
+>绑定到对象上的函数称为方法
+```javascript
+var xiaoming = {
+    name: '小明',
+    birth: 1990,
+    age: function () {
+        var y = new Date().getFullYear();
+        return y - this.birth;//在一个方法内部，this是一个特殊变量，它始终指向当前对象，也就是xiaoming这个变量。所以，this.birth可以拿到xiaoming的birth属性。
+    }
+};
+
+xiaoming.age; // function xiaoming.age()
+xiaoming.age(); // 今年调用是25,明年调用就变成26了
+
+//在strict条件下，在内部建立新函数的时候this指向内部一层。在外部先用一个that捕获this
+//用var that = this;，你就可以放心地在方法内部定义其他函数，而不是把所有语句都堆到一个方法中。
+'use strict';
+
+var xiaoming = {
+    name: '小明',
+    birth: 1990,
+    age: function () {
+        var that = this; // 在方法内部一开始就捕获this
+        function getAgeFromBirth() {
+            var y = new Date().getFullYear();
+            return y - that.birth; // 用that而不是this
+        }
+        return getAgeFromBirth();
+    }
+};
+
+xiaoming.age(); // 25
+
+//要指定函数的this指向哪个对象，可以用函数本身的apply方法，它接收两个参数，第一个参数就是需要绑定的this变量，第二个参数是Array，表示函数本身的参数。
+function getAge() {
+    var y = new Date().getFullYear();
+    return y - this.birth;
+}
+
+var xiaoming = {
+    name: '小明',
+    birth: 1990,
+    age: getAge
+};
+
+xiaoming.age(); // 25
+getAge.apply(xiaoming, []); // 25, this指向xiaoming, 参数为空
+
+//与apply类似的是call，apply传入的是数组，call是按顺序传入参数。
+//对普通函数调用，我们通常把this绑定为null。
+Math.max.apply(null, [3, 5, 4]); // 5
+Math.max.call(null, 3, 5, 4); // 5
+
+//利用apply()，我们还可以动态改变函数的行为。
+//JavaScript的所有对象都是动态的，即使内置的函数，我们也可以重新指向新的函数。
+//现在假定我们想统计一下代码一共调用了多少次parseInt()，可以把所有的调用都找出来，然后手动加上count += 1，不过这样做太傻了。最佳方案是用我们自己的函数替换掉默认的parseInt()：
+'use strict';
+
+var count = 0;
+var oldParseInt = parseInt; // 保存原函数
+
+window.parseInt = function () {
+    count += 1;
+    return oldParseInt.apply(null, arguments); // 调用原函数
+};
+// 测试:
+parseInt('10');
+parseInt('20');
+parseInt('30');
+console.log('count = ' + count); // 3
+
+```
+
+### 高阶函数
+>函数内可以接收以另一个函数作为参数
+
+#### Map/Reduce
+
+##### Map
+![image-20230110153021472](image/image-20230110153021472.png)
+```javascript
+//由于map()方法定义在JavaScript的Array中，我们调用Array的map()方法，传入我们自己的函数，就得到了一个新的Array作为结果：
+'use strict';
+
+function pow(x) {
+    return x * x;
+}
+var arr = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+var results = arr.map(pow); // [1, 4, 9, 16, 25, 36, 49, 64, 81]
+console.log(results);
+
+//map可以计算任何抽象函数
+var arr = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+arr.map(String); // ['1', '2', '3', '4', '5', '6', '7', '8', '9']
+```
+
+##### Reduce
+```javascript
+//再看reduce的用法。Array的reduce()把一个函数作用在这个Array的[x1, x2, x3...]上，这个函数必须接收两个参数，reduce()把结果继续和序列的下一个元素做累积计算，其效果就是：
+[x1, x2, x3, x4].reduce(f) = f(f(f(x1, x2), x3), x4)
+
+//比如对一个函数的求和
+var arr = [1, 3, 5, 7, 9];
+arr.reduce(function (x, y) {
+    return x + y;
+}); // 25
+
+```
