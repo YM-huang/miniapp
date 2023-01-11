@@ -128,7 +128,7 @@ var s = 'hello, world'
 s.substring(0, 5); // 从索引0开始到5（不包括5），返回'hello'
 s.substring(7); // 从索引7开始到结束，返回'world'
 ```
-#### split(字符串转数组)
+#### **split(字符串转数组)**
 ```javascript
 var str="How are you doing today?";
 var n=str.split();//输出结果How are you doing today?
@@ -366,7 +366,7 @@ let result = 0;
 }
 ```
 
-### 变量作用域结构解析（*解构赋值*）
+### **变量作用域结构解析（*解构赋值*）**
 ```javascript
 //javascript函数可以相互嵌套
 'use strict';
@@ -1086,9 +1086,11 @@ x => { foo: x }
 x => ({ foo: x })
 
 ```
-#### this(面试，js中this的指向)
+#### **this(面试，js中this的指向)**
 >箭头函数看上去是匿名函数的一种简写，但实际上，箭头函数和匿名函数有个明显的区别：箭头函数内部的this是词法作用域，由上下文确定。
 >this指向 https://juejin.cn/post/6844903746984476686
+>
+>箭头函数：https://www.open-open.com/lib/view/open1482063707519.html
 
 ```javascript
 //回顾前面的例子，由于JavaScript函数对this绑定的错误处理，下面的例子无法得到预期结果：
@@ -1234,3 +1236,374 @@ if (pass) {
     console.log('测试通过!');
 }
 ```
+
+## 标准对象
+>1. 不要包装对象（不要new），尤其是string
+>2. 不要使用new Number()、new Boolean()、new String()创建包装对象；
+>3. 用parseInt()或parseFloat()来转换任意类型到number；
+>4. 用String()来转换任意类型到string，或者直接调用某个对象的toString()方法；
+>5. 通常不必把任意类型转换为boolean再判断，因为可以直接写if (myVar) {...}；
+>6. typeof操作符可以判断出number、boolean、string、function和undefined；
+>7. 判断Array要使用Array.isArray(arr)；
+>8. 判断null请使用myVar === null；
+>9. 判断某个全局变量是否存在用typeof window.myVar === 'undefined'；
+>10. 函数内部判断某个变量是否存在用typeof myVar === 'undefined'。
+>任何对象都有toString()方法吗？null和undefined就没有！确实如此，这两个特殊值要除外，虽然null还伪装成了object类型。
+
+```javascript
+//但是某些对象还是和其他对象不太一样。为了区分对象的类型，我们用typeof操作符获取对象的类型，它总是返回一个字符串：
+typeof 123; // 'number'
+typeof NaN; // 'number'
+typeof 'str'; // 'string'
+typeof true; // 'boolean'
+typeof undefined; // 'undefined'
+typeof Math.abs; // 'function'
+typeof null; // 'object'
+typeof []; // 'object'
+typeof {}; // 'object'
+
+//包装对象
+var n = new Number(123); // 123,生成了新的包装类型
+var b = new Boolean(true); // true,生成了新的包装类型
+var s = new String('str'); // 'str',生成了新的包装类型
+//虽然包装对象看上去和原来的值一模一样，显示出来也是一模一样，但他们的类型已经变为object了！所以，包装对象和原始值用===比较会返回false：
+typeof new Number(123); // 'object'
+new Number(123) === 123; // false
+
+typeof new Boolean(true); // 'object'
+new Boolean(true) === true; // false
+
+typeof new String('str'); // 'object'
+new String('str') === 'str'; // false
+
+//更细心的同学指出，number对象调用toString()报SyntaxError：
+
+123.toString(); // SyntaxError
+//遇到这种情况，要特殊处理一下：
+
+123..toString(); // '123', 注意是两个点！
+(123).toString(); // '123'
+```
+
+### Date
+```javascript
+//注意，当前时间是浏览器从本机操作系统获取的时间，所以不一定准确，因为用户可以把当前时间设定为任何值。
+var now = new Date();
+now; // Wed Jun 24 2015 19:49:22 GMT+0800 (CST)
+now.getFullYear(); // 2015, 年份
+now.getMonth(); // 5, 月份，注意月份范围是0~11，5表示六月
+now.getDate(); // 24, 表示24号
+now.getDay(); // 3, 表示星期三
+now.getHours(); // 19, 24小时制
+now.getMinutes(); // 49, 分钟
+now.getSeconds(); // 22, 秒
+now.getMilliseconds(); // 875, 毫秒数
+now.getTime(); // 1435146562875, 以number形式表示的时间戳
+
+//如果要创建一个指定日期和时间的Date对象，可以用：
+var d = new Date(2015, 5, 19, 20, 15, 30, 123);//JavaScript的月份范围用整数表示是0~11，0表示一月，1表示二月……，所以要表示6月，我们传入的是5！
+d; // Fri Jun 19 2015 20:15:30 GMT+0800 (CST)
+
+//第二种创建一个指定日期和时间的方法是解析一个符合ISO 8601格式的字符串：
+var d = Date.parse('2015-06-24T19:49:22.875+08:00');
+d; // 1435146562875
+
+//Date对象表示的时间总是按浏览器所在时区显示的，不过我们既可以显示本地时间，也可以显示调整后的UTC时间：
+
+var d = new Date(1435146562875);
+d.toLocaleString(); // '2015/6/24 下午7:49:22'，本地时间（北京时区+8:00），显示的字符串与操作系统设定的格式有关
+d.toUTCString(); // 'Wed, 24 Jun 2015 11:49:22 GMT'，UTC时间，与本地时间相差8小时
+```
+
+### **RegExp(正则表达式)**
+
+#### 基础
+>* 正则的设计思想是用一种描述性的语言来给字符串定义一个规则，凡是符合规则的字符串，我们就认为它“匹配”了，否则，该字符串就是不合法的。
+>* \d可以匹配一个数字，\w可以匹配一个字母或数字，\s表示一个空格
+>* .匹配任意字符
+>* 匹配变长字符，\*表示任意多个，+表示至少一个，？表示0或1个，{n}表示n个，{n,m}表示n到m个。
+
+判断一个字符串是否是合法的Email的方法是：
+1. 创建一个匹配Email的正则表达式；
+2. 用该正则表达式去匹配用户的输入来判断是否合法。  
+
+在正则表达式中，如果直接给出字符，就是精确匹配。用\d可以匹配一个数字，\w可以匹配一个字母或数字，所以：
+* '00\d'可以匹配'007'，但无法匹配'00A'；
+* '\d\d\d'可以匹配'010'；
+* '\w\w'可以匹配'js'；  
+
+**.** 可以匹配任意字符，所以：
+
+* 'js.'可以匹配'jsp'、'jss'、'js!'等等。  
+
+要匹配变长的字符，在正则表达式中，用\*表示任意个字符（包括0个），用+表示至少一个字符，用?表示0个或1个字符，用{n}表示n个字符，用{n,m}表示n-m个字符：  
+
+来看一个复杂的例子：**\d{3}\s+\d{3,8}** 
+我们来从左到右解读一下：
+1. \d{3}表示匹配3个数字，例如'010'；
+2. \s可以匹配一个空格（也包括Tab等空白符），所以\s+表示至少有一个空格，例如匹配' '，'\t\t'等；
+3. \d{3,8}表示3-8个数字，例如'1234567'。
+
+综合起来，上面的正则表达式可以匹配以任意个空格隔开的带区号的电话号码。  
+
+如果要匹配'010-12345'这样的号码呢？由于'-'是特殊字符，在正则表达式中，要用'\'转义，所以，上面的正则是\d{3}\-\d{3,8}。   
+
+但是，仍然无法匹配'010 - 12345'，因为带有空格。所以我们需要更复杂的匹配方式。  
+
+#### 进阶
+>要做更精确地匹配，可以用[]表示范围。
+>A|B可以匹配A或B，所以(J|j)ava(S|s)cript可以匹配'JavaScript'、'Javascript'、'javaScript'或者'javascript'。
+>^表示行的开头，^\d表示必须以数字开头。
+>$表示行的结束，\d$表示必须以数字结束。
+
+**要做更精确地匹配，可以用[]表示范围，比如：**  
+* [0-9a-zA-Z\\_]可以匹配一个数字、字母或者下划线；
+* [0-9a-zA-Z\\_]+可以匹配至少由一个数字、字母或者下划线组成的字符串，比如'a100'，'0_Z'，'js2015'等等；
+* [a-zA-Z\\\_\\$] [0-9a-zA-Z\\_\\$]*可以匹配由字母或下划线、$开头，后接任意个由一个数字、字母或者下划线、$组成的字符串，也就是JavaScript允许的变量名；
+* [a-zA-Z\\\_\\$] [0-9a-zA-Z\\_\\$]{0, 19}更精确地限制了变量的长度是1-20个字符（前面1个字符+后面最多19个字符）。  
+
+**A|B可以匹配A或B，所以(J|j)ava(S|s)cript可以匹配'JavaScript'、'Javascript'、'javaScript'或者'javascript'。 **
+
+**^表示行的开头，^\d表示必须以数字开头。  **
+
+**$表示行的结束，\d$表示必须以数字结束。**
+
+#### js中正则的使用
+
+##### 创建及测试
+```javascript
+
+//第一种方式是直接通过/正则表达式/写出来，第二种方式是通过new RegExp('正则表达式')创建一个RegExp对象。
+//两种写法是一样的：
+var re1 = /ABC\-001/;
+var re2 = new RegExp('ABC\\-001');//由于转义的问题，两个\\只显示一个
+
+re1; // /ABC\-001/
+re2; // /ABC\-001/
+
+//测试
+var re = /^\d{3}\-\d{3,8}$/;
+re.test('010-12345'); // true
+re.test('010-1234x'); // false
+re.test('010 12345'); // false
+
+```
+
+##### 切分字符串
+>用正则表达式切分字符串比用固定的字符更灵活
+
+```javascript
+//正常的切割，无法识别连续空格
+'a b   c'.split(' '); // ['a', 'b', '', '', 'c']
+//使用正则表达式,
+'a b   c'.split(/\s+/); // ['a', 'b', 'c']，意思是用空格做切分，\s是空格
+//无论多少个空格都可以正常分割。加入,试试：
+'a,b, c  d'.split(/[\s\,]+/); // ['a', 'b', 'c', 'd']
+//再加入;试试：
+'a,b;; c  d'.split(/[\s\,\;]+/); // ['a', 'b', 'c', 'd']
+```
+
+##### 分组
+>除了简单地判断是否匹配之外，正则表达式还有提取子串的强大功能。用()表示的就是要提取的分组（Group）。
+
+```javascript
+//分组示例
+//^(\d{3})-(\d{3,8})$分别定义了两个组，可以直接从匹配的字符串中提取出区号和本地号码：
+var re = /^(\d{3})-(\d{3,8})$/;
+re.exec('010-12345'); // ['010-12345', '010', '12345']
+re.exec('010 12345'); // null
+//如果正则表达式中定义了组，就可以在RegExp对象上用exec()方法提取出子串来。exec()方法在匹配失败时返回null。
+
+var re = /^(0[0-9]|1[0-9]|2[0-3]|[0-9])\:(0[0-9]|1[0-9]|2[0-9]|3[0-9]|4[0-9]|5[0-9]|[0-9])\:(0[0-9]|1[0-9]|2[0-9]|3[0-9]|4[0-9]|5[0-9]|[0-9])$/;// /^([0-2][0-9]|[0-9])\:([0-5][0-9]|[0-9])\:([0-5][0-9]|[0-9])$/
+re.exec('19:05:30'); // ['19:05:30', '19', '05', '30']
+
+//但是有些时候，用正则表达式也无法做到完全验证，比如识别日期：
+var re = /^(0[1-9]|1[0-2]|[0-9])-(0[1-9]|1[0-9]|2[0-9]|3[0-1]|[0-9])$/;//对于'2-30'，'4-31'这样的非法日期，用正则还是识别不了，或者说写出来非常困难，这时就需要程序配合识别了。
+```
+
+##### 贪婪匹配
+>需要特别指出的是，正则匹配默认是贪婪匹配，也就是匹配尽可能多的字符。
+>在匹配后面加？使得类似\d+采用非贪婪匹配
+
+```javascript
+//匹配出数字后面的0
+var re = /^(\d+)(0*)$/;
+re.exec('102300'); // ['102300', '102300', '']
+
+//由于\d+采用贪婪匹配，直接把后面的0全部匹配了，结果0*只能匹配空字符串了。
+//必须让\d+采用非贪婪匹配（也就是尽可能少匹配），才能把后面的0匹配出来，加个?就可以让\d+采用非贪婪匹配：
+var re = /^(\d+?)(0*)$/;
+re.exec('102300'); // ['102300', '1023', '00']
+```
+
+##### 全局搜索、多行匹配
+>g表示全局匹配
+>多行匹配参考：https://zh.javascript.info/regexp-multiline-mode
+
+```javascript
+var r1 = /test/g;
+// 等价于:
+var r2 = new RegExp('test', 'g');
+//全局匹配可以多次执行exec()方法来搜索一个匹配的字符串。当我们指定g标志后，每次运行exec()，正则表达式本身会更新lastIndex属性，表示上次匹配到的最后索引：
+var s = 'JavaScript, VBScript, JScript and ECMAScript';
+var re=/[a-zA-Z]+Script/g;
+
+// 使用全局匹配:
+re.exec(s); // ['JavaScript']
+re.lastIndex; // 10
+
+re.exec(s); // ['VBScript']
+re.lastIndex; // 20
+
+re.exec(s); // ['JScript']
+re.lastIndex; // 29
+
+re.exec(s); // ['ECMAScript']
+re.lastIndex; // 44
+
+re.exec(s); // null，直到结束仍没有匹配到
+//全局匹配类似搜索，因此不能使用/^...$/，那样只会最多匹配一次。
+//正则表达式还可以指定i标志，表示忽略大小写，m标志，表示执行多行匹配。
+
+```
+
+##### 测试
+```javascript
+//验证邮箱地址
+var re = /^[\w\.]+@\w+\.(com|org)$/;//任意各字符和点@任意个字符.com或者org
+
+//验证带名字的
+var re = /^<([\w\s]+)>\s+([\w\.]+@\w+\.org)$/;
+// 测试:
+var r = re.exec('<Tom Paris> tom@voyager.org');
+if (r === null || r.toString() !== ['<Tom Paris> tom@voyager.org', 'Tom Paris', 'tom@voyager.org'].toString()) {
+    console.log('测试失败!');
+}
+else {
+    console.log('测试成功!');
+}
+```
+
+### JSON
+>在JSON中，一共就这么几种数据类型：
+>* number：和JavaScript的number完全一致；
+>* boolean：就是JavaScript的true或false；
+>* string：就是JavaScript的string；
+>* null：就是JavaScript的null；
+>* array：就是JavaScript的Array表示方式——[]；
+>* object：就是JavaScript的{ ... }表示方式。
+>
+>如果我们收到一个JSON格式的字符串，只需要把它反序列化成一个JavaScript对象，就可以在JavaScript中直接使用这个对象了
+
+#### 序列化
+
+```javascript
+//按缩进输出
+'use strict';
+
+var xiaoming = {
+    name: '小明',
+    age: 14,
+    gender: true,
+    height: 1.65,
+    grade: null,
+    'middle-school': '\"W3C\" Middle School',
+    skills: ['JavaScript', 'Java', 'Python', 'Lisp']
+};
+var s = JSON.stringify(xiaoming,null,' ');
+console.log(s);
+
+//结果
+{
+ "name": "小明",
+ "age": 14,
+ "gender": true,
+ "height": 1.65,
+ "grade": null,
+ "middle-school": "\"W3C\" Middle School",
+ "skills": [
+  "JavaScript",
+  "Java",
+  "Python",
+  "Lisp"
+ ]
+}
+
+//第二个参数用于控制如何筛选对象的键值，如果我们只想输出指定的属性，可以传入Array：
+JSON.stringify(xiaoming, ['name', 'skills'], '  ');
+//结果
+{
+  "name": "小明",
+  "skills": [
+    "JavaScript",
+    "Java",
+    "Python",
+    "Lisp"
+  ]
+}
+//还可以传入一个函数，这样对象的每个键值对都会被函数先处理：
+function convert(key, value) {
+    if (typeof value === 'string') {
+        return value.toUpperCase();
+    }
+    return value;
+}
+
+JSON.stringify(xiaoming, convert, '  ');
+//结果
+{
+  "name": "小明",
+  "age": 14,
+  "gender": true,
+  "height": 1.65,
+  "grade": null,
+  "middle-school": "\"W3C\" MIDDLE SCHOOL",
+  "skills": [
+    "JAVASCRIPT",
+    "JAVA",
+    "PYTHON",
+    "LISP"
+  ]
+}
+
+//如果我们还想要精确控制如何序列化小明，可以给xiaoming定义一个toJSON()的方法，直接返回JSON应该序列化的数据：
+var xiaoming = {
+    name: '小明',
+    age: 14,
+    gender: true,
+    height: 1.65,
+    grade: null,
+    'middle-school': '\"W3C\" Middle School',
+    skills: ['JavaScript', 'Java', 'Python', 'Lisp'],
+    toJSON: function () {
+        return { // 只输出name和age，并且改变了key：
+            'Name': this.name,
+            'Age': this.age
+        };
+    }
+};
+
+JSON.stringify(xiaoming); // '{"Name":"小明","Age":14}'
+```
+
+#### 反序列化
+>拿到一个JSON格式的字符串，我们直接用JSON.parse()把它变成一个JavaScript对象
+
+```javascript
+JSON.parse('[1,2,3,true]'); // [1, 2, 3, true]
+JSON.parse('{"name":"小明","age":14}'); // Object {name: '小明', age: 14}
+JSON.parse('true'); // true
+JSON.parse('123.45'); // 123.45
+
+//JSON.parse()还可以接收一个函数，用来转换解析出的属性：
+var obj = JSON.parse('{"name":"小明","age":14}', function (key, value) {
+    if (key === 'name') {
+        return value + '同学';
+    }
+    return value;
+});
+console.log(JSON.stringify(obj)); // {name: '小明同学', age: 14}
+```
+
+## 面向对象编程
+
