@@ -4026,3 +4026,160 @@ $(function(){
 })
 ```
 ### 动画
+用JavaScript实现动画，原理非常简单：我们只需要以固定的时间间隔（例如，0.1秒），每次把DOM元素的CSS样式修改一点（例如，高宽各增加10%），看起来就像动画了。
+
+但是要用JavaScript手动实现动画效果，需要编写非常复杂的代码。如果想要把动画效果用函数封装起来便于复用，那考虑的事情就更多了。
+
+使用jQuery实现动画，代码已经简单得不能再简化了：只需要一行代码！
+
+让我们先来看看jQuery内置的几种动画样式：
+#### show / hide
+直接以无参数形式调用show()和hide()，会显示和隐藏DOM元素。但是，只要传递一个时间参数进去，就变成了动画：
+```js
+var div = $('#test-show-hide');
+div.hide(3000); // 在3秒钟内逐渐消失
+```
+时间以毫秒为单位，但也可以是'slow'，'fast'这些字符串：
+```js
+var div = $('#test-show-hide');
+div.show('slow'); // 在0.6秒钟内逐渐显示
+```
+toggle()方法则根据当前状态决定是show()还是hide()。
+
+```js
+//在执行删除操作时，给用户显示一个动画比直接调用remove()要更好。请在表格删除一行的时候添加一个淡出的动画效果：
+'use strict';
+
+function deleteFirstTR() {
+    var tr = $('#test-table>tbody>tr:visible').first();
+    tr.hide(1000, function(){tr.remove();});
+}
+
+deleteFirstTR();
+```
+
+
+
+#### slideUp / slideDown
+你可能已经看出来了，show()和hide()是从左上角逐渐展开或收缩的，而slideUp()和slideDown()则是在垂直方向逐渐展开或收缩的。
+
+slideUp()把一个可见的DOM元素收起来，效果跟拉上窗帘似的，slideDown()相反，而slideToggle()则根据元素是否可见来决定下一步动作：
+```js
+var div = $('#test-slide');
+div.slideUp(3000); // 在3秒钟内逐渐向上消失
+```
+#### fadeIn / fadeOut
+fadeIn()和fadeOut()的动画效果是淡入淡出，也就是通过不断设置DOM元素的opacity属性来实现，而fadeToggle()则根据元素是否可见来决定下一步动作：
+```js
+var div = $('#test-fade');
+div.fadeOut('slow'); // 在0.6秒内淡出
+```
+#### 自定义动画
+如果上述动画效果还不能满足你的要求，那就祭出最后大招：animate()，它可以实现任意动画效果，我们需要传入的参数就是DOM元素最终的CSS状态和时间，jQuery在时间段内不断调整CSS直到达到我们设定的值：
+```js
+var div = $('#test-animate');
+div.animate({
+    opacity: 0.25,
+    width: '256px',
+    height: '256px'
+}, 3000); // 在3秒钟内CSS过渡到设定值
+```
+animate()还可以再传入一个函数，当动画结束时，该函数将被调用：
+```js
+var div = $('#test-animate');
+div.animate({
+    opacity: 0.25,
+    width: '256px',
+    height: '256px'
+}, 3000, function () {
+    console.log('动画已结束');
+    // 恢复至初始状态:
+    $(this).css('opacity', '1.0').css('width', '128px').css('height', '128px');
+});
+```
+#### 串行动画
+jQuery的动画效果还可以串行执行，通过delay()方法还可以实现暂停，这样，我们可以实现更复杂的动画效果，而代码却相当简单：
+```js
+var div = $('#test-animates');
+// 动画效果：slideDown - 暂停 - 放大 - 暂停 - 缩小
+div.slideDown(2000)
+   .delay(1000)
+   .animate({
+       width: '256px',
+       height: '256px'
+   }, 2000)
+   .delay(1000)
+   .animate({
+       width: '128px',
+       height: '128px'
+   }, 2000);
+}
+```
+因为动画需要执行一段时间，所以jQuery必须不断返回新的Promise对象才能后续执行操作。简单地把动画封装在函数中是不够的。
+#### 为什么有的动画没有效果
+你可能会遇到，有的动画如slideUp()根本没有效果。这是因为jQuery动画的原理是逐渐改变CSS的值，如height从100px逐渐变为0。但是很多不是block性质的DOM元素，对它们设置height根本就不起作用，所以动画也就没有效果。
+
+此外，jQuery也没有实现对background-color的动画效果，用animate()设置background-color也没有效果。这种情况下可以使用CSS3的transition实现动画效果。
+
+### AJAX
+>用jQuery的相关对象来处理AJAX，不但不需要考虑浏览器问题，代码也能大大简化。
+
+jQuery在全局对象jQuery（也就是$）绑定了ajax()函数，可以处理AJAX请求。ajax(url, settings)函数需要接收一个URL和一个可选的settings对象，常用的选项如下：
+* async：是否异步执行AJAX请求，默认为true，千万不要指定为false；
+* method：发送的Method，缺省为'GET'，可指定为'POST'、'PUT'等；
+* contentType：发送POST请求的格式，默认值为'application/x-www-form-urlencoded; charset=UTF-8'，也可以指定为text/plain、application/json；
+* data：发送的数据，可以是字符串、数组或object。如果是GET请求，data将被转换成query附加到URL上，如果是POST请求，根据contentType把data序列化成合适的格式；
+* headers：发送的额外的HTTP头，必须是一个object；
+* dataType：接收的数据格式，可以指定为'html'、'xml'、'json'、'text'等，缺省情况下根据响应的Content-Type猜测。
+
+下面的例子发送一个GET请求，并返回一个JSON格式的数据：
+```js
+var jqxhr = $.ajax('/api/categories', {
+    dataType: 'json'
+});
+// 请求已经发送了
+```
+不过，如何用回调函数处理返回的数据和出错时的响应呢？
+
+还记得Promise对象吗？jQuery的jqXHR对象类似一个Promise对象，我们可以用链式写法来处理各种回调：
+```js
+'use strict';
+
+function ajaxLog(s) {
+    var txt = $('#test-response-text');
+    txt.val(txt.val() + '\n' + s);
+}
+
+$('#test-response-text').val('');
+var jqxhr = $.ajax('/api/categories', {
+    dataType: 'json'
+}).done(function (data) {
+    ajaxLog('成功, 收到的数据: ' + JSON.stringify(data));
+}).fail(function (xhr, status) {
+    ajaxLog('失败: ' + xhr.status + ', 原因: ' + status);
+}).always(function () {
+    ajaxLog('请求完成: 无论成功或失败都会调用');
+});
+```
+
+#### Get
+对常用的AJAX操作，jQuery提供了一些辅助方法。由于GET请求最常见，所以jQuery提供了get()方法，可以这么写：
+```js
+var jqxhr = $.get('/path/to/resource', {
+    name: 'Bob Lee',
+    check: 1
+});
+```
+第二个参数如果是object，jQuery自动把它变成query string然后加到URL后面，实际的URL是：
+```js
+/path/to/resource?name=Bob%20Lee&check=1
+```
+这样我们就不用关心如何用URL编码并构造一个query string了。
+#### post
+post()和get()类似，但是传入的第二个参数默认被序列化为application/x-www-form-urlencoded：
+```js
+var jqxhr = $.post('/path/to/resource', {
+    name: 'Bob Lee',
+    check: 1
+});
+```
