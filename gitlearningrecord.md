@@ -1570,3 +1570,89 @@ index 0000000..d8036c1
 注意：标签总是和某个commit挂钩。如果这个commit既出现在master分支，又出现在dev分支，那么在这两个分支上都可以看到这个标签。
 
 ### 操作标签
+>* 命令git push origin \<tagname>可以推送一个本地标签；
+>* 命令git push origin --tags可以推送全部未推送过的本地标签；
+>* 命令git tag -d \<tagname>可以删除一个本地标签；
+>* 命令git push origin :refs/tags/\<tagname>可以删除一个远程标签。
+
+如果标签打错了，也可以删除：
+```shell
+$ git tag -d v0.1
+Deleted tag 'v0.1' (was 6500595)
+```
+因为创建的标签都只存储在本地，不会自动推送到远程。所以，打错的标签可以在本地安全删除。
+
+如果要推送某个标签到远程，使用命令git push origin \<tagname>：
+```shell
+$ git push origin v1.0
+Total 0 (delta 0), reused 0 (delta 0)
+To github.com:michaelliao/learngit.git
+ * [new tag]         v1.0 -> v1.0
+```
+或者，一次性推送全部尚未推送到远程的本地标签：
+```shell
+$ git push origin --tags
+Total 0 (delta 0), reused 0 (delta 0)
+To github.com:michaelliao/learngit.git
+ * [new tag]         v0.9 -> v0.9
+```
+然后，从远程删除。删除命令也是push，但是格式如下：
+```shell
+$ git push origin :refs/tags/v0.9
+To github.com:michaelliao/learngit.git
+ - [deleted]         v0.9
+```
+要看看是否真的从远程库删除了标签，可以登陆GitHub查看。
+## 使用Github
+>* 在GitHub上，可以任意Fork开源仓库；
+>* 自己拥有Fork后的仓库的读写权限；
+>* 可以推送pull request给官方仓库来贡献代码。
+
+如何参与一个开源项目呢？比如人气极高的bootstrap项目，这是一个非常强大的CSS框架，你可以访问它的项目主页https://github.com/twbs/bootstrap， 点“Fork”就在自己的账号下克隆了一个bootstrap仓库，然后，从自己的账号下clone：
+```shell
+git clone git@github.com:michaelliao/bootstrap.git
+```
+一定要从自己的账号下clone仓库，这样你才能推送修改。如果从bootstrap的作者的仓库地址git@github.com:twbs/bootstrap.git克隆，因为没有权限，你将不能推送修改。
+
+Bootstrap的官方仓库twbs/bootstrap、你在GitHub上克隆的仓库my/bootstrap，以及你自己克隆到本地电脑的仓库，他们的关系就像下图显示的那样：
+┌─ GitHub ────────────────────────────────────┐
+│                                             │
+│ ┌─────────────────┐     ┌─────────────────┐ │
+│ │ twbs/bootstrap  │────>│  my/bootstrap   │ │
+│ └─────────────────┘     └─────────────────┘ │
+│                                  ▲          │
+└──────────────────────────────────┼──────────┘
+                                   ▼
+                          ┌─────────────────┐
+                          │ local/bootstrap │
+                          └─────────────────┘
+如果你想修复bootstrap的一个bug，或者新增一个功能，立刻就可以开始干活，干完后，往自己的仓库推送。
+如果你希望bootstrap的官方库能接受你的修改，你就可以在GitHub上发起一个pull request。当然，对方是否接受你的pull request就不一定了。
+## 使用GITEE
+
+
+## 自定义GIT
+在安装Git一节中，我们已经配置了user.name和user.email，实际上，Git还有很多可配置项。
+
+比如，让Git显示颜色，会让命令输出看起来更醒目：
+```shell
+$ git config --global color.ui true
+```
+这样，Git会适当地显示不同的颜色，比如git status命令：
+
+文件名就会标上颜色。
+
+我们在后面还会介绍如何更好地配置Git，以便让你的工作更高效。
+### 忽略特殊文件
+有些时候，你必须把某些文件放到Git工作目录中，但又不能提交它们，比如保存了数据库密码的配置文件啦，等等，每次git status都会显示Untracked files ...，有强迫症的童鞋心里肯定不爽。
+
+好在Git考虑到了大家的感受，这个问题解决起来也很简单，在Git工作区的根目录下创建一个特殊的.gitignore文件，然后把要忽略的文件名填进去，Git就会自动忽略这些文件。
+
+不需要从头写.gitignore文件，GitHub已经为我们准备了各种配置文件，只需要组合一下就可以使用了。所有配置文件可以直接在线浏览：https://github.com/github/gitignore
+
+忽略文件的原则是：
+
+1. 忽略操作系统自动生成的文件，比如缩略图等；
+2. 忽略编译生成的中间文件、可执行文件等，也就是如果一个文件是通过另一个文件自动生成的，那自动生成的文件就没必要放进版本库，比如Java编译产生的.class文件；
+3. 忽略你自己的带有敏感信息的配置文件，比如存放口令的配置文件。
+
