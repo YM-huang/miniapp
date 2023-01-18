@@ -1448,3 +1448,125 @@ $ git log --graph --pretty=oneline --abbrev-commit
 ```
 远程分支的提交历史也是一条直线。
 ## 标签管理
+发布一个版本时，我们通常先在版本库中打一个标签（tag），这样，就唯一确定了打标签时刻的版本。将来无论什么时候，取某个标签的版本，就是把那个打标签的时刻的历史版本取出来。所以，标签也是版本库的一个快照。
+
+Git的标签虽然是版本库的快照，但其实它就是指向某个commit的指针（跟分支很像对不对？但是分支可以移动，标签不能移动），所以，创建和删除标签都是瞬间完成的。
+
+Git有commit，为什么还要引入tag？
+
+“请把上周一的那个版本打包发布，commit号是6a5819e...”
+
+“一串乱七八糟的数字不好找！”
+
+如果换一个办法：
+
+“请把上周一的那个版本打包发布，版本号是v1.2”
+
+“好的，按照tag v1.2查找commit就行！”
+
+所以，tag就是一个让人容易记住的有意义的名字，它跟某个commit绑在一起。
+### 创建标签
+>* 命令git tag \<tagname>用于新建一个标签，默认为HEAD，也可以指定一个commit id；
+>* 命令git tag -a \<tagname> -m "blablabla..."可以指定标签信息；
+>* 命令git tag可以查看所有标签。
+
+在Git中打标签非常简单，首先，切换到需要打标签的分支上：
+```shell
+$ git branch
+* dev
+  master
+$ git checkout master
+Switched to branch 'master'
+```
+然后，敲命令git tag \<name>就可以打一个新标签：
+```shell
+$ git tag v1.0
+```
+可以用命令git tag查看所有标签：
+```shell
+$ git tag
+v1.0
+```
+默认标签是打在最新提交的commit上的。有时候，如果忘了打标签，比如，现在已经是周五了，但应该在周一打的标签没有打，怎么办？
+
+方法是找到历史提交的commit id，然后打上就可以了：
+```shell
+$ git log --pretty=oneline --abbrev-commit
+7fa3714 (HEAD -> master, tag: v1.0) merge with no-ff
+2c6c0da (dev) add merge
+602f175 conflit fixed
+ac5ab43 & simple
+5d3fa09 AND simple
+a129230 branch test
+572e20f remove test.txt
+fe43d2a add test.txt
+d40ad5d git tracks changes
+b6f4e57 git tracks changes
+1a0a901 understand how stage works
+dbde57a append GPL
+e26ae5e add distributed
+35a3ede readme
+```
+比方说要对add merge这次提交打标签，它对应的commit id是f52c633，敲入命令：
+```shell
+$ git tag v0.9 f52c633
+```
+再用命令git tag查看标签：
+```shell
+$ git tag
+v0.9
+v1.0
+```
+注意，标签不是按时间顺序列出，而是按字母排序的。可以用git show \<tagname>查看标签信息：
+```shell
+$ git show v0.9
+commit 2c6c0da1a37e1bdef56690401e4316320bdd1ae2 (tag: v0.9, dev)
+Author: YM-huang <huangyimiao666@gmail.com>
+Date:   Tue Jan 17 20:51:07 2023 +0800
+
+    add merge
+
+diff --git a/readme.md b/readme.md
+index 2a26074..b8dd8dd 100644
+--- a/readme.md
++++ b/readme.md
+@@ -4,3 +4,4 @@ Git has a mutable index called stage.
+ Git tracks changes of files.
+ Creating a new branch is quick.
+ Creating a new branch is quick and simple.
++something new.
+```
+可以看到，v0.9确实打在add merge这次提交上。
+
+还可以创建带有说明的标签，用-a指定标签名，-m指定说明文字：
+```shell
+$ git tag -a v0.1 -m "version 0.1 released" 1094adb
+```
+用命令git show \<tagname>可以看到说明文字：
+```shell
+$ git show v0.1
+tag v0.1
+Tagger: YM-huang <huangyimiao666@gmail.com>
+Date:   Wed Jan 18 14:19:47 2023 +0800
+
+version 0.1 release
+
+commit 35a3ede8c48d1ae5dc6effd3d3526a90d71c33a3 (tag: v0.1)
+Author: YM-huang <huangyimiao666@gmail.com>
+Date:   Sun Jan 15 22:26:21 2023 +0800
+
+    readme
+
+diff --git a/readme.md b/readme.md
+new file mode 100644
+index 0000000..d8036c1
+--- /dev/null
++++ b/readme.md
+@@ -0,0 +1,2 @@
++Git is a version control system.
++Git is free software.
+\ No newline at end of file
+```
+注意：标签总是和某个commit挂钩。如果这个commit既出现在master分支，又出现在dev分支，那么在这两个分支上都可以看到这个标签。
+
+### 操作标签
