@@ -12,10 +12,8 @@ var uniquePaths = function(m, n) {
         rows.push(1);
     }
     dp.push(rows);
-    console.log(dp);
     for(let i = 0;i < m-1;i++){
         dp.push([1]);
-        console.log(dp);
     }
     // dp[1][1]=1;
     for(let i=1;i<m;i++){
