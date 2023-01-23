@@ -612,3 +612,111 @@ var lengthOfLIS = function(nums) {
     return tail.length;
 };
 ```
+
+### 搜索二维矩阵 II
+>编写一个高效的算法来搜索 m x n 矩阵 matrix 中的一个目标值 target 。该矩阵具有以下特性：
+>	* 每行的元素从左到右升序排列。
+>	* 每列的元素从上到下升序排列。
+>**示例1：**
+>![image-20230123222955365](image/image-20230123222955365.png)
+>输入：matrix = [[1,4,7,11,15],[2,5,8,12,19],[3,6,9,16,22],[10,13,14,17,24],[18,21,23,26,30]], target = 5
+>输出：true
+>**示例2**
+>![image-20230123223042964](image/image-20230123223042964.png)
+>输入：matrix = [[1,4,7,11,15],[2,5,8,12,19],[3,6,9,16,22],[10,13,14,17,24],[18,21,23,26,30]], target = 20
+>输出：false
+>**提示：**
+>	
+>	* m == matrix.length
+>	* n == matrix[i].length
+>	* 1 <= n, m <= 300
+>	* -109 <= matrix[i][j] <= 109
+>	* 每行的所有元素从左到右升序排列
+>	* 每列的所有元素从上到下升序排列
+>	* -109 <= target <= 109
+
+```js
+输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。
+1. 选取左下角的值作为初始值key
+2. 如果目标值大于key，因为是最左边的值（最小），所以col++
+3. 如果目标值小于，那么更小的值只可能是上一行，所以row--
+var searchMatrix = function(matrix, target) {
+    let rows = matrix.length;
+    if(rows <= 0) return false;
+    let cols = matrix[0].length;
+    if(cols <= 0) return false;
+    let row = rows - 1;
+    let col = 0;
+    while(row >= 0 && col < cols){
+        if(matrix[row][col] > target){
+            row--;
+        }else if(matrix[row][col] < target){
+            col++;
+        }else{
+            return true;
+        }
+    }
+    return false;
+};
+```
+
+### Pow(x, n)
+>实现 pow(x, n) ，即计算 x 的整数 n 次幂函数（即，xn ）。
+>**示例 1：**
+>	
+>	输入：x = 2.00000, n = 10
+>	输出：1024.00000
+>**示例 2：**
+>	
+>	输入：x = 2.10000, n = 3
+>	输出：9.26100
+>**示例 3：**
+>	
+>	输入：x = 2.00000, n = -2
+>	输出：0.25000
+>	解释：2-2 = 1/22 = 1/4 = 0.25
+>**提示：**
+>	
+>	* -100.0 < x < 100.0
+>	* -231 <= n <= 231-1
+>	* n 是一个整数
+>	* -104 <= xn <= 104
+
+```js
+var myPow = function(x, n) {
+    if (!x) return 0;
+    if (x === 1) return 1;
+    if (x === -1) return (n & 1) ? -1 : 1;
+    if (n == 2147483647) return 0;
+    if (n == -2147483648) return x === 2 ? 0 : 1;
+    if (n < 0) {
+        x = 1 / x;
+        n = -n;
+    }
+    let res = 1;
+    while(n) {
+        if (n & 1) res *= x;
+        x *= x;
+        n >>= 1;
+    }
+    return res;
+};
+```
+
+### 求交集
+```js
+function intersection(...args){
+	if(!args.length) return [];
+    let res = [],left = args[0][0],right = args[0][1];
+    for(let i = 1;i < args.length;i++){
+       if(right >= args[i][0] || left <= args[i][1]){
+         left = Math.max(left,args[i][0]);
+         right = Math.min(right,args[i][1]);
+         res = [left,right];
+       }else{
+        return [];
+       }
+     }
+   return res;
+}
+```
