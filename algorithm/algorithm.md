@@ -720,3 +720,122 @@ function intersection(...args){
    return res;
 }
 ```
+
+## 回溯
+>思路：
+>1. 全局变量：保存结果
+>2. 参数：递归函数的参数选择，通常是两种参数。
+>	* 状态变量： result需要保存的值
+>	* 条件变量： 判断搜索是否完毕以及搜索是否合法
+>3. 完成条件： 完成条件是决定状态变量和条件变量取何值时可以判断整个搜索流程结束。整个搜索流程结束有两个含义：搜索成功并保存结果何搜索失败并返回上一次状态。
+>4. 递归过程： 传递当前状态给下一次递归进行搜索。
+
+```js
+//模板
+let res = [];   //存储结果
+
+function backtrack(path,condition,...){
+    if(judge(condition)){  //满足条件
+        res.push(path);
+        return;
+    }
+    for(let select of selectList){
+        if(剪枝条件) break;
+        path.push(select);  // 走某条路
+        backtrack(path,newSelectList);
+        path.pop(); //返回上一个十字路口
+    }
+}
+
+```
+
+适用场景:
+1. 排列，组合
+2. 数组，字符串，给定一个特定的规则，尝试找到某个解
+3. 二维数组下的DFS搜索
+
+怎么套用模板:
+我筛选了leetCode中hot和面试常考题库中关于回溯的题目，题目由易到难，覆盖每个使用场景。
+
+### 子集（中等）
+>给你一个整数数组 nums ，数组中的元素 互不相同 。返回该数组所有可能的子集（幂集）。
+>	解集 不能 包含重复的子集。你可以按 任意顺序 返回解集。
+>**示例 1：**
+>	
+>	输入：nums = [1,2,3]
+>	输出：[[],[1],[2],[1,2],[3],[1,3],[2,3],[1,2,3]]
+>**示例 2：**
+>	
+>	输入：nums = [0]
+>	输出：[[],[0]]
+>**提示：**
+>	
+>	1 <= nums.length <= 10
+>	-10 <= nums[i] <= 10
+>	nums 中的所有元素 互不相同
+
+```JS
+1. 定义res数组存储结果
+2. 每个子集为状态变量，集合的元素个数为条件变量
+3. 子集的元素数量小于等于集合的元素数量为限制条件，满足条件时添加到结果数组，否则回退到上一步
+4. 下一层搜索的集合需要去掉已添加到状态变量中的元素
+
+var subsets = function(nums) {
+    let res = [];
+    let n = nums.length;
+    function back(path,i){
+        if(i <= n){
+            res.push(path);
+        }
+        for(let j = i;j < n;j++){
+            path.push(nums[j]);
+            back(path.slice(0),j+1);//slice(0)对原始数组做一个深拷贝，防止sort等函数修改到原数组
+            path.pop();
+        }
+    }
+    back([],0);
+    return res;
+};
+```
+
+### 全排列（中等）
+>给定一个不含重复数字的数组 nums ，返回其 所有可能的全排列 。你可以 按任意顺序 返回答案。
+>**示例 1：**
+>	
+>	输入：nums = [1,2,3]
+>	输出：[[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]]
+>	示例 2：
+>		
+>	输入：nums = [0,1]
+>	输出：[[0,1],[1,0]]
+>**示例 3：**
+>	
+>	输入：nums = [1]
+>	输出：[[1]]
+>**提示：**
+>	
+>	1 <= nums.length <= 6
+>	-10 <= nums[i] <= 10
+>	nums 中的所有整数 互不相同
+
+```js
+var permute = function(nums) {
+    let len = nums.length;
+    let res = [];
+    function back(path){
+        if(path.length===len){
+            res.push(path);
+            return;
+        }
+        for(let i=0;i < len;i++){
+            if(path.indexOf(nums[i]) === -1){	//这里的判断很精髓
+                path.push(nums[i]);
+                back(path.slice(0));
+                path.pop();
+            }
+        }
+    }
+    back([]);
+    return res;
+};
+```
