@@ -805,7 +805,7 @@ var subsets = function(nums) {
 >	输入：nums = [1,2,3]
 >	输出：[[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]]
 >	示例 2：
->										
+>												
 >	输入：nums = [0,1]
 >	输出：[[0,1],[1,0]]
 >**示例 3：**
@@ -1033,3 +1033,68 @@ var restoreIpAddresses = function(s) {
 
 ## 排序算法
 
+### 冒泡排序
+### 快排
+>在n个记录中取某一个记录的键值为标准，通常取第一个记录键值为基准，通过一趟排序将待排的记录分为小于或等于这个键值的两个独立的部分，这是一部分的记录键值均比另一部分记录的键值小，然后，对这两部分记录继续分别进行快速排序，以达到整个序列有序
+>
+>![image-20230129213251011](image/image-20230129213251011.png)
+
+```js
+function quickSort(arr){
+    if(arr.length <= 1) return arr;
+    let right = [],left = [],keys = arr.shift();//以第一个元素为基准，shift作用为把第一个元素删除并返回。
+    for(let value of arr){
+        if(value > keys){
+            right.push(value)
+        }else{
+            left.push(value);
+        }
+    }
+    return quickSort(left).concat(keys,quickSort(right));
+}
+```
+
+### 插入排序
+>第i（i大于等于1）个记录进行插入操作时，R1、 R2，...，是排好序的有序数列，取出第i个元素，在序列中找到一个合适的位置并将她插入到该位置上即可。
+```js
+
+function insertSort(arr){
+    for(let i = 1;i < arr.length;i++){
+        let j = i-1;
+        if(arr[i]<arr[j]){
+            let temp = arr[i];
+            while(j >= 0 && temp < arr[j]){
+                arr[j+1] = arr[j];
+                j--;
+            }
+            arr[j+1] = temp;
+        }
+    }
+    return arr;
+}
+```
+
+### 希尔排序
+>算法先将要排序的一组数按某个增量d（n/2,n为要排序数的个数）分成若干组，每组中记录的下标相差d.对每组中全部元素进行直接插入排序，然后再用一个较小的增量（d/2）对它进行分组，在每组中再进行直接插入排序。当增量减到1时，进行直接插入排序后，排序完成。
+>
+>![image-20230129213737214](image/image-20230129213737214.png)
+
+```js
+function hillSort(arr){
+    let len = arr.length;
+    for(let gap = parseInt(len >> 1);gap >= 1;gap = parseInt(gap >> 1)){
+        for(let i = gap;i < len;i++){
+            if(arr[i] < arr[i-gap]){
+                let temp = arr[i];
+                let j = i - gap;
+                while(j >= 0 && arr[j] > temp){
+                    arr[j+gap] = arr[j];
+                    j -= gap;
+                }
+                arr[j+gap] = temp;
+            }
+        }
+    }
+    return arr;
+}
+```
