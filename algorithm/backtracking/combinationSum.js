@@ -17,7 +17,7 @@ var combinationSum = function(candidates, target) {
             //判断是否当前的路口都是通向死路
             if(tar < candidates[j]) break;          
             path.push(candidates[j]);
-            back(path.slice(),j,tar-candidates[j]);
+            back(path.slice(0),j,tar-candidates[j]);
             path.pop();
         }
     }

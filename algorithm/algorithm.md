@@ -805,7 +805,7 @@ var subsets = function(nums) {
 >	输入：nums = [1,2,3]
 >	输出：[[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]]
 >	示例 2：
->				
+>										
 >	输入：nums = [0,1]
 >	输出：[[0,1],[1,0]]
 >**示例 3：**
@@ -892,3 +892,144 @@ var combinationSum = function(candidates, target) {
     return res;
 };
 ```
+### 分割回文串
+>给你一个字符串 s，请你将 s 分割成一些子串，使每个子串都是 回文串 。返回 s 所有可能的分割方案。
+>
+>回文串 是正着读和反着读都一样的字符串。
+>**示例 1：**
+>
+>	输入：s = "aab"
+>	输出：[["a","a","b"],["aa","b"]]
+>**示例 2：**
+>
+>	输入：s = "a"
+>	输出：[["a"]]
+>**提示：**
+>
+>	1 <= s.length <= 16
+>	s 仅由小写英文字母组成
+
+```js
+1. 定义res
+2. 状态变量为回文子串集，条件变量为子串集的字符串数目
+3. 当子串集的字符串数目与目标串长度相同时，满足要求
+4. 下层递归的开始位置由上层递归决定
+var partition = function(s) {
+    let res = [];
+    function isPalindrome(s){
+        let head = 0;
+        let tail = s.length - 1;
+        while(head <= tail){
+            if(s[head] !== s[tail]) return false;
+            head++;
+            tail--;
+        }
+        return true;
+    }
+    function backtrack(path,start){
+        if(start === s.length)
+            res.push(path);
+        for(let i=start;i<s.length;i++){
+            if(!isPalindrome(s.slice(start,i+1)))
+                continue;
+            path.push(s.slice(start,i+1));
+            backtrack(path.slice(0),i+1);
+            path.pop();
+        }
+    }
+    backtrack([],0);
+    return res;
+};
+```
+
+### 单词搜索
+>给定一个 m x n 二维字符网格 board 和一个字符串单词 word 。如果 word 存在于网格中，返回 true ；否则，返回 false 。
+>
+>单词必须按照字母顺序，通过相邻的单元格内的字母构成，其中“相邻”单元格是那些水平相邻或垂直相邻的单元格。同一个单元格内的字母不允许被重复使用。
+>**示例1：**
+>
+>![image-20230129180732328](image/image-20230129180732328.png)
+>	输入：board = [["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]], word = "ABCCED"
+>	输出：true
+>**示例2：**
+>
+>![image-20230129180844559](image/image-20230129180844559.png)
+>输入：board = [["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]], word = "SEE"
+>输出：true
+>**示例3：**
+>
+>![image-20230129180935079](image/image-20230129180935079.png)
+>输入：board = [["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]], word = "ABCB"
+>输出：false
+>**提示：**
+>
+>	* m == board.length
+>	* n = board[i].length
+>	* 1 <= m, n <= 6
+>	* 1 <= word.length <= 15
+>	* board 和 word 仅由大小写英文字母组成
+
+```js
+1. 状态变量为一条通路，条件变量为通路的长度
+2. 当通路与目标词汇长度一致时，满足条件
+3. 下一层递归的初始坐标和通路长度由上层递归决定
+var exist = function(board, word) {
+    //越界处理
+    board[-1] = []
+    board.push([])
+
+    //寻找首个字母
+    for(let y=0;y<board.length;y++){
+        for(let x=0;x<board.length;x++){
+            if (word[0] === board[y][x] && backtrack(y, x, 0)) return true
+        }
+    }
+
+    //回溯
+    function backtrack(y, x, i) {
+        //回溯终止
+        if (i + 1 === word.length) return true
+
+        //保存字母
+        var tmp = board[y][x]
+        board[y][x] = false
+
+        if (board[y][x + 1] === word[i + 1] && backtrack(y, x + 1, i + 1)) return true
+        if (board[y][x - 1] === word[i + 1] && backtrack(y, x - 1, i + 1)) return true
+        if (board[y + 1][x] === word[i + 1] && backtrack(y + 1, x, i + 1)) return true
+        if (board[y - 1][x] === word[i + 1] && backtrack(y - 1, x, i + 1)) return true
+
+        //复原字母
+        board[y][x] = tmp
+    }
+    return false;
+};
+```
+
+### 复原IP地址
+>给定一个只包含数字的字符串，复原它并返回所有可能的 IP 地址格式。
+>有效的 IP 地址正好由四个整数（每个整数位于 0 到 255 之间组成），整数之间用 '.' 分隔。
+```js
+var restoreIpAddresses = function(s) {
+    let res = [];
+    if(s.length < 4 || s.length > 12) return res;
+    function dfs(s, sub, index) {
+        if(s.length === 0 && index === 4) res.push(sub.slice(1)); // 去掉开头的.
+        if(s.length === 0 || index === 4) return;
+
+        // 一个数
+        dfs(s.slice(1), `${sub}.${s.slice(0,1)}`, index + 1);
+        if(s[0] !== '0' && s.length > 1) {
+            dfs(s.slice(2), `${sub}.${s.slice(0,2)}`, index + 1);   // 两个数
+            if(s.length > 2 && parseInt(s.slice(0,3)) <= 255) {
+                dfs(s.slice(3), `${sub}.${s.slice(0,3)}`, index + 1);   //三个数
+            }
+        }
+    }
+    dfs(s, '', 0);
+    return res;
+};
+```
+
+## 排序算法
+
