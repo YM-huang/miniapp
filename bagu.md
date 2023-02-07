@@ -328,7 +328,37 @@ tips：上述代码中 margin-left: -100%  相对的是父元素的 content  �
   margin-top: -100px;
 }
 ```
+4. 利用 flex ，最经典最方便的一种了，不用解释，定不定宽高无所谓的。
+```css
+.father {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+```
+其实还有很多方法，比如 display: grid  或 display: table-cell  来做.
 
+### 2.8 flex 布局
+这一块内容看 Flex 布局教程 就够了。
 
+这里有个小问题，很多时候我们会用到 flex: 1 ，它具体包含了以下的意思：
 
+* flex-grow: 1 ：该属性默认为 0 ，如果存在剩余空间，元素也不放大。设置为 1  代表会放大。
+* flex-shrink: 1 ：该属性默认为 1 ，如果空间不足，元素缩小。
+* flex-basis: 0% ：该属性定义在分配多余空间之前，元素占据的主轴空间。浏览器就是根据这个属性来计算是否有多余空间的。默认值为 auto ，即项目本身大小。设置为 0%  之后，因为有 flex-grow  和 flex-shrink  的设置会自动放大或缩小。在做两栏布局时，如果右边的自适应元素 flex-basis  设为 auto  的话，其本身大小将会是 0 。
 
+### 2.9 line-height 如何继承？
+* 父元素的 line-height 写了具体数值，比如 30px，则子元素 line-height 继承该值。
+* 父元素的 line-height 写了比例，比如 1.5 或 2，则子元素 line-height 也是继承该比例。
+* 父元素的 line-height 写了百分比，比如 200%，则子元素 line-height 继承的是父元素 font-size * 200% 计算出来的值。
+
+## JS基础
+js 的考察其实来回就那些东西，不过就我自己而已学习的时候理解是真的理解了，但是忘也确实会忘（大家都说理解了一定不会忘，但是要答全的话还是需要理解+背）。
+### 1. 数据类型
+以下是比较重要的几个 js 变量要掌握的点。
+#### 1.1 基本的数据类型介绍，及值类型和引用类型的理解
+在 JS 中共有 8  种基础的数据类型，分别为： Undefined 、 Null 、 Boolean 、 Number 、 String 、 Object 、 Symbol 、 BigInt 。
+
+其中 Symbol  和 BigInt  是 ES6 新增的数据类型，可能会被单独问：
+* Symbol 代表独一无二的值，最大的用法是用来定义对象的唯一属性名。
+* BigInt 可以表示任意大小的整数。
