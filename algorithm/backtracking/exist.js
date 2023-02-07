@@ -33,7 +33,7 @@ var exist = function(board, word) {
         board[y][x] = tmp
     }
 
-    return false
+    return false;
 
 
 };

@@ -64,7 +64,7 @@ CSS3 中的盒模型有以下两种：标准盒模型、IE（替代）盒模型�
 4. 大多数浏览器都会通过队列化修改并批量执行来优化重排过程。当你获取布局信息的操作的时候，会强制队列刷新。
 5. 减少回流和重绘：1）修改样式的时候通过 css 类名修改或通过 cssText 修改。2）DOM 元素离线修改—>隐藏元素，应用修改，重新显示。（浏览器本身也会有优化）3）避免触发同步布局事件，如获取 offsetWidth 等属性值，因为会强制浏览器刷新队列。4）使用绝对定位让复杂动画脱离文档流减少父元素以及后续元素频繁的回流。5）使用css3硬件加速，可以让 transform、opacity、filters、will-change 这些动画不会引起回流重绘 （会提高内存占用）。
 
-### 对 BFC 的理解
+### 2.4 对 BFC 的理解
 BFC（Block Formatting Contexts） 即块级格式上下文，根据盒模型可知，每个元素都被定义为一个矩形盒子，然而盒子的布局会受到尺寸，定位，盒子的子元素或兄弟元素，视口的尺寸等因素决定，所以这里有一个浏览器计算的过程，计算的规则就是由一个叫做视觉格式化模型的东西所定义的，BFC 就是来自这个概念，它是 CSS 视觉渲染的一部分，用于决定块级盒的布局及浮动相互影响范围的一个区域。
 
 BFC 具有一些特性：
@@ -85,7 +85,7 @@ BFC 具有一些特性：
 * 行内块元素，即 display 为 inline-block 。
 * overflow 的值不为 visible 。
 
-* 根元素（<html>）
+* 根元素（\<html>）
 * 浮动元素（float 不为 none）
 * 绝对定位元素（position 为 absolute 或 fixed）
 * 表格的标题和单元格（display 为 table-caption，table-cell）
@@ -96,9 +96,238 @@ BFC 具有一些特性：
 * 网格元素（display 为 grid 或 inline-grid 的元素的直接子元素）
 
 
+### 2.5 实现两栏布局（左侧固定 + 右侧自适应布局）
+现在有以下 DOM 结构：
+```html
+<div class="outer">
+  <div class="left">左侧</div>
+  <div class="right">右侧</div>
+</div>
+```
+1. 利用浮动，左边元素宽度固定 ，设置向左浮动。将右边元素的 margin-left 设为固定宽度 。注意，因为右边元素的 width 默认为 auto ，所以会自动撑满父元素。
+```css
+.outer {
+  height: 100px;
+}
+.left {
+  float: left;
+  width: 200px;
+  height: 100%;
+  background: lightcoral;
+}
+.right {
+  margin-left: 200px;
+  height: 100%;
+  background: lightseagreen;
+}
+```
+2. 同样利用浮动，左边元素宽度固定 ，设置向左浮动。右侧元素设置 overflow: hidden; 这样右边就触发了 BFC ，BFC 的区域不会与浮动元素发生重叠，所以两侧就不会发生重叠。
+```css
+.outer {
+  height: 100px;
+}
+.left {
+  float: left;
+  width: 200px;
+  height: 100%;
+  background: lightcoral;
+}
+.right {
+  overflow: auto;
+  height: 100%;
+  background: lightseagreen;
+}
+```
+3. 利用 flex 布局，左边元素固定宽度，右边的元素设置 flex: 1 。
+```css
+.outer {
+  display: flex;
+  height: 100px;
+}
+.left {
+  width: 200px;
+  height: 100%;
+  background: lightcoral;
+}
+.right {
+  flex: 1;
+  height: 100%;
+  background: lightseagreen;
+}
+```
+4. 利用绝对定位，父级元素设为相对定位。左边元素 absolute  定位，宽度固定。右边元素的 margin-left  的值设为左边元素的宽度值。
+```css
+.outer {
+  position: relative;
+  height: 100px;
+}
+.left {
+  position: absolute;
+  width: 200px;
+  height: 100%;
+  background: lightcoral;
+}
+.right {
+  margin-left: 200px;
+  height: 100%;
+  background: lightseagreen;
+}
+```
+5. 利用绝对定位，父级元素设为相对定位。左边元素宽度固定，右边元素 absolute  定位， left  为宽度大小，其余方向定位为 0 。
+```css
+.outer {
+  position: relative;
+  height: 100px;
+}
+.left {
+  width: 200px;
+  height: 100%;
+  background: lightcoral;
+}
+.right {
+  position: absolute;
+  left: 200px;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  height: 100%;
+  background: lightseagreen;
+}
+```
+### 2.6 实现圣杯布局和双飞翼布局（经典三分栏布局）
+圣杯布局和双飞翼布局的目的：
+* 三栏布局，中间一栏最先加载和渲染（内容最重要，这就是为什么还需要了解这种布局的原因）。
+* 两侧内容固定，中间内容随着宽度自适应。
+* 一般用于 PC 网页。
 
+圣杯布局和双飞翼布局的技术总结：
+* 使用 float  布局。
+* 两侧使用 margin 负值，以便和中间内容横向重叠。
+* 防止中间内容被两侧覆盖，圣杯布局用 padding ，双飞翼布局用 margin 。
 
+圣杯布局： HTML 结构：
+```html
+<div id="container" class="clearfix">
+  <p class="center">我是中间</p>
+  <p class="left">我是左边</p>
+  <p class="right">我是右边</p>
+</div>
+```
+CSS 样式：
+```css
+#container {
+  padding-left: 200px;
+  padding-right: 150px;
+  overflow: auto;
+}
+#container p {
+  float: left;
+}
+.center {
+  width: 100%;
+  background-color: lightcoral;
+}
+.left {
+  width: 200px;
+  position: relative;
+  left: -200px;
+  margin-left: -100%;
+  background-color: lightcyan;
+}
+.right {
+  width: 150px;
+  margin-right: -150px;
+  background-color: lightgreen;
+}
+.clearfix:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+```
+双飞翼布局： HTML 结构：
+```html
+<div id="main" class="float">
+  <div id="main-wrap">main</div>
+</div>
+<div id="left" class="float">left</div>
+<div id="right" class="float">right</div>
+```
+CSS 样式：
+```css
+.float {
+  float: left;
+}
+#main {
+  width: 100%;
+  height: 200px;
+  background-color: lightpink;
+}
+#main-wrap {
+  margin: 0 190px 0 190px;
+}
+#left {
+  width: 190px;
+  height: 200px;
+  background-color: lightsalmon;
+  margin-left: -100%;
+}
+#right {
+  width: 190px;
+  height: 200px;
+  background-color: lightskyblue;
+  margin-left: -190px;
+}
+```
 
+tips：上述代码中 margin-left: -100%  相对的是父元素的 content  宽度，即不包含 paddig 、 border  的宽度。
+
+其实以上问题需要掌握  [Marin负值问题](https://zhuanlan.zhihu.com/p/25892372) 即可很好理解。
+
+### 2.7 水平垂直居中多种实现方式
+1. 利用绝对定位，设置 left: 50%  和 top: 50%  现将子元素左上角移到父元素中心位置，然后再通过 translate  来调整子元素的中心点到父元素的中心。该方法可以不定宽高。
+```css
+.father {
+  position: relative;
+}
+.son {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+```
+2. 利用绝对定位，子元素所有方向都为 0 ，将 margin  设置为 auto ，由于宽高固定，对应方向实现平分，该方法必须盒子有宽高。
+```css
+.father {
+  position: relative;
+}
+.son {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0px;
+  margin: auto;
+  height: 100px;
+  width: 100px;
+}
+```
+3. 利用绝对定位，设置 left: 50% 和 top: 50% 现将子元素左上角移到父元素中心位置，然后再通过 margin-left  和 margin-top  以子元素自己的一半宽高进行负值赋值。该方法必须定宽高。
+```css
+.father {
+  position: relative;
+}
+.son {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 200px;
+  height: 200px;
+  margin-left: -100px;
+  margin-top: -100px;
+}
+```
 
 
 
