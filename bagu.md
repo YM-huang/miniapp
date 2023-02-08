@@ -362,3 +362,128 @@ js 的考察其实来回就那些东西，不过就我自己而已学习的时�
 其中 Symbol  和 BigInt  是 ES6 新增的数据类型，可能会被单独问：
 * Symbol 代表独一无二的值，最大的用法是用来定义对象的唯一属性名。
 * BigInt 可以表示任意大小的整数。
+
+值类型的赋值变动过程如下：
+```js
+let a = 100;
+let b = a;
+a = 200;
+console.log(b); // 100
+```
+
+![image-20230208203730255](image/image-20230208203730255.png)
+
+![image-20230208203742464](image/image-20230208203742464.png)
+
+![image-20230208203756896](image/image-20230208203756896.png)
+
+值类型是直接存储在**栈（stack）**中的简单数据段，占据空间小、大小固定，属于被频繁使用数据，所以放入栈中存储；
+
+引用类型的赋值变动过程如下：
+```js
+let a = { age: 20 };
+let b = a;
+b.age = 30;
+console.log(a.age); // 30
+```
+
+引用类型存储在**堆（heap）**中的对象，占据空间大、大小不固定。如果存储在栈中，将会影响程序运行的性能；
+
+### 1.2 数据类型的判断
+* typeof：能判断所有值类型，函数。不可对 null、对象、数组进行精确判断，因为都返回 object 。
+```js
+console.log(typeof undefined); // undefined
+console.log(typeof 2); // number
+console.log(typeof true); // boolean
+console.log(typeof "str"); // string
+console.log(typeof Symbol("foo")); // symbol
+console.log(typeof 2172141653n); // bigint
+console.log(typeof function () {}); // function
+// 不能判别
+console.log(typeof []); // object
+console.log(typeof {}); // object
+console.log(typeof null); // object
+```
+* instanceof：能判断对象类型，不能判断基本数据类型，其内部运行机制是判断在其原型链中能否找到该类型的原型。比如考虑以下代码：
+```js
+class People {}
+class Student extends People {}
+
+const vortesnail = new Student();
+
+console.log(vortesnail instanceof People); // true
+console.log(vortesnail instanceof Student); // true
+```
+其实现就是顺着原型链去找，如果能找到对应的 Xxxxx.prototype  即为 true 。比如这里的 vortesnail  作为实例，顺着原型链能找到 Student.prototype  及 People.prototype ，所以都为 true 。
+* Object.prototype.toString.call()：所有原始数据类型都是能判断的，还有 Error 对象，Date 对象等。
+```js
+Object.prototype.toString.call(2); // "[object Number]"
+Object.prototype.toString.call(""); // "[object String]"
+Object.prototype.toString.call(true); // "[object Boolean]"
+Object.prototype.toString.call(undefined); // "[object Undefined]"
+Object.prototype.toString.call(null); // "[object Null]"
+Object.prototype.toString.call(Math); // "[object Math]"
+Object.prototype.toString.call({}); // "[object Object]"
+Object.prototype.toString.call([]); // "[object Array]"
+Object.prototype.toString.call(function () {}); // "[object Function]"
+```
+在面试中有一个经常被问的问题就是：如何判断变量是否为数组？
+```js
+Array.isArray(arr); // true
+arr.__proto__ === Array.prototype; // true
+arr instanceof Array; // true
+Object.prototype.toString.call(arr); // "[object Array]"
+```
+一道经典的面试题，如何让：a == 1 && a == 2 && a == 3。
+
+根据上面的拆箱转换，以及==的隐式转换，我们可以轻松写出答案：
+```js
+const a = {
+   value:[3,2,1],
+   valueOf: function () {return this.value.pop(); },
+} 
+```
+### 1.3 手写深拷贝（一定要会！）
+值传递和引用传递  [2.5节](https://juejin.cn/post/6844903854882947080#heading-7)
+
+* 你真的理解什么是深拷贝吗？
+* 在面试官眼里，什么样的深拷贝才算合格？
+* 什么样的深拷贝能让面试官感到惊艳？
+```js
+/**
+ * 深拷贝
+ * @param {Object} obj 要拷贝的对象
+ * @param {Map} map 用于存储循环引用对象的地址
+ */
+
+function deepClone(obj = {}, map = new Map()) {
+  if (typeof obj !== "object") {
+    return obj;
+  }
+  if (map.get(obj)) {
+    return map.get(obj);
+  }
+
+  let result = {};
+  // 初始化返回结果
+  if (
+    obj instanceof Array ||
+    // 加 || 的原因是为了防止 Array 的 prototype 被重写，Array.isArray 也是如此
+    Object.prototype.toString(obj) === "[object Array]"
+  ) {
+    result = [];
+  }
+  // 防止循环引用
+  map.set(obj, result);
+  for (const key in obj) {
+    // 保证 key 不是原型属性
+    if (obj.hasOwnProperty(key)) {
+      // 递归调用
+      result[key] = deepClone(obj[key], map);
+    }
+  }
+
+  // 返回结果
+  return result;
+}
+```
