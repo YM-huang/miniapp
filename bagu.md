@@ -389,7 +389,7 @@ console.log(a.age); // 30
 
 引用类型存储在**堆（heap）**中的对象，占据空间大、大小不固定。如果存储在栈中，将会影响程序运行的性能；
 
-### 1.2 数据类型的判断
+#### 1.2 数据类型的判断
 * typeof：能判断所有值类型，函数。不可对 null、对象、数组进行精确判断，因为都返回 object 。
 ```js
 console.log(typeof undefined); // undefined
@@ -443,12 +443,125 @@ const a = {
    valueOf: function () {return this.value.pop(); },
 } 
 ```
-### 1.3 手写深拷贝（一定要会！）
+#### 1.3 手写[深拷贝](https://juejin.cn/post/6844903929705136141)（一定要会！）
 值传递和引用传递  [2.5节](https://juejin.cn/post/6844903854882947080#heading-7)
 
 * 你真的理解什么是深拷贝吗？
 * 在面试官眼里，什么样的深拷贝才算合格？
 * 什么样的深拷贝能让面试官感到惊艳？
+
+我们来明确一下深拷贝和浅拷贝的定义：
+
+浅拷贝：
+
+![image-20230209111335511](image/image-20230209111335511.png)
+>创建一个新对象，这个对象有着原始对象属性值的一份精确拷贝。如果属性是基本类型，拷贝的就是基本类型的值，如果属性是引用类型，拷贝的就是内存地址 ，所以如果其中一个对象改变了这个地址，就会影响到另一个对象。
+
+深拷贝：![image-20230209142120710](image/image-20230209142120710.png)
+>将一个对象从内存中完整的拷贝一份出来,从堆内存中开辟一个新的区域存放新对象,且修改新对象不会影响原对象
+
+##### 乞丐版
+在不使用第三方库的情况下，我们想要深拷贝一个对象，用的最多的就是下面这个方法。
+```js
+JSON.parse(JSON.stringify());
+```
+这种写法非常简单，而且可以应对大部分的应用场景，但是它还是有很大缺陷的，比如拷贝其他引用类型、拷贝函数、循环引用等情况。
+显然，面试时你只说出这样的方法是一定不会合格的。
+接下来，我们一起来手动实现一个深拷贝方法。
+
+##### 基础版本
+如果是浅拷贝的话，我们可以很容易写出下面的代码：
+```js
+function clone(target) {
+    let cloneTarget = {};
+    for (const key in target) {
+        cloneTarget[key] = target[key];
+    }
+    return cloneTarget;
+};
+```
+创建一个新的对象，遍历需要克隆的对象，将需要克隆对象的属性依次添加到新对象上，返回。
+
+如果是深拷贝的话，考虑到我们要拷贝的对象是不知道有多少层深度的，我们可以用递归来解决问题，稍微改写上面的代码：
+
+* 如果是原始类型，无需继续拷贝，直接返回
+* 如果是引用类型，创建一个新的对象，遍历需要克隆的对象，将需要克隆对象的属性执行深拷贝后依次添加到新对象上。
+
+很容易理解，如果有更深层次的对象可以继续递归直到属性为原始类型，这样我们就完成了一个最简单的深拷贝：
+```js
+function clone(target) {
+    if (typeof target === 'object') {
+        let cloneTarget = {};
+        for (const key in target) {
+            cloneTarget[key] = clone(target[key]);
+        }
+        return cloneTarget;
+    } else {
+        return target;
+    }
+};
+```
+这是一个最基础版本的深拷贝，这段代码可以让你向面试官展示你可以用递归解决问题，但是显然，他还有非常多的缺陷，比如，还没有考虑数组。
+##### 考虑数组
+在上面的版本中，我们的初始化结果只考虑了普通的object，下面我们只需要把初始化代码稍微一变，就可以兼容数组了：
+```js
+module.exports = function clone(target) {
+    if (typeof target === 'object') {
+        let cloneTarget = Array.isArray(target) ? [] : {};
+        for (const key in target) {
+            cloneTarget[key] = clone(target[key]);
+        }
+        return cloneTarget;
+    } else {
+        return target;
+    }
+};
+```
+##### 循环引用
+我们执行下面这样一个测试用例：
+```js
+const target = {
+    field1: 1,
+    field2: undefined,
+    field3: {
+        child: 'child'
+    },
+    field4: [2, 4, 8]
+};
+target.target = target;
+```
+可以看到下面的结果：![image-20230209145457356](image/image-20230209145457356.png)
+
+很明显，因为递归进入死循环导致栈内存溢出了。
+
+原因就是上面的对象存在循环引用的情况，即对象的属性间接或直接的引用了自身的情况：
+
+解决循环引用问题，我们可以额外开辟一个存储空间，来存储当前对象和拷贝对象的对应关系，当需要拷贝当前对象时，先去存储空间中找，有没有拷贝过这个对象，如果有的话直接返回，如果没有的话继续拷贝，这样就巧妙化解的循环引用的问题。
+
+这个存储空间，需要可以存储key-value形式的数据，且key可以是一个引用类型，我们可以选择Map这种数据结构：
+* 检查map中有无克隆过的对象
+* 有 - 直接返回
+* 没有 - 将当前对象作为key，克隆对象作为value进行存储
+* 继续克隆
+```js
+function clone(target, map = new Map()) {
+    if (typeof target === 'object') {
+        let cloneTarget = Array.isArray(target) ? [] : {};
+        if (map.get(target)) {
+            return map.get(target);
+        }
+        map.set(target, cloneTarget);
+        for (const key in target) {
+            cloneTarget[key] = clone(target[key], map);
+        }
+        return cloneTarget;
+    } else {
+        return target;
+    }
+};
+```
+
+##### 常规
 ```js
 /**
  * 深拷贝
@@ -487,3 +600,88 @@ function deepClone(obj = {}, map = new Map()) {
   return result;
 }
 ```
+#### 1.4 根据 0.1+0.2 ! == 0.3，讲讲 IEEE 754 ，如何让其相等？
+原因总结：
+* 进制转换 ：js 在做数字计算的时候，0.1 和 0.2 都会被转成二进制后无限循环 ，但是 js 采用的 IEEE 754 二进制浮点运算，最大可以存储 53 位有效数字，于是大于 53 位后面的会全部截掉，将导致精度丢失。
+* 对阶运算 ：由于指数位数不相同，运算时需要对阶运算，阶小的尾数要根据阶差来右移（0舍1入），尾数位移时可能会发生数丢失的情况，影响精度。
+
+解决办法：
+
+1. 转为整数（大数）运算。
+```js
+function add(a, b) {
+  const maxLen = Math.max(
+    a.toString().split(".")[1].length,
+    b.toString().split(".")[1].length
+  );
+  const base = 10 ** maxLen;
+  const bigA = BigInt(base * a);
+  const bigB = BigInt(base * b);
+  const bigRes = (bigA + bigB) / BigInt(base); // 如果是 (1n + 2n) / 10n 是等于 0n的。。。
+  return Number(bigRes);
+}
+```
+这里代码是有问题的，因为最后计算 bigRes 的大数相除（即 /）是会把小数部分截掉的，所以我很疑惑为什么网络上很多文章都说可以通过先转为整数运算再除回去，为了防止转为的整数超出 js 表示范围，还可以运用到 ES6 新增的大数类型，我真的很疑惑，希望有好心人能解答下。
+
+2. 使用 Number.EPSILON 误差范围。
+```js
+function isEqual(a, b) {
+  return Math.abs(a - b) < Number.EPSILON;
+}
+
+console.log(isEqual(0.1 + 0.2, 0.3)); // true
+```
+Number.EPSILON 的实质是一个可以接受的最小误差范围，一般来说为 Math.pow(2, -52) 。
+
+3. 转成字符串，对字符串做加法运算。
+```js
+// 字符串数字相加
+var addStrings = function (num1, num2) {
+  let i = num1.length - 1;
+  let j = num2.length - 1;
+  const res = [];
+  let carry = 0;
+  while (i >= 0 || j >= 0) {
+    const n1 = i >= 0 ? Number(num1[i]) : 0;
+    const n2 = j >= 0 ? Number(num2[j]) : 0;
+    const sum = n1 + n2 + carry;
+    res.unshift(sum % 10);
+    carry = Math.floor(sum / 10);
+    i--;
+    j--;
+  }
+  if (carry) {
+    res.unshift(carry);
+  }
+  return res.join("");
+};
+
+function isEqual(a, b, sum) {
+  const [intStr1, deciStr1] = a.toString().split(".");
+  const [intStr2, deciStr2] = b.toString().split(".");
+  const inteSum = addStrings(intStr1, intStr2); // 获取整数相加部分
+  const deciSum = addStrings(deciStr1, deciStr2); // 获取小数相加部分
+  return inteSum + "." + deciSum === String(sum);
+}
+
+console.log(isEqual(0.1, 0.2, 0.3)); // true
+```
+
+### 2. 原型和原型链
+可以说这部分每家面试官都会问了。。首先理解的话，其实一张图即可，一段代码即可。
+```js
+function Foo() {}
+
+let f1 = new Foo();
+let f2 = new Foo();
+```
+千万别畏惧下面这张图，特别有用，一定要搞懂，熟到提笔就能默画出来。
+
+![image-20230209210631252](image/image-20230209210631252.png)
+
+总结：
+
+* 原型：每一个 JavaScript 对象（null 除外）在创建的时候就会与之关联另一个对象，这个对象就是我们所说的原型，每一个对象都会从原型"继承"属性，其实就是 prototype 对象。
+* 原型链：由相互关联的原型组成的链状结构就是原型链。
+
+先说出总结的话，再举例子说明如何顺着原型链找到某个属性。
