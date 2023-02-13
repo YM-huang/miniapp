@@ -686,7 +686,334 @@ let f2 = new Foo();
 
 先说出总结的话，再举例子说明如何顺着原型链找到某个属性。
 
-### 3、 作用域与作用域链
+### 3. 作用域与作用域链
 * 作用域：规定了如何查找变量，也就是确定当前执行代码对变量的访问权限。换句话说，作用域决定了代码区块中变量和其他资源的可见性。（全局作用域、函数作用域、块级作用域）
 * 作用域链：从当前作用域开始一层层往上找某个变量，如果找到全局作用域还没找到，就放弃寻找 。这种层级关系就是作用域链。（由多个执行上下文的变量对象构成的链表就叫做作用域链，学习下面的内容之后再考虑这句话）
 需要注意的是，js 采用的是静态作用域，所以函数的作用域在函数定义时就确定了。
+
+全局作用域、函数作用域
+块级作用域：块级作用域可通过新增命令let和const声明，所声明的变量在指定块的作用域外无法被访问。块级作用域在如下情况被创建：
+1. 在一个函数内部
+2. 在一个代码块（由一对花括号包裹）内部
+
+执行上下文在运行时确定，随时可能改变；作用域在定义时就确定，并且不会改变。
+
+### 4. 执行上下文
+总结：当 JavaScript 代码执行一段可执行代码时，会创建对应的执行上下文。对于每个执行上下文，都有三个重要属性：
+
+* 变量对象（Variable object，VO）；
+* 作用域链（Scope chain）；
+* this。
+#### this
+学懂 JavaScript 语言，一个标志就是理解下面两种写法，可能有不一样的结果。
+```js
+var obj = {
+  foo: function () {}
+};
+
+var foo = obj.foo;
+// 写法一
+obj.foo()
+// 写法二
+foo()
+```
+上面代码中，虽然obj.foo和foo指向同一个函数，但是执行结果可能不一样。请看下面的例子。
+```js
+var obj = {
+  foo: function () { console.log(this.bar) },
+  bar: 1
+};
+
+var foo = obj.foo;
+var bar = 2;
+
+obj.foo() // 1
+foo() // 2
+```
+这种差异的原因，就在于函数体内部使用了this关键字。很多教科书会告诉你，this指的是函数运行时所在的环境。对于obj.foo()来说，foo运行在obj环境，所以this指向obj；对于foo()来说，foo运行在全局环境，所以this指向全局环境。所以，两者的运行结果不一样。
+
+这种解释没错，但是教科书往往不告诉你，为什么会这样？也就是说，函数的运行环境到底是怎么决定的？举例来说，为什么obj.foo()就是在obj环境执行，而一旦var foo = obj.foo，foo()就变成在全局环境执行？
+
+本文就来解释 JavaScript 这样处理的原理。理解了这一点，你就会彻底理解this的作用。
+
+JavaScript 语言之所以有this的设计，跟内存里面的数据结构有关系。
+```js
+var obj = { foo:  5 };
+```
+上面的代码将一个对象赋值给变量obj。JavaScript 引擎会先在内存里面，生成一个对象{ foo: 5 }，然后把这个对象的内存地址赋值给变量obj。![image-20230212173158754](image/image-20230212173158754.png)
+也就是说，变量obj是一个地址（reference）。后面如果要读取obj.foo，引擎先从obj拿到内存地址，然后再从该地址读出原始的对象，返回它的foo属性。
+
+原始的对象以字典结构保存，每一个属性名都对应一个属性描述对象。举例来说，上面例子的foo属性，实际上是以下面的形式保存的。
+![image-20230212174604282](image/image-20230212174604282.png)
+```js
+{
+  foo: {
+    [[value]]: 5
+    [[writable]]: true
+    [[enumerable]]: true
+    [[configurable]]: true
+  }
+}
+```
+注意，foo属性的值保存在属性描述对象的value属性里面。
+
+这样的结构是很清晰的，问题在于属性的值可能是一个函数。
+```js
+var obj = { foo: function () {} };
+```
+这时，引擎会将函数单独保存在内存中，然后再将函数的地址赋值给foo属性的value属性。![image-20230212175608951](image/image-20230212175608951.png)
+```js
+{
+  foo: {
+    [[value]]: 函数的地址
+    ...
+  }
+}
+```
+由于函数是一个单独的值，所以它可以在不同的环境（上下文）执行。
+```js
+var f = function () {};
+var obj = { f: f };
+
+// 单独执行
+f()
+
+// obj 环境执行
+obj.f()
+```
+
+JavaScript 允许在函数体内部，引用当前环境的其他变量。
+```js
+var f = function () {
+  console.log(x);
+};
+```
+上面代码中，函数体里面使用了变量x。该变量由运行环境提供。
+
+现在问题就来了，由于函数可以在不同的运行环境执行，所以需要有一种机制，能够在函数体内部获得当前的运行环境（context）。所以，this就出现了，它的设计目的就是在函数体内部，指代函数当前的运行环境。
+```js
+var f = function () {
+  console.log(this.x);
+}
+```
+上面代码中，函数体里面的this.x就是指当前运行环境的x。
+```js
+var f = function () {
+  console.log(this.x);
+}
+
+var x = 1;
+var obj = {
+  f: f,
+  x: 2,
+};
+
+// 单独执行
+f() // 1
+
+// obj 环境执行
+obj.f() // 2
+```
+上面代码中，函数f在全局环境执行，this.x指向全局环境的x。![image-20230212182149290](image/image-20230212182149290.png)
+在obj环境执行，this.x指向obj.x。![image-20230212182504448](image/image-20230212182504448.png)
+回到本文开头提出的问题，obj.foo()是通过obj找到foo，所以就是在obj环境执行。一旦var foo = obj.foo，变量foo就直接指向函数本身，所以foo()就变成在全局环境执行。
+
+#### 顺序
+好啦，现在我们已经了解了执行上下文栈是如何处理执行上下文的，所以让我们看看上篇文章《JavaScript深入之词法作用域和动态作用域》最后的问题：
+```js
+var scope = "global scope";
+function checkscope(){
+    var scope = "local scope";
+    function f(){
+        return scope;
+    }
+    return f();
+}
+checkscope();
+var scope = "global scope";
+function checkscope(){
+    var scope = "local scope";
+    function f(){
+        return scope;
+    }
+    return f;
+}
+checkscope()();
+```
+两段代码执行的结果一样，但是两段代码究竟有哪些不同呢？
+
+答案就是执行上下文栈的变化不一样。
+
+让我们模拟第一段代码：
+```js
+ECStack.push(<checkscope> functionContext);
+ECStack.push(<f> functionContext);
+ECStack.pop();
+ECStack.pop();
+```
+让我们模拟第二段代码：
+```js
+ECStack.push(<checkscope> functionContext);
+ECStack.pop();
+ECStack.push(<f> functionContext);
+ECStack.pop();
+```
+是不是有些不同呢？
+
+当然了，这样概括的回答执行上下文栈的变化不同，是不是依然有一种意犹未尽的感觉呢，为了更详细讲解两个函数执行上的区别，我们需要探究一下执行上下文到底包含了哪些内容，所以欢迎阅读下一篇《JavaScript深入之变量对象》。
+
+#### 变量对象
+#### 作用域链
+
+### 闭包
+根据 MDN 中文的定义，闭包的定义如下：
+>在 JavaScript 中，每当创建一个函数，闭包就会在函数创建的同时被创建出来。可以在一个内层函数中访问到其外层函数的作用域。
+
+也可以这样说：
+>闭包是指那些能够访问自由变量的函数。 自由变量是指在函数中使用的，但既不是函数参数也不是函数的局部变量的变量。 闭包 = 函数 + 函数能够访问的自由变量。
+
+ECMAScript中，闭包指的是：
+
+1. 从理论角度：所有的函数。因为它们都在创建的时候就将上层上下文的数据保存起来了。哪怕是简单的全局变量也是如此，因为函数中访问全局变量就相当于是在访问自由变量，这个时候使用最外层的作用域。
+2. 从实践角度：以下函数才算是闭包：
+	* 即使创建它的上下文已经销毁，它仍然存在（比如，内部函数从父函数中返回）
+	* 在代码中引用了自由变量
+
+在经过上一小节“执行上下文”的学习，再来阅读这篇文章：JavaScript 深入之闭包，你会对闭包的实质有一定的了解。在回答时，我们这样答：
+
+在某个内部函数的执行上下文创建时，会将父级函数的活动对象加到内部函数的 [[scope]] 中，形成作用域链，所以即使父级函数的执行上下文销毁（即执行上下文栈弹出父级函数的执行上下文），但是因为其活动对象还是实际存储在内存中可被内部函数访问到的，从而实现了闭包。
+
+闭包应用： 函数作为参数被传递：
+```js
+function print(fn) {
+  const a = 200;
+  fn();
+}
+
+const a = 100;
+function fn() {
+  console.log(a);
+}
+
+print(fn); // 100
+```
+函数作为返回值被返回：
+```js
+function create() {
+  const a = 100;
+
+  return function () {
+    console.log(a);
+  };
+}
+
+const fn = create();
+const a = 200;
+fn(); // 100
+```
+
+**闭包：自由变量的查找，是在函数定义的地方，向上级作用域查找。不是在执行的地方。**
+应用实例：比如缓存工具，隐藏数据，只提供 API 。
+```js
+function createCache() {
+  const data = {}; // 闭包中被隐藏的数据，不被外界访问
+  return {
+    set: function (key, val) {
+      data[key] = val;
+    },
+    get: function (key) {
+      return data[key];
+    },
+  };
+}
+
+const c = createCache();
+c.set("a", 100);
+console.log(c.get("a")); // 100
+```
+
+#### 必刷题
+```js
+var data = [];
+
+for (var i = 0; i < 3; i++) {
+  data[i] = function () {
+    console.log(i);
+  };
+}
+
+data[0]();
+data[1]();
+data[2]();
+```
+答案是都是 3，让我们分析一下原因：
+
+当执行到 data[0] 函数之前，此时全局上下文的 VO 为：
+
+```js
+globalContext = {
+    VO: {
+        data: [...],
+        i: 3
+    }
+}
+```
+当执行 data[0] 函数的时候，data[0] 函数的作用域链为：
+```js
+data[0]Context = {
+    Scope: [AO, globalContext.VO]
+}
+```
+data[0]Context 的 AO 并没有 i 值，所以会从 globalContext.VO 中查找，i 为 3，所以打印的结果就是 3。
+
+data[1] 和 data[2] 是一样的道理。
+
+所以让我们改成闭包看看：
+```js
+var data = [];
+
+for (var i = 0; i < 3; i++) {
+  data[i] = (function (i) {
+        return function(){
+            console.log(i);
+        }
+  })(i);
+}
+
+data[0]();
+data[1]();
+data[2]();
+```
+当执行到 data[0] 函数之前，此时全局上下文的 VO 为：
+```js
+globalContext = {
+    VO: {
+        data: [...],
+        i: 3
+    }
+}
+```
+跟没改之前一模一样。
+
+当执行 data[0] 函数的时候，data[0] 函数的作用域链发生了改变：
+```js
+data[0]Context = {
+    Scope: [AO, 匿名函数Context.AO globalContext.VO]
+}
+```
+匿名函数执行上下文的AO为：
+```js
+匿名函数Context = {
+    AO: {
+        arguments: {
+            0: 0,
+            length: 1
+        },
+        i: 0
+    }
+}
+```
+data[0]Context 的 AO 并没有 i 值，所以会沿着作用域链从匿名函数 Context.AO 中查找，这时候就会找 i 为 0，找到了就不会往 globalContext.VO 中查找了，即使 globalContext.VO 也有 i 的值(值为3)，所以打印的结果就是0。
+
+data[1] 和 data[2] 是一样的道理。
+### 6、 call、apply、bind 实现
