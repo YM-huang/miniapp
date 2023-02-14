@@ -1017,3 +1017,106 @@ data[0]Context 的 AO 并没有 i 值，所以会沿着作用域链从匿名函�
 
 data[1] 和 data[2] 是一样的道理。
 ### 6、 call、apply、bind 实现
+#### call
+call() 方法在使用一个指定的 this 值和若干个指定的参数值的前提下调用某个函数或方法。
+
+举个例子：
+```js
+var obj = {
+  value: "vortesnail",
+};
+
+function fn() {
+  console.log(this.value);
+}
+
+fn.call(obj); // vortesnail
+```
+通过 call 方法我们做到了以下两点：
+* call 改变了 this 的指向，指向到 obj 。
+* fn 函数执行了。
+那么如果我们自己写 call 方法的话，可以怎么做呢？我们先考虑改造 obj 。
+```js
+var obj = {
+  value: "vortesnail",
+  fn: function () {
+    console.log(this.value);
+  },
+};
+
+obj.fn(); // vortesnail
+```
+这时候 this 就指向了 obj ，但是这样做我们手动给 obj 增加了一个 fn 属性，这显然是不行的，不用担心，我们执行完再使用对象属性的删除方法（delete）不就行了？
+```js
+obj.fn = fn;
+obj.fn();
+delete obj.fn;
+```
+根据这个思路，我们就可以写出来了：
+```js
+Function.prototype.myCall = function (context) {
+  // 判断调用对象
+  if (typeof this !== "function") {
+    throw new Error("Type error");
+  }
+  // 首先获取参数
+  let args = [...arguments].slice(1);
+  let result = null;
+  // 判断 context 是否传入，如果没有传就设置为 window
+  context = context || window;
+  // 将被调用的方法设置为 context 的属性
+  // this 即为我们要调用的方法
+  context.fn = this;
+  // 执行要被调用的方法
+  result = context.fn(...args);
+  // 删除手动增加的属性方法
+  delete context.fn;
+  // 将执行结果返回
+  return result;
+};
+```
+#### apply
+我们会了 call 的实现之后，apply 就变得很简单了，他们没有任何区别，除了传参方式。
+```js
+Function.prototype.myApply = function (context) {
+  if (typeof this !== "function") {
+    throw new Error("Type error");
+  }
+  let result = null;
+  context = context || window;
+  // 与上面代码相比，我们使用 Symbol 来保证属性唯一
+  // 也就是保证不会重写用户自己原来定义在 context 中的同名属性
+  const fnSymbol = Symbol();
+  context[fnSymbol] = this;
+  // 执行要被调用的方法
+  if (arguments[1]) {
+    result = context[fnSymbol](...arguments[1]);
+  } else {
+    result = context[fnSymbol]();
+  }
+  delete context[fnSymbol];
+  return result;
+};
+```
+
+#### bind
+bind 返回的是一个函数，这个地方可以详细阅读这篇文章，讲的非常清楚：解析 bind 原理，并手写 bind 实现。
+```js
+Function.prototype.myBind = function (context) {
+  // 判断调用对象是否为函数
+  if (typeof this !== "function") {
+    throw new Error("Type error");
+  }
+  // 获取参数
+  const args = [...arguments].slice(1),
+  const fn = this;
+  return function Fn() {
+    return fn.apply(
+      this instanceof Fn ? this : context,
+      // 当前的这个 arguments 是指 Fn 的参数
+      args.concat(...arguments)
+    );
+  };
+};
+```
+### new的实现
