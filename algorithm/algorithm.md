@@ -12,16 +12,17 @@
 >	输入：n = 2
 >	输出：2
 >	解释：有两种方法可以爬到楼顶。
+>
 >	1. 1 阶 + 1 阶
 >	2. 2 阶
->**示例 2：**
+>	**示例 2：**
 >	输入：n = 3
 >	输出：3
 >	解释：有三种方法可以爬到楼顶。
 >	1. 1 阶 + 1 阶 + 1 阶
 >	2. 1 阶 + 2 阶
 >	3. 2 阶 + 1 阶
->**提示：**
+>	**提示：**
 >	1 <= n <= 45
 
 思路：
@@ -805,7 +806,7 @@ var subsets = function(nums) {
 >	输入：nums = [1,2,3]
 >	输出：[[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]]
 >	示例 2：
->												
+>																	
 >	输入：nums = [0,1]
 >	输出：[[0,1],[1,0]]
 >**示例 3：**
@@ -1030,6 +1031,103 @@ var restoreIpAddresses = function(s) {
     return res;
 };
 ```
+
+## hash
+
+### 两数之和(easy)
+>给定一个整数数组 nums 和一个整数目标值 target，请你在该数组中找出 和为目标值 target  的那 两个 整数，并返回它们的数组下标。
+>你可以假设每种输入只会对应一个答案。但是，数组中同一个元素在答案里不能重复出现。
+>你可以按任意顺序返回答案。
+>**示例 1：**
+>
+>输入：nums = [2,7,11,15], target = 9
+>输出：[0,1]
+>解释：因为 nums[0] + nums[1] == 9 ，返回 [0, 1] 。
+>**示例 2：**
+>
+>输入：nums = [3,2,4], target = 6
+>输出：[1,2]
+>**示例 3：**
+>
+>输入：nums = [3,3], target = 6
+>输出：[0,1]
+>提示：
+>
+>2 <= nums.length <= 104
+>-109 <= nums[i] <= 109
+>-109 <= target <= 109
+>只会存在一个有效答案
+
+```js
+/*知识点：
+map对象中存放的是{key,value}键值对
+has(key)方法判断map中是否存在key，返回boolen值
+get(key)方法返回map中的value值
+
+解题过程：
+1.用map来存放{数组元素值，坐标}这样的键值对
+2.运用逆向解法，即用target减去数组中的某个元素，然后来判断map中是否有相同的值，若有则存在满足条件的答案，返回两个坐标即可；若没有，则保存{数组中某个元素值，对应的坐标}到map对象中。依次遍历即可判断是否有满足条件的两个元素。*/
+
+/**
+ * @param {number[]} nums
+ * @param {number} target
+ * @return {number[]}
+ */
+var twoSum = function(nums, target) {
+    map = new Map()
+    for(let i = 0; i < nums.length; i++) {
+        x = target - nums[i]
+        if(map.has(x)) {
+            return [map.get(x),i]
+        }
+        map.set(nums[i],i)
+    }
+};
+```
+### 无重复字符的最长子串（medium）
+
+>给定一个字符串 s ，请你找出其中不含有重复字符的 最长子串 的长度。
+>
+>**示例 1:**
+>
+>输入: s = "abcabcbb"
+>输出: 3 
+>解释: 因为无重复字符的最长子串是 "abc"，所以其长度为 3。
+>**示例 2:**
+>
+>输入: s = "bbbbb"
+>输出: 1
+>解释: 因为无重复字符的最长子串是 "b"，所以其长度为 1。
+>**示例 3:**
+>
+>输入: s = "pwwkew"
+>输出: 3
+>解释: 因为无重复字符的最长子串是 "wke"，所以其长度为 3。
+>     请注意，你的答案必须是 子串 的长度，"pwke" 是一个子序列，不是子串。**提示：**
+>
+>0 <= s.length <= 5 * 104
+>s 由英文字母、数字、符号和空格组成
+
+```js
+/**
+ * @param {string} s
+ * @return {number}
+ */
+var lengthOfLongestSubstring = function(s) {
+var start = 0, maxLen = 0;
+    var map = new Map();
+
+    for(var i = 0; i < s.length; i++) {
+        var ch = s[i];
+        if(map.get(ch) >= start) start = map.get(ch) + 1;
+        map.set(ch, i);
+        if(i - start + 1 > maxLen) maxLen = i - start + 1;
+    }
+
+    return maxLen;
+};
+```
+
 
 ## 排序算法
 
