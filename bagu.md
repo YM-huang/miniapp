@@ -1135,12 +1135,145 @@ Function.prototype.myBind = function (context) {
 
 
 
+## web 存储
+
+要掌握 cookie，localStorage 和 sessionStorage。
+### 1、cookie
+- 本身用于浏览器和 server 通讯。
+- 被“借用”到本地存储来的。
+- 可用 document.cookie = '...' 来修改。
+
+其缺点：
+
+- 存储大小限制为 4KB。
+- http 请求时需要发送到服务端，增加请求数量。
+- 只能用 document.cookie = '...' 来修改，太过简陋。
+
+### 2、localStorage 和 sessionStorage
+
+- HTML5 专门为存储来设计的，最大可存 5M。
+- API 简单易用， setItem getItem。
+- 不会随着 http 请求被发送到服务端。
+
+它们的区别：
+
+- localStorage 数据会永久存储，除非代码删除或手动删除。
+- sessionStorage 数据只存在于当前会话，浏览器关闭则清空。
+- 一般用 localStorage 会多一些。
 
 
+## HTTP
+### 1. HTTP状态码
+#### 1.1 状态码分类
+- 1xx - 服务器收到请求。
+- 2xx - 请求成功，如 200。
+- 3xx - 重定向，如 302。
+- 4xx - 客户端错误，如 404。
+- 5xx - 服务端错误，如 500。
+
+#### 1.2 常见状态码
+- 200 - 成功。
+- 301 - 永久重定向（配合 location，浏览器自动处理）。
+- 302 - 临时重定向（配合 location，浏览器自动处理）。
+- 304 - 资源未被修改。
+- 403 - 没权限。
+- 404 - 资源未找到。
+- 500 - 服务器错误。
+- 504 - 网关超时。
+
+#### 1.3 关于协议和规范
+- 状态码都是约定出来的。
+- 要求大家都跟着执行。
+- 不要违反规范，例如 IE 浏览器。
+
+### 2、http 缓存
+- 关于缓存的介绍。
+- http 缓存策略（强制缓存 + 协商缓存）。
+- 刷新操作方式，对缓存的影响。
+
+#### 2.1 关于缓存
+- 什么是缓存？ 把一些不需要重新获取的内容再重新获取一次
+- 为什么需要缓存？ 网络请求相比于 CPU 的计算和页面渲染是非常非常慢的。
+- 哪些资源可以被缓存？ 静态资源，比如 js css img。
+
+#### 2.2 强制缓存
+
+![image-20230302225610094](image/image-20230302225610094.png)
+
+Cache-Control：
+
+- 在 Response Headers 中。
+- 控制强制缓存的逻辑。
+- 例如 Cache-Control: max-age=3153600（单位是秒）
+
+Cache-Control 有哪些值：
+
+- max-age：缓存最大过期时间。
+- no-cache：可以在客户端存储资源，每次都必须去服务端做新鲜度校验，来决定从服务端获取新的资源（200）还是使用客户端缓存（304）。
+- no-store：永远都不要在客户端存储资源，永远都去原始服务器去获取资源。
+
+#### 2.3 协商缓存（对比缓存）
+- 服务端缓存策略。
+- 服务端判断客户端资源，是否和服务端资源一样。
+- 一致则返回 304，否则返回 200 和最新的资源。
+
+![image-20230302225852069](image/image-20230302225852069.png)
+
+资源标识：
+
+- 在 Response Headers 中，有两种。
+- Last-Modified：资源的最后修改时间。
+- Etag：资源的唯一标识（一个字符串，类似于人类的指纹）。
+
+**Last-Modified：**
+
+![image-20230302230235426](image/image-20230302230235426.png)
+
+服务端拿到 if-Modified-Since 之后拿这个时间去和服务端资源最后修改时间做比较，如果一致则返回 304 ，不一致（也就是资源已经更新了）就返回 200 和新的资源及新的 Last-Modified。
+
+**Etag：**
+
+![image-20230302230339893](image/image-20230302230339893.png)
+
+其实 Etag 和 Last-Modified 一样的，只不过 Etag 是服务端对资源按照一定方式（比如 contenthash）计算出来的唯一标识，就像人类指纹一样，传给客户端之后，客户端再传过来时候，服务端会将其与现在的资源计算出来的唯一标识做比较，一致则返回 304，不一致就返回 200 和新的资源及新的 Etag。
+
+**两者比较：**
+
+- 优先使用 Etag。
+- Last-Modified 只能精确到秒级。
+- 如果资源被重复生成，而内容不变，则 Etag 更精确。
 
 
+#### 2.4 综述
 
+![image-20230302230035983](image/image-20230302230035983.png)
 
+#### 2.5 三种刷新操作对 http 缓存的影响
+- 正常操作：地址栏输入 url，跳转链接，前进后退等。
+- 手动刷新：f5，点击刷新按钮，右键菜单刷新。
+- 强制刷新：ctrl + f5，shift+command+r。
+
+正常操作：强制缓存有效，协商缓存有效。 
+手动刷新：强制缓存失效，协商缓存有效。 
+强制刷新：强制缓存失效，协商缓存失效。
+
+### 3. 面试
+#### GET 和 POST 的区别。
+- 从缓存的角度，GET 请求会被浏览器主动缓存下来，留下历史记录，而 POST 默认不会。
+- 从编码的角度，GET 只能进行 URL 编码，只能接收 ASCII 字符，而 POST 没有限制。
+- 从参数的角度，GET 一般放在 URL 中，因此不安全，POST 放在请求体中，更适合传输敏感信息。
+- 从幂等性的角度，GET 是幂等的，而 POST 不是。(幂等表示执行相同的操作，结果也是相同的)
+- 从 TCP 的角度，GET 请求会把请求报文一次性发出去，而 POST 会分为两个 TCP 数据包，首先发 header 部分，如果服务器响应 100(continue)， 然后发 body 部分。(火狐浏览器除外，它的 POST 请求只发一个 TCP 包)
+
+#### HTTP/2 有哪些改进？（很大可能问原理）
+
+- 头部压缩。
+- 多路复用。
+- 服务器推送。
+
+#### HTTPS原理
+
+#### 跨域
 
 
 
@@ -1565,3 +1698,252 @@ eg:
 1. 硬链接和原来的文件没有什么区别，而且共享一个 inode 号（文件在文件系统上的唯一标识）；而软链接不共享 inode，也可以说是个特殊的 inode，所以和原来的 inode 有区别。
 2. 若原文件删除了，则该软连接则不可以访问，而硬连接则是可以的。
 3. 由于符号链接的特性，导致其可以跨越磁盘分区，但硬链接不具备这个特性.
+
+### ps(Process Status)命令
+显示进程：
+#### 使用实例
+##### 显示所有进程信息
+命令：
+ps -A
+输出：
+```shell
+[root@localhost test6]# ps -A
+
+  PID TTY          TIME CMD
+
+    1 ?        00:00:00 init
+
+    2 ?        00:00:01 migration/0
+
+    3 ?        00:00:00 ksoftirqd/0
+
+    4 ?        00:00:01 migration/1
+
+    5 ?        00:00:00 ksoftirqd/1
+
+    6 ?        00:29:57 events/0
+
+    7 ?        00:00:00 events/1
+
+    8 ?        00:00:00 khelper
+
+   49 ?        00:00:00 kthread
+
+   54 ?        00:00:00 kblockd/0
+
+   55 ?        00:00:00 kblockd/1
+
+   56 ?        00:00:00 kacpid
+
+  217 ?        00:00:00 cqueue/0
+
+  ……省略部分结果
+```
+
+##### 显示指定用户信息
+命令：
+ps -u root
+输出：
+```shell
+[root@localhost test6]# ps -u root
+
+  PID TTY          TIME CMD
+
+    1 ?        00:00:00 init
+
+    2 ?        00:00:01 migration/0
+
+    3 ?        00:00:00 ksoftirqd/0
+
+    4 ?        00:00:01 migration/1
+
+    5 ?        00:00:00 ksoftirqd/1
+
+    6 ?        00:29:57 events/0
+
+    7 ?        00:00:00 events/1
+
+    8 ?        00:00:00 khelper
+
+   49 ?        00:00:00 kthread
+
+   54 ?        00:00:00 kblockd/0
+
+   55 ?        00:00:00 kblockd/1
+
+   56 ?        00:00:00 kacpid
+
+    ……省略部分结果
+```
+##### 显示所有进程，连同命令行
+命令：
+ps -ef
+输出：
+```shell
+[root@localhost test6]# ps -ef
+
+UID        PID  PPID  C STIME TTY          TIME CMD
+
+root         1     0  0 Nov02 ?        00:00:00 init [3]                  
+
+root         2     1  0 Nov02 ?        00:00:01 [migration/0]
+
+root         3     1  0 Nov02 ?        00:00:00 [ksoftirqd/0]
+
+root         4     1  0 Nov02 ?        00:00:01 [migration/1]
+
+root         5     1  0 Nov02 ?        00:00:00 [ksoftirqd/1]
+
+root         6     1  0 Nov02 ?        00:29:57 [events/0]
+
+root         7     1  0 Nov02 ?        00:00:00 [events/1]
+
+root         8     1  0 Nov02 ?        00:00:00 [khelper]
+
+root        49     1  0 Nov02 ?        00:00:00 [kthread]
+
+root        54    49  0 Nov02 ?        00:00:00 [kblockd/0]
+
+root        55    49  0 Nov02 ?        00:00:00 [kblockd/1]
+
+root        56    49  0 Nov02 ?        00:00:00 [kacpid]
+
+……省略部分结果
+```
+##### ps 与grep 常用组合用法，查找特定进程
+命令：
+ps -ef|grep ssh
+输出：
+```shell
+[root@localhost test6]# ps -ef|grep ssh
+
+root      2720     1  0 Nov02 ?        00:00:00 /usr/sbin/sshd
+
+root     17394  2720  0 14:58 ?        00:00:00 sshd: root@pts/0 
+
+root     17465 17398  0 15:57 pts/0    00:00:00 grep ssh
+```
+##### 将目前属于您自己这次登入的 PID 与相关信息列示出来
+命令：
+ps -l
+输出：
+```shell
+[root@localhost test6]# ps -l
+
+F S   UID   PID  PPID  C PRI  NI ADDR SZ WCHAN  TTY          TIME CMD
+
+4 S     0 17398 17394  0  75   0 - 16543 wait   pts/0    00:00:00 bash
+
+4 R     0 17469 17398  0  77   0 - 15877 -      pts/0    00:00:00 ps
+```
+##### 列出目前所有的正在内存当中的程序
+命令：
+ps aux
+输出：
+```shell
+[root@localhost test6]# ps aux
+
+USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+
+root         1  0.0  0.0  10368   676 ?        Ss   Nov02   0:00 init [3]                  
+
+root         2  0.0  0.0      0     0 ?        S<   Nov02   0:01 [migration/0]
+
+root         3  0.0  0.0      0     0 ?        SN   Nov02   0:00 [ksoftirqd/0]
+
+root         4  0.0  0.0      0     0 ?        S<   Nov02   0:01 [migration/1]
+
+root         5  0.0  0.0      0     0 ?        SN   Nov02   0:00 [ksoftirqd/1]
+
+root         6  0.0  0.0      0     0 ?        S<   Nov02  29:57 [events/0]
+
+root         7  0.0  0.0      0     0 ?        S<   Nov02   0:00 [events/1]
+
+root         8  0.0  0.0      0     0 ?        S<   Nov02   0:00 [khelper]
+
+root        49  0.0  0.0      0     0 ?        S<   Nov02   0:00 [kthread]
+
+root        54  0.0  0.0      0     0 ?        S<   Nov02   0:00 [kblockd/0]
+
+root        55  0.0  0.0      0     0 ?        S<   Nov02   0:00 [kblockd/1]
+
+root        56  0.0  0.0      0     0 ?        S<   Nov02   0:00 [kacpid]
+
+……省略部分结果
+```
+
+##### 列出类似程序树的程序显示
+命令：
+ps -axjf
+输出：
+```shell
+[root@localhost test6]# ps -axjf
+
+Warning: bad syntax, perhaps a bogus '-'? See /usr/share/doc/procps-3.2.7/FAQ
+
+ PPID   PID  PGID   SID TTY      TPGID STAT   UID   TIME COMMAND
+
+    0     1     1     1 ?           -1 Ss       0   0:00 init [3]                  
+
+    1     2     1     1 ?           -1 S<       0   0:01 [migration/0]
+
+    1     3     1     1 ?           -1 SN       0   0:00 [ksoftirqd/0]
+
+    1     4     1     1 ?           -1 S<       0   0:01 [migration/1]
+
+    1     5     1     1 ?           -1 SN       0   0:00 [ksoftirqd/1]
+
+    1     6     1     1 ?           -1 S<       0  29:58 [events/0]
+
+    1     7     1     1 ?           -1 S<       0   0:00 [events/1]
+
+    1     8     1     1 ?           -1 S<       0   0:00 [khelper]
+
+    1    49     1     1 ?           -1 S<       0   0:00 [kthread]
+
+   49    54     1     1 ?           -1 S<       0   0:00  \_ [kblockd/0]
+
+   49    55     1     1 ?           -1 S<       0   0:00  \_ [kblockd/1]
+
+   49    56     1     1 ?           -1 S<       0   0:00  \_ [kacpid]
+```
+
+##### 找出与 cron 与 syslog 这两个服务有关的 PID 号码
+```shell
+[root@localhost test6]# ps aux | egrep '(cron|syslog)'
+
+root      2682  0.0  0.0  83384  2000 ?        Sl   Nov02   0:00 /sbin/rsyslogd -i /var/run/syslogd.pid -c 5
+
+root      2735  0.0  0.0  74812  1140 ?        Ss   Nov02   0:00 crond
+
+root     17475  0.0  0.0  61180   832 pts/0    S+   16:27   0:00 egrep (cron|syslog)
+
+[root@localhost test6]#
+```
+
+##### 其他
+1. 可以用 | 管道和 more 连接起来分页查看
+命令：
+ps -aux |more
+
+2. 把所有进程显示出来，并输出到ps001.txt文件
+命令：
+ps -aux > ps001.txt
+
+3. 输出指定的字段
+命令：
+ ps -o pid,ppid,pgrp,session,tpgid,comm
+
+### Linux | 管道
+利用Linux所提供的管道符“|”将两个命令隔开，管道符左边命令的输出就会作为管道符右边命令的输入。连续使用管道意味着第一个命令的输出会作为 第二个命令的输入，第二个命令的输出又会作为第三个命令的输入，依此类推。下面来看看管道是如何在构造一条Linux命令中得到应用的。
+1.利用一个管道
+```shell
+# rpm -qa|grep licq
+```
+这条命令使用一个管道符“|”建立了一个管道。管道将rpm -qa命令的输出（包括系统中所有安装的RPM包）作为grep命令的输入，从而列出带有licq字符的RPM包来。
+4.利用多个管道
+```shell
+# cat /etc/passwd | grep /bin/bash | wc -l
+```
+这条命令使用了两个管道，利用第一个管道将cat命令（显示passwd文件的内容）的输出送给grep命令，grep命令找出含有“/bin /bash”的所有行；第二个管道将grep的输出送给wc命令，wc命令统计出输入中的行数。这个命令的功能在于找出系统中有多少个用户使用bash。
+

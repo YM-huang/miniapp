@@ -1,0 +1,1 @@
+**When I break down the big problem into a bunch of smaller problems, the whole thing becomes manageable.**
