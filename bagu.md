@@ -684,6 +684,9 @@ let f2 = new Foo();
 * 原型：每一个 JavaScript 对象（null 除外）在创建的时候就会与之关联另一个对象，这个对象就是我们所说的原型，每一个对象都会从原型"继承"属性，其实就是 prototype 对象。
 * 原型链：由相互关联的原型组成的链状结构就是原型链。
 
+//1. Person.prototype.constructor == Person // **准则1：原型对象（即Person.prototype）的constructor指向构造函数本身**
+//2. person01.__proto__ == Person.prototype // **准则2：实例（即person01）的__proto__和原型对象指向同一个地方**
+
 先说出总结的话，再举例子说明如何顺着原型链找到某个属性。
 
 ### 3. 作用域与作用域链
@@ -1120,14 +1123,81 @@ Function.prototype.myBind = function (context) {
 };
 ```
 ### new的实现
+1. 首先创一个新的空对象。
+2. 根据原型链，设置空对象的 __proto__ 为构造函数的 prototype 。
+3. 构造函数的 this 指向这个对象，执行构造函数的代码（为这个新对象添加属性）。
+4. 判断函数的返回值类型，如果是引用类型，就返回这个引用类型的对象。
+
+```js
+function myNew(context) {
+  const obj = new Object();
+  obj.__proto__ = context.prototype;
+  const res = context.apply(obj, [...arguments].slice(1));//去掉第一个context参数
+  return typeof res === "object" ? res : obj;
+}
+```
+### 异步（未完成）
+这部分着重要理解 Promise、async awiat、event loop 等。
+#### event loop、宏任务和微任务
+简单的例子：
+```js
+console.log("Hi");
+
+setTimeout(function cb() {
+  console.log("cb"); // cb 即 callback
+}, 5000);
+
+console.log("Bye");
+```
+Web APIs 会创建对应的线程，比如 setTimeout 会创建定时器线程，ajax 请求会创建 http 线程。。。这是由 js 的运行环境决定的，比如浏览器。
+
+**注意：1.Call Stack 调用栈空闲 -> 2.尝试 DOM 渲染 -> 触发 Event loop。**
+
+- 每次 Call Stack 清空（即每次轮询结束），即同步任务执行完。
+- 都是 DOM 重新渲染的机会，DOM 结构有改变则重新渲染。
+- 然后再去触发下一次 Event loop。
+- 宏任务：setTimeout，setInterval，Ajax，DOM 事件。 微任务：Promise async/await。
+
+两者区别：
+
+- 宏任务：DOM 渲染后触发，如 setTimeout 、setInterval 、DOM 事件 、script 。
+- 微任务：DOM 渲染前触发，如 Promise.then 、MutationObserver 、Node 环境下的 process.nextTick 。
+
+**从 event loop 解释，为何微任务执行更早？**
+
+- 微任务是 ES6 语法规定的（被压入 micro task queue）。
+- 宏任务是由浏览器规定的（通过 Web APIs 压入 Callback queue）。
+- 宏任务执行时间一般比较长。
+- 每一次宏任务开始之前一定是伴随着一次 event loop 结束的，而微任务是在一次 event loop 结束前执行的。
+
+### 浏览器垃圾回收机制GC(Garbage Collection)
+https://juejin.cn/post/6981588276356317214
+有两种垃圾回收策略：
+
+- 标记清除：标记阶段即为所有活动对象做上标记，清除阶段则把没有标记（也就是非活动对象）销毁。
+- 引用计数：它把对象是否不再需要简化定义为对象有没有其他对象引用到它。如果没有引用指向该对象（引用计数为 0），对象将被垃圾回收机制回收。
+
+标记清除的缺点：
+
+- 内存碎片化，空闲内存块是不连续的，容易出现很多空闲内存块，还可能会出现分配所需内存过大的对象时找不到合适的块。
+- 分配速度慢，因为即便是使用 First-fit 策略，其操作仍是一个 O(n) 的操作，最坏情况是每次都要遍历到最后，同时因为碎片化，大对象的分配效率会更慢。
+
+解决以上的缺点可以使用 **标记整理（Mark-Compact）算法 **，标记结束后，标记整理算法会将活着的对象（即不需要清理的对象）向内存的一端移动，最后清理掉边界的内存（如下图）
+
+![image-20230303164346308](image/image-20230303164346308.png)
+
+引用计数的缺点：
+
+- 需要一个计数器，所占内存空间大，因为我们也不知道被引用数量的上限。
+- 解决不了循环引用导致的无法回收问题。
+
+V8 的垃圾回收机制也是基于标记清除算法，不过对其做了一些优化。
+
+- 针对新生区采用并行回收。
+- 针对老生区采用增量标记与惰性回收。
 
 
-
-
-
-
-
-
+### 实现一个 EventMitter 类（发布订阅模式典型应用）
 
 
 
@@ -1273,10 +1343,167 @@ Cache-Control 有哪些值：
 
 #### HTTPS原理
 
+
+
 #### 跨域
 
+##### 跨域是什么
+跨域，是指浏览器不能执行其它网站的脚本。它是由浏览器的同源策略造成的，是浏览器对javascript实施的安全限制。
 
+简单来讲，就是从地址A加载的页面，不能访问地址B的服务（如上图）。此时地址A与地址B不同源。
 
+**所谓同源，就是域名、协议、端口均相同。**举个例子：
+```
+http://www.123.com/index.html 调用 http://www.123.com/abc.do （非跨域）
+http://www.123.com/index.html 调用 http://www.456.com/abc.do （主域名不同:123/456，跨域）
+http://abc.123.com/index.html 调用 http://def.123.com/server.do （子域名不同:abc/def，跨域）
+http://www.123.com:8080/index.html 调用 http://www.123.com:8081/server.do（端口不同:8080/8081，跨域）
+http://www.123.com/index.html 调用 https://www.123.com/server.do （协议不同:http/https，跨域）
+```
+如上所述，由于合作方的域名与我方的域名不同，从合作方加载的页面，调用我方接口的时候，就会出现跨域的报错。
+
+是否有办法可以解决这个问题呢，需要从CORS说起。
+
+##### CORS
+随着互联网的发展，同源策略严重影响了项目之间的连接，尤其是大项目，需要多个域名配合完成，因此W3C推出了CORS，即Cross-origin resource sharing（跨来源资源共享）。CORS的基本思想就是使用额外的HTTP头部让浏览器与服务器进行沟通，从而决定是否接受跨域请求。
+
+CORS需要浏览器和服务器同时支持，目前，所有浏览器都支持该功能。对于开发者来说，CORS通信与同源的AJAX通信没有区别，代码完全一样。浏览器在跨域访问时，会自动添加HTTP头信息，或者发起预检请求，用户对此毫无感知。因此是否支持跨域请求，关键在于服务器是否做了CORS配置，允许跨域访问。
+
+浏览器将跨域请求分为两类：简单请求和非简单请求。
+
+同时满足以下两大条件的，就属于简单请求：
+
+- 请求方法是以下3种之一：
+	- GET
+	- POST
+	- HEAD
+- HTTP头信息不超出以下字段：
+	- Accept
+	- Accept-Language
+	- Content-Language
+	- Last-Event-ID
+	- Content-Type：仅限于三个值application/x-www-form-urlencoded、multipart/form-data、text/plain
+
+凡是不满足以上条件的，就属于非简单请求。如我们常用的json格式请求，由于其Content-Type的值为application/json，因此属于非简单请求。
+
+对于这两种请求，浏览器的处理方式是不一样的。
+##### 简单请求
+对于简单请求，浏览器采用先请求后判断的方式，即浏览器直接发出CORS请求，即在请求头中增加Origin字段，如图：
+
+![image-20230303093822891](image/image-20230303093822891.png)
+
+Origin字段用来向服务器说明，本次请求来自于哪个源（协议+域名+端口），服务器决定是否允许这个源的访问。
+
+服务器判断该源如果不在自己允许的范围内，就返回一个正常的HTTP响应。浏览器判断响应头中是否包含Access-Control-Allow-Origin字段，如果没有，浏览器就知道服务器是不允许跨域访问的，就会抛出错误。
+
+如果Origin在服务器允许的范围内，服务器的HTTP响应中，就会包含如下字段：![image-20230303093845858](image/image-20230303093845858.png)
+
+**Access-Control-Allow-Origin**
+
+它的值要么是请求时Origin字段的值，要么是一个*（表示接受任意域名的请求）。
+
+**Access-Control-Allow-Credentials**
+
+它的值是一个布尔值，表示是否允许发送Cookie。默认情况下，Cookie不包括在CORS请求之中。设为true，即表示服务器明确许可，Cookie可以包含在请求中，一起发给服务器。
+
+**Access-Control-Allow-Headers**
+
+允许浏览器在CORS中发送的头信息。
+
+**Access-Control-Allow-Methods**
+
+允许浏览器在CORS中使用的方法。
+
+浏览器收到服务器返回的HTTP响应后，即可知道什么样的CORS请求是被允许的。
+
+##### 非简单请求
+对于非简单请求，浏览器采用预检请求，询问服务器是否支持跨域请求。在正式的请求之前，浏览器会预先发送一个额外的OPTIONS请求，询问服务器当前网页所在的域名是否在服务器的许可名单之中，以及可以使用哪些HTTP方法和头字段。只有得到肯定答复，浏览器才会发出正式的XMLHttpRequest请求，否则就报错。如图：
+
+![image-20230303094040300](image/image-20230303094040300.png)
+
+HTTP正式请求的方法是POST，并且发送一个头信息content-type（本例中使用content-type=application/json，因此是非简单请求）。
+
+服务器收到预检请求之后，检查Origin、Access-Control-Request-Method和Access-Control-Request-Headers字段，并做出响应，如下图：
+![image-20230303094108394](image/image-20230303094108394.png)
+
+##### 跨域的解决办法
+遇到跨域的报错，可以分别从客户端和服务端去解决。
+###### 客户端
+通过上面的分析可以知道，跨域的判断是在浏览器进行的，服务器只是根据客户端的请求做出正常的响应，服务端不对跨域做任何判断。因此如果禁用了浏览器的跨域检查，使浏览器不再对比Origin是否被服务器允许，即可发出正常的请求。
+
+该方式需要所有客户都修改浏览器的设置，显然是不现实的，因此只在开发调试的过程中使用，如给chrome浏览器设置--disable-web-security参数。
+###### 服务端
+服务端又有两种解决方式：代理转发和配置CORS。
+
+####### 代理转发
+
+![image-20230303094904820](image/image-20230303094904820.png)
+
+增加代理服务器，和H5资源服务器放在同一个域名下，接口请求全走代理服务器，这样就变成了同源访问，不存在跨域访问，因此就不会存在跨域的问题。
+
+该方式中，所有发往目标服务器的数据，都会经过代理服务器，适用于同一个公司内部不同域名之间相互访问的情况。但对于我们这个项目，由SDK发往我方服务器的数据是敏感数据，需客户端直接发往我方服务器上，不能由合作方做代理转发，因此不能使用此种方式。
+
+使用此方式还需注意一点，应关注代理服务器的性能，代理服务器的性能应与后端的目标服务器的性能相匹配，否则代理服务器会成为整个系统的性能瓶颈。
+
+####### 配置CORS
+在目标服务器上配置CORS响应头，这样浏览器经过对比判断之后，就可以发起正常的访问。
+
+目标服务一般是由软负载和应用服务组成（如常见的apache+jboss，nginx+tomcat等组合），在软负载和应用上都可添加CORS响应头。
+
+如在apache的httpd.conf中添加如下配置：
+```conf
+Header set Access-Control-Allow-Origin *
+//或者Header set Access-Control-Allow-Origin http://xxx.com
+Header set Access-Control-Allow-Methods POST,GET
+Header set Access-Control-Allow-Headers *
+```
+或者nginx的配置中增加如下配置：
+```js
+location / {  
+ add_header Access-Control-Allow-Origin *;
+ add_header Access-Control-Allow-Methods 'GET, POST, OPTIONS';
+ add_header Access-Control-Allow-Headers 'DNT,X-Mx-ReqToken,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Authorization';
+ if ($request_method = 'OPTIONS') {
+ return 204;
+    }
+}
+```
+此方式的优点是不用修改应用代码，缺点是不能做细粒度的编程，从而做到细粒度的控制，如根据请求参数的不同而返回不同的结果。
+
+另一种方式，就是修改应用代码。通常是在服务器代码中增加filter，在filter中在HTTP响应头添加相应的字段，如下：
+```java
+public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
+            throws IOException, ServletException {
+        logger.debug("CorsFilter ----> doFilter");
+        HttpServletResponse res = (HttpServletResponse) servletResponse;
+        HttpServletRequest req = (HttpServletRequest) servletRequest;
+
+        //只允许 http 或 https 开头域名的请求
+        String origin = req.getHeader("Origin");
+        if (StringUtils.isNotEmpty(origin) && (origin.toLowerCase(Locale.ENGLISH).startsWith("http")
+                || origin.toLowerCase(Locale.ENGLISH).startsWith("https"))) {
+            res.addHeader("Access-Control-Allow-Origin", origin);
+        }
+        res.addHeader("Access-Control-Allow-Methods", ALLOWED_METHODS);
+        res.addHeader("Access-Control-Allow-Headers",ALLOWED_HEADERS);
+        res.addHeader("Access-Control-Allow-Credentials", "true");
+
+        if(((HttpServletRequest) servletRequest).getMethod().equals(HttpMethod.OPTIONS.name())){
+            res.addHeader("Access-Control-Max-Age", "3600");
+            ((HttpServletResponse) servletResponse).setStatus(200);
+            return ;
+        }
+        filterChain.doFilter(servletRequest, servletResponse);
+    }
+```
+由于是通过代码控制，因此可以实现细粒度的控制，在解决跨域问题的同时，可以满足复杂的业务需求。
+
+##### 总结
+- 跨域是由浏览器的同源策略造成的，所谓同源，即域名、协议、端口均相同。
+
+- CORS（跨来源资源共享），通过添加HTTP头信息，使浏览器判断是否可以发起跨域访问。
+- 浏览器将跨域请求分为两类：简单请求和非简单请求。简单请求采取先请求后判断的方式，非简单请求采取预检请求的方式判断是否允许跨域访问。
+- 解决跨域通常采用服务端代理转发和配置CORS两种方式。
 
 ## VUE面试题
 
@@ -1552,6 +1779,64 @@ Model 和 View 并无直接关联，而是通过 ViewModel 来进行联系的，
 * View 代表 UI 组件，它负责将数据模型转化成 UI 展现出来，View 是一个同步 View 和 Model 的对象
 * 在 MVVM 架构下，View 和 Model 之间并没有直接的联系，而是通过 ViewModel 进行交互， Model 和 ViewModel 之间的交互是双向的， 因此 View 数据的变化会同步到 Model 中，而 Model 数据的变化也会立即反应到 View 上。
 * 对 ViewModel 通过双向数据绑定把 View 层和 Model 层连接了起来，而 View 和 Model 之间的 同步工作完全是自动的，无需人为干涉，因此开发者只需关注业务逻辑，不需要手动操作 DOM，不需要关注数据状态的同步问题，复杂的数据状态维护完全由 MVVM 来统一管理。
+
+### v2 v3 的差别
+>(https://worktile.com/kb/ask/19553.html)
+>vue2和vue3的区别有以下8点：1、双向数据绑定原理不同；2、是否支持碎片；3、API类型不同；4、定义数据变量和方法不同；5、生命周期钩子函数不同；6、父子传参不同；7、指令与插槽不同；8、main.js文件不同。
+>
+>1. 双向数据绑定原理不同
+>>vue2：vue2的双向数据绑定是利用ES5的一个APIObject.definePropert() 对数据进行劫持，结合发布订阅模式的方式来实现的。
+>>vue3：vue3中使用了ES6的Proxy API对数据代理。相比vue2.x，使用proxy的优势如下：
+>>
+>>* defineProperty只能监听某个属性，不能对全对象监听
+>>* 可以省去for in，闭包等内容来提升效率(直接绑定整个对象即可)
+>>* 可以监听数组，不用再去单独的对数组做特异性操作vue3.x可以检测到数组内部数据的变化。
+>
+>2. 是否支持碎片
+>>vue2：vue2不支持碎片。
+>>vue3：vue3支持碎片（Fragments），就是说可以拥有多个根节点。
+>
+>3. API类型不同
+>>vue2：vue2使用选项类型api，选项型api在代码里分割了不同的属性：data,computed,methods等。
+>>vue3：vue3使用合成型api，新的合成型api能让我们使用方法来分割，相比于旧的api使用属性来分组，这样代码会更加简便和整洁。
+>
+>4. 定义数据变量和方法不同
+>>vue2：vue2是把数据放入data中，在vue2中定义数据变量是data(){}，创建的方法要在methods:{}中。
+>>vue3：，vue3就需要使用一个新的setup()方法，此方法在组件初始化构造的时候触发。使用以下三个步骤来建立反应性数据： 
+>>* 从vue引入reactive；
+>>* 使用reactive() 方法来声明数据为响应性数据；
+>>* 使用setup()方法来返回我们的响应性数据，从而template可以获取这些响应性数据。
+>
+>5. 生命周期钩子函数不同
+>>vue2：vue2中的生命周期：
+>>* beforeCreate 组件创建之前
+>>* created 组件创建之后
+>>* beforeMount 组价挂载到页面之前执行
+>>* mounted 组件挂载到页面之后执行
+>>* beforeUpdate 组件更新之前
+>>* updated 组件更新之后
+>
+>>vue3：vue3中的生命周期：
+>>* setup 开始创建组件
+>>* onBeforeMount 组价挂载到页面之前执行
+>>* onMounted 组件挂载到页面之后执行
+>>* onBeforeUpdate 组件更新之前
+>>* onUpdated 组件更新之后
+>
+>>而且vue3.x 生命周期在调用前需要先进行引入。除了这些钩子函数外，vue3.x还增加了onRenderTracked 和onRenderTriggered函数。
+>
+>6. 父子传参不同
+>>vue2：父传子，用props,子传父用事件 Emitting Events。在vue2中，会调用this$emit然后传入事件名和对象。
+>>vue3：父传子，用props,子传父用事件 Emitting Events。在vue3中的setup()中的第二个参数content对象中就有emit，那么我们只要在setup()接收第二个参数中使用分解对象法取出emit就可以在setup方法中随意使用了。
+>
+>7. 指令与插槽不同
+>>vue2：vue2中使用slot可以直接使用slot；v-for与v-if在vue2中优先级高的是v-for指令，而且不建议一起使用。
+>>vue3：vue3中必须使用v-slot的形式；vue3中v-for与v-if,只会把当前v-if当做v-for中的一个判断语句，不会相互冲突；vue3中移除keyCode作为v-on的修饰符，当然也不支持config.keyCodes；vue3中移除v-on.native修饰符；vue3中移除过滤器filter。
+>
+>8. main.js文件不同
+>>vue2：vue2中我们可以使用pototype(原型)的形式去进行操作，引入的是构造函数。
+>>vue3：vue3中需要使 用结构的形式进行操作，引入的是工厂函数；vue3中app组件中可以没有根标签。
+
 
 ### v-if\v-show
 
@@ -1947,3 +2232,122 @@ ps -aux > ps001.txt
 ```
 这条命令使用了两个管道，利用第一个管道将cat命令（显示passwd文件的内容）的输出送给grep命令，grep命令找出含有“/bin /bash”的所有行；第二个管道将grep的输出送给wc命令，wc命令统计出输入中的行数。这个命令的功能在于找出系统中有多少个用户使用bash。
 
+### 常见命令
+#### 重要
+
+##### top 查看内存/显示系统当前进程信息
+##### df -h 查看磁盘储存状况
+##### iotop 查看IO读写（yum install iotop安装）
+##### netstat -tunlp | grep 端口号：查看端口号占用情况（1）
+##### lsof -i:端口号：查看端口号占用情况（2）
+##### uptime：查看报告系统运行时长及平均负载
+##### ps aux：查看进程
+
+#### 基础
+##### 查看目录与文件：ls
+- ls -la：显示当前目录下所有文件的详细信息
+
+##### 切换目录 cd
+- cd /home 进入 ‘/ home’ 目录
+- cd … 返回上一级目录
+- cd …/… 返回上两级目录
+
+##### 显示当前目录：pwd
+
+##### 创建空文件：touch
+- touch desc.txt：在当前目录下创建文件desc.txt
+
+
+##### 创建目录：mkdir
+- mkdir test：在当前目录下创建test目录
+- mkdir -p /opt/test/img：在/opt/test目录下创建目录img，若无test目录，先创建test目录
+
+##### 查看文件内容：cat
+- cat desc.txt：查看desc.txt的内容
+
+
+##### 分页查看文件内容：more
+
+##### 查看文件尾内容：tail
+- tail -100 desc.txt：查看desc.txt的最后100行内容
+
+
+##### 拷贝：cp
+- cp desc.txt /mnt/：拷贝desc.txt到/mnt目录下
+
+- cp -r test /mnt/：拷贝test目录到/mnt目录下
+
+##### 剪切或改名：mv
+- mv desc.txt /mnt/：剪切文件desc.txt到目录/mnt下
+
+- mv 原名 新名
+
+##### 删除：rm
+- rm -rf test：删除test目录，-r递归删除，-f强制删除。危险操作，务必小心，切记！
+
+
+##### 搜索文件：find
+- find /opt -name ‘*.txt’：在opt目录下查找以.txt结尾的文件
+
+
+##### 显示或配置网络设备：ifconfig
+- ifconfig：显示网络设备情况
+
+
+##### 显示网络相关信息：netstat
+- netstat -a：列出所有端口
+
+- netstat -tunlp | grep 端口号：查看进程端口号
+
+##### 显示进程状态：ps
+- ps -ef：显示当前所有进程
+
+- ps-ef | grep java：显示当前所有java相关进程
+
+##### 查看目录使用情况：du
+- du -h /opt/test：查看/opt/test目录的磁盘使用情况
+
+
+##### 查看磁盘空间使用情况：df
+- df -h：查看磁盘空间使用情况
+
+
+##### 显示系统当前进程信息：top
+- top：显示系统当前进程信息
+
+
+##### 杀死进程：kill
+- kill -s 9 27810：杀死进程号为27810的进程，强制终止，系统资源无法回收
+
+
+##### 压缩和解压：tar
+- tar -zcvf test.tar.gz ./test：打包test目录为test.tar.gz文件，-z表示用gzip压缩
+
+- tar -zxvf test.tar.gz：解压test.tar.gz文件
+
+##### 改变文件或目录的拥有者和组：chown
+- chown nginx:nginx desc.txt：变更文件desc.txt的拥有者为nginx，用户组为nginx
+
+- chown -R nginx:nginx test：变更test及目录下所有文件的拥有者为nginx，用户组为nginx
+
+##### 改变文件或目录的访问权限：chmod
+- chmod u+x test.sh：权限范围：u(拥有者)g(郡组)o(其它用户)， 权限代号：r(读权限/4)w(写权限/2)x(执行权限/1)#给文件拥有者增加test.sh的执行权限
+
+- chmod u+x -R test：给文件拥有者增加test目录及其下所有文件的执行权限
+
+##### 文本编辑：vim
+- vim三种模式：命令模式，插入模式，编辑模式。使用ESC或i或：来切换模式。
+
+- 命令模式下:q退出 :q!强制退出 :wq!保存退出 :set number显示行号 /java在文档中查找java yy复制 p粘贴
+- vim desc.txt：编辑desc.txt文件
+
+##### 关机或重启：shutdown
+- shutdown -h now：立刻关机
+
+- shutdown -r -t 60：60秒后重启
+- shutdown -r now：重启(1)
+- reboot：重启(2)
+
+##### 帮助命令：man
+- man ls：查看ls命令的帮助文档
+- help

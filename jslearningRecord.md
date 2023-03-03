@@ -1236,6 +1236,8 @@ if (pass) {
     console.log('测试通过!');
 }
 ```
+### 关于arguments
+https://zhuanlan.zhihu.com/p/23007032
 
 ## 标准对象
 >1. 不要包装对象（不要new），尤其是string
