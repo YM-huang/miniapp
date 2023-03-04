@@ -1139,6 +1139,10 @@ function myNew(context) {
 ### 异步（未完成）
 这部分着重要理解 Promise、async awiat、event loop 等。
 #### event loop、宏任务和微任务
+事件循环，宏任务，微任务的关系如图所示：
+
+![image-20230304201824170](image/image-20230304201824170.png)
+
 简单的例子：
 ```js
 console.log("Hi");
@@ -1170,6 +1174,59 @@ Web APIs 会创建对应的线程，比如 setTimeout 会创建定时器线程�
 - 宏任务执行时间一般比较长。
 - 每一次宏任务开始之前一定是伴随着一次 event loop 结束的，而微任务是在一次 event loop 结束前执行的。
 
+##### 示例
+```js
+console.log('1');
+
+setTimeout(function() {
+    console.log('2');
+    process.nextTick(function() {
+        console.log('3');
+    })
+    new Promise(function(resolve) {
+        console.log('4');
+        resolve();
+    }).then(function() {
+        console.log('5')
+    })
+})
+process.nextTick(function() {
+    console.log('6');
+})
+new Promise(function(resolve) {
+    console.log('7');
+    resolve();
+}).then(function() {
+    console.log('8')
+})
+
+setTimeout(function() {
+    console.log('9');
+    process.nextTick(function() {
+        console.log('10');
+    })
+    new Promise(function(resolve) {
+        console.log('11');
+        resolve();
+    }).then(function() {
+        console.log('12')
+    })
+})
+//main->微任务(DOM 渲染前触发，如 Promise.then 、MutationObserver 、Node 环境下的 process.nextTick 。)->宏任务(DOM 渲染后触发，如 setTimeout 、setInterval 、DOM 事件 、script 。)
+```
+
+#### Promise
+源码解析：https://juejin.cn/post/6945319439772434469#heading-0
+面试题：https://juejin.cn/post/6844904077537574919
+#### async/await 和 Promise 的关系
+- async/await 是消灭异步回调的终极武器。
+- 但和 Promise 并不互斥，反而，两者相辅相成。
+- 执行 async 函数，返回的一定是 Promise 对象。
+- await 相当于 Promise 的 then。
+- try...catch 可捕获异常，代替了 Promise 的 catch。
+
+
+
 ### 浏览器垃圾回收机制GC(Garbage Collection)
 https://juejin.cn/post/6981588276356317214
 有两种垃圾回收策略：
@@ -1197,8 +1254,71 @@ V8 的垃圾回收机制也是基于标记清除算法，不过对其做了一�
 - 针对老生区采用增量标记与惰性回收。
 
 
-### 实现一个 EventMitter 类（发布订阅模式典型应用）
+### 实现一个 EventMitter 类（发布订阅模式典型应用）之后研究
+```js
+export class EventEmitter {
+  private _events: Record<string, Array<Function>>;
 
+  constructor() {
+    this._events = Object.create(null);
+  }
+
+  emit(evt: string, ...args: any[]) {
+    if (!this._events[evt]) return false;
+
+    const fns = [...this._events[evt]];
+    fns.forEach((fn) => {
+      fn.apply(this, args);
+    });
+
+    return true;
+  }
+
+  on(evt: string, fn: Function) {
+    if (typeof fn !== "function") {
+      throw new TypeError("The evet-triggered callback must be a function");
+    }
+    if (!this._events[evt]) {
+      this._events[evt] = [fn];
+    } else {
+      this._events[evt].push(fn);
+    }
+  }
+
+  once(evt: string, fn: Function) {
+    const execFn = () => {
+      fn.apply(this);
+      this.off(evt, execFn);
+    };
+    this.on(evt, execFn);
+  }
+
+  off(evt: string, fn?: Function) {
+    if (!this._events[evt]) return;
+    if (!fn) {
+      this._events[evt] && (this._events[evt].length = 0);
+    }
+
+    let cb;
+    const cbLen = this._events[evt].length;
+    for (let i = 0; i < cbLen; i++) {
+      cb = this._events[evt][i];
+      if (cb === fn) {
+        this._events[evt].splice(i, 1);
+        break;
+      }
+    }
+  }
+
+  removeAllListeners(evt?: string) {
+    if (evt) {
+      this._events[evt] && (this._events[evt].length = 0);
+    } else {
+      this._events = Object.create(null);
+    }
+  }
+}
+```
 
 
 
@@ -1504,6 +1624,30 @@ public void doFilter(ServletRequest servletRequest, ServletResponse servletRespo
 - CORS（跨来源资源共享），通过添加HTTP头信息，使浏览器判断是否可以发起跨域访问。
 - 浏览器将跨域请求分为两类：简单请求和非简单请求。简单请求采取先请求后判断的方式，非简单请求采取预检请求的方式判断是否允许跨域访问。
 - 解决跨域通常采用服务端代理转发和配置CORS两种方式。
+
+## 性能优化
+**代码层面：**
+
+- 防抖和节流（resize，scroll，input）。
+- 减少回流（重排）和重绘。
+- 事件委托。
+- css 放 ，js 脚本放 最底部。
+- 减少 DOM 操作。
+- 按需加载，比如 React 中使用 React.lazy 和 React.Suspense ，通常需要与 webpack 中的 splitChunks 配合。
+
+**构建方面：**
+
+- 压缩代码文件，在 webpack 中使用 terser-webpack-plugin 压缩 Javascript 代码；使用 css-minimizer-webpack-plugin 压缩 CSS 代码；使用 html-webpack-plugin 压缩 html 代码。
+- 开启 gzip 压缩，webpack 中使用 compression-webpack-plugin ，node 作为服务器也要开启，使用 compression。
+- 常用的第三方库使用 CDN 服务，在 webpack 中我们要配置 externals，将比如 React， Vue 这种包不打倒最终生成的文件中。而是采用 CDN 服务。
+
+**其它：**
+
+- 使用 http2。因为解析速度快，头部压缩，多路复用，服务器推送静态资源。
+- 使用服务端渲染。
+- 图片压缩。
+- 使用 http 缓存，比如服务端的响应中添加 Cache-Control / Expires 。
+
 
 ## VUE面试题
 
@@ -1837,13 +1981,17 @@ Model 和 View 并无直接关联，而是通过 ViewModel 来进行联系的，
 >>vue2：vue2中我们可以使用pototype(原型)的形式去进行操作，引入的是构造函数。
 >>vue3：vue3中需要使 用结构的形式进行操作，引入的是工厂函数；vue3中app组件中可以没有根标签。
 
-
-### v-if\v-show
+### 被问烂的面试题
+#### v-if\v-show
 
 v-if:前端只展示一个，通过是否取消挂载来控制显隐
 v-show:通过display:none控制显隐
 
-### 计算属性惰性求值
+- 编译条件 v-if   是惰性的，如果初始条件为假，则什么也不做。只有在条件第一次变为真时才开始局部编译 v-show 是在任何条件下(首次条件是否为真)都被编译，然后被缓存，而且 DOM 元素保留
+- 性能消耗 v-if   有更高的切换消耗 v-show 有更高的初始渲染消耗
+- 使用场景 v-if   适合运营条件不大可能改变 v-show 适合频繁切换
+
+#### 计算属性惰性求值
 
 ⼤部分时候，我们在模版也就是 html 中写表达式会让模版变得复杂，所以我们可以通过计算属性来简化我们的模版。
 但⼤多数时候，我们也可以通过定义⽅法的形式来直接在表达式内调⽤函数。不过计算属性也可以模拟出使⽤参数的形式。
@@ -1852,7 +2000,95 @@ v-show:通过display:none控制显隐
 
 计算属性只有绑定会重新计算，计算属性没办法传值（如果返回函数的话可以，但是不建议，因为这样就丧失了惰性求值的机制）
 
+#### 如何让 CSS 值在当前的组件中起作用
+>在 vue 文件中的 style 标签上，有一个特殊的属性：scoped。当一个 style 标签拥有 scoped 属性时，它的 CSS 样式就只能作用于当前的组件，也就是说，该样式只能适用于当前组件元素。通过该属性，可以使得组件之间的样式不互相污染。如果一个项目中的所有 style 标签全部加上了 scoped，相当于实现了样式的模块化。
+>
+>scoped 的实现原理
+>
+>vue 中的 scoped 属性的效果主要通过 PostCSS 转译实现的。PostCSS 给一个组件中的所有 DOM 添加了一个独一无二的动态属性，然后，给 CSS 选择器额外添加一个对应的属性选择器来选择该组件中 DOM，这种做法使得样式只作用于含有该属性的 DOM，即组件内部 DOM。
+>
+>例如：
+>
+>转译前
+```vue
+<template>
+  <div class="example">hi</div>
+</template>
 
+<style scoped>
+.example {
+  color: red;
+}
+</style>
+```
+>转译后
+```vue
+<template>
+  <div class="example" data-v-5558831a>hi</div>
+</template>
+
+<style>
+.example[data-v-5558831a] {
+  color: red;
+}
+</style>
+```
+
+#### Vue 中如何进行组件的使用？Vue 如何实现全局组件的注册？
+要使用组件，首先需要使用 import 来引入组件，然后在 components 属性中注册组件，之后就可以在模板中使用组件了。
+
+可以使用 Vue.component 方法来实现全局组件的注册。
+
+#### Vue 组件的 data 为什么必须是函数
+组件中的 data 写成一个函数，数据以函数返回值形式定义。这样每复用一次组件，就会返回一份新的 data，类似于给每个组件实例创建一个私有的数据空间，**让各个组件实例维护各自的数据**。而单纯的写成对象形式，就使得所有组件实例共用了一份 data，就会造成一个变了全都会变的结果。
+
+#### vue 如何快速定位那个组件出现性能问题的
+⽤ timeline ⼯具。 通过 timeline 来查看每个函数的调⽤时常，定位出哪个函数的问题，从⽽能判断哪个组件出了问题。
+
+#### scoped 是如何实现样式穿透的？
+>首先说一下什么场景下需要 scoped 样式穿透。
+>
+>在很多项目中，会出现这么一种情况，即：引用了第三方组件，需要在组件中局部修改第三方组件的样式，而又不想去除 scoped 属性造成组件之间的样式污染。此时只能通过特殊的方式，穿透 scoped。
+>
+>有三种常用的方法来实现样式穿透。
+>
+>方法一
+>
+>使用 ::v-deep 操作符( >>> 的别名)
+>
+>如果希望 scoped 样式中的一个选择器能够作用得“更深”，例如影响子组件，可以使用 >>> 操作符：
+>
+>上述代码将会编译成：
+>
+>后面的类名没有 data 属性，所以能选到子组件里面的类名。
+>
+>有些像 Sass 之类的预处理器无法正确解析 >>>，所以需要使用 ::v-deep 操作符来代替。
+>
+>方法二
+>
+>定义一个含有 scoped 属性的 style 标签之外，再定义一个不含有 scoped 属性的 style 标签，即在一个 vue 组件中定义一个全局的 style 标签，一个含有作用域的 style 标签：
+>
+>此时，我们只需要将修改第三方样式的 css 写在第一个 style 中即可。
+>
+>方法三
+>
+>上面的方法一需要单独书写一个不含有 scoped 属性的 style 标签，可能会造成全局样式的污染。
+>
+>更推荐的方式是在组件的外层 DOM 上添加唯一的 class 来区分不同组件，在书写样式时就可以正常针对针对这部分 DOM 书写样式。
+
+```html
+<style scoped>.a >>> .b {/* ... */}</style>
+
+.a[data-v-f3f3eg9] .b { /* ... */ }
+
+<style>
+/* global styles */
+</style>
+
+<style scoped>
+/* local styles */
+</style>
+```
 
 ## 常见手写
 ### 防抖和节流
@@ -1961,7 +2197,163 @@ function debounce(func, wait) {
 ```
 现在 this 已经可以正确指向了。让我们看下个问题：
 
+##### event对象
+JavaScript 在事件处理函数中会提供事件对象 event，我们修改下 getUserAction 函数：
+```js
+function getUserAction(e) {
+    console.log(e);
+    container.innerHTML = count++;
+};
+```
+如果我们不使用 debouce 函数，这里会打印 MouseEvent 对象，如图所示：
 
+![image-20230304210716748](image/image-20230304210716748.png)
+
+但是在我们实现的 debounce 函数中，却只会打印 undefined!
+
+所以我们再修改一下代码：
+```js
+// 第三版
+function debounce(func, wait) {
+    var timeout;
+
+    return function () {
+        var context = this;
+        var args = arguments;
+
+        clearTimeout(timeout)
+        timeout = setTimeout(function(){
+            func.apply(context, args)
+        }, wait);
+    }
+}
+```
+到此为止，我们修复了两个小问题：
+- this 指向
+- event 对象
+
+##### 立即执行
+这个时候，代码已经很是完善了，但是为了让这个函数更加完善，我们接下来思考一个新的需求。
+
+这个需求就是：
+
+我不希望非要等到事件停止触发后才执行，我希望立刻执行函数，然后等到停止触发 n 秒后，才可以重新触发执行。
+
+想想这个需求也是很有道理的嘛，那我们加个 immediate 参数判断是否是立刻执行。
+```js
+// 第四版
+function debounce(func, wait, immediate) {
+
+    var timeout;
+
+    return function () {
+        var context = this;
+        var args = arguments;
+
+        if (timeout) clearTimeout(timeout);
+        if (immediate) {
+            // 如果已经执行过，不再执行
+            var callNow = !timeout;
+            timeout = setTimeout(function(){
+                timeout = null;
+            }, wait)
+            if (callNow) func.apply(context, args)
+        }
+        else {
+            timeout = setTimeout(function(){
+                func.apply(context, args)
+            }, wait);
+        }
+    }
+}
+```
+#####  返回值
+此时注意一点，就是 getUserAction 函数可能是有返回值的，所以我们也要返回函数的执行结果，但是当 immediate 为 false 的时候，因为使用了 setTimeout ，我们将 func.apply(context, args) 的返回值赋给变量，最后再 return 的时候，值将会一直是 undefined，所以我们只在 immediate 为 true 的时候返回函数的执行结果。
+```js
+// 第五版
+function debounce(func, wait, immediate) {
+
+    var timeout, result;
+
+    return function () {
+        var context = this;
+        var args = arguments;
+
+        if (timeout) clearTimeout(timeout);
+        if (immediate) {
+            // 如果已经执行过，不再执行
+            var callNow = !timeout;
+            timeout = setTimeout(function(){
+                timeout = null;
+            }, wait)
+            if (callNow) result = func.apply(context, args)
+        }
+        else {
+            timeout = setTimeout(function(){
+                func.apply(context, args)
+            }, wait);
+        }
+        return result;
+    }
+}
+```
+##### 取消
+最后我们再思考一个小需求，我希望能取消 debounce 函数，比如说我 debounce 的时间间隔是 10 秒钟，immediate 为 true，这样的话，我只有等 10 秒后才能重新触发事件，现在我希望有一个按钮，点击后，取消防抖，这样我再去触发，就可以又立刻执行啦，是不是很开心？
+
+为了这个需求，我们写最后一版的代码：
+```js
+// 第六版
+function debounce(func, wait, immediate) {
+
+    var timeout, result;
+
+    var debounced = function () {
+        var context = this;
+        var args = arguments;
+
+        if (timeout) clearTimeout(timeout);
+        if (immediate) {
+            // 如果已经执行过，不再执行
+            var callNow = !timeout;
+            timeout = setTimeout(function(){
+                timeout = null;
+            }, wait)
+            if (callNow) result = func.apply(context, args)
+        }
+        else {
+            timeout = setTimeout(function(){
+                func.apply(context, args)
+            }, wait);
+        }
+        return result;
+    };
+
+    debounced.cancel = function() {
+        clearTimeout(timeout);
+        timeout = null;
+    };
+
+    return debounced;
+}
+```
+
+那么该如何使用这个 cancel 函数呢？依然是以上面的 demo 为例：
+```js
+var count = 1;
+var container = document.getElementById('container');
+
+function getUserAction(e) {
+    container.innerHTML = count++;
+};
+
+var setUseAction = debounce(getUserAction, 10000, true);
+
+container.onmousemove = setUseAction;
+
+document.getElementById("button").addEventListener('click', function(){
+    setUseAction.cancel();
+})
+```
 
 
 ## LINUX相关
