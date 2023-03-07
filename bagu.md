@@ -2814,3 +2814,80 @@ ps -aux > ps001.txt
 ##### 帮助命令：man
 - man ls：查看ls命令的帮助文档
 - help
+
+## 补充
+### js
+#### 防抖与节流的区别，手写防抖与节流
+##### 防抖
+![image-20230307191901688](image/image-20230307191901688.png)
+```js
+function debounce(fn){
+	let timer = null;
+	return function(){
+		if(timer) clearTimeOut(timer);
+		timer = setTimeOut(() => {
+			fn.call(this,args);
+			timer = null;
+		},1000);//1000ms加上中途调用的时间之后触发
+		
+	};
+}
+```
+##### 节流
+
+![image-20230307193940977](image/image-20230307193940977.png)
+
+```js
+function throttle(fn){
+	let timer = null;
+	return function(){
+		if(timer) return;//与防抖不同，防抖只执行最后一步，所以要清空，节流是减少次数
+		timer = setTimeOut(() => {
+			fn.call(this,args);
+			timer = null;
+		},100);//100ms后触发
+		
+	};
+}
+```
+
+##### 异同
+
+|	| 共同点 | 差别 | 适用场景 |
+| ---- | ---- | ---- | ---- |
+| 防抖（debounce)	| 在事件频繁被触发时 | 只执行最后一次 | input输入 |
+| 节流（throttle)	| 减少事件执行次数 | 有规律的执行 | 拖拽，scoroll |
+
+#### eventloop
+1. 同步代码，一行一行放在 Call Stack 中执行
+
+2. 遇到异步，会先“记录”下代码，等待执行时机 (setTimeout、Ajax)。时机到了，将之前“记录”的代码放入Callback Queue
+3. 当 Call Stack 为空(同步代码执行完)，Event Loop 开始工作
+4. Event Loop 轮询查找 Callback Queue 中是否有可执行的代码。如果有，将代码移动到 Call Stack 中执行
+5. Event Loop 如果没有找到可以执行代码，则会继续轮询查找
+
+![image-20230307194949191](image/image-20230307194949191.png)
+
+#### 宏任务，微任务，什么区别？
+微任务: Promise、async await
+宏任务: setTiemout、setlnterval、Ajax、DOM事件
+
+##### 区别
+微任务先于宏任务执行
+
+##### 总结
+1. Call Stack 清空，触发Event Loop
+2. 执行微任务
+3. DOM渲染
+4. 执行宏任务
+
+执行顺序：同步代码 => 微任务 => 渲染DOM => 宏任务
+
+![image-20230307200131446](image/image-20230307200131446.png)
+
+#### 手写Promise加载图片
+##### 出题目的
+- 考察 Image 对象
+- 考察 Promise
+- 考察 async await
+
