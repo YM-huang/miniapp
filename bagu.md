@@ -2891,3 +2891,135 @@ function throttle(fn){
 - 考察 Promise
 - 考察 async await
 
+```js
+//写法1
+const op = new Promise((resolve， reject) => {
+        const oImg = new Image();
+        oImg.src = src;
+        oImg.onload = () => [resolve(oImg);
+        oImg.onerror = () => [reject("图片加载失败");
+});
+op.then((oImg) => {
+    document.body.appendChild(oImg);
+)}.catch((errMsg) =>{
+    console.log(errMsg);
+)};
+
+//写法2
+function loadImg(src) {
+    return new Promise((resolve， reject) => {
+        const oImg = new Image();
+        oImg.src = src;
+        oImg.onload = () => [resolve(oImg);
+        oImg.onerror = () => [reject("图片加载失败");
+    });
+}
+
+loadImg("https://robohash.org/1").then((oImg) => {
+    document.body.appendChild(oImg);
+    return loadImg("https://robohash.org/1")
+}).then((oImg) => {
+    document.body.appendChild(oImg);
+    return loadImg("https://robohash.org/2")
+}).catch((errMsg) =>{
+    console.log(errMsg);
+});
+
+//async和await配合promise
+(async function() {
+	try{
+		const oImg = await loadImg("https://robohash.org/1")
+		document.body.appendChild(oImg);//相当于then的操作
+		
+		const oImg2 = await loadImg("https://robohash.org/2")
+		document.body.appendChild(oImg2);//要加载第二张图片
+	}catch(err){//相当于catch的操作
+		console.lig(err);
+	}
+})();
+
+```
+
+##### 总结
+**Img对象**
+
+- new Image()-声明一个Image对象
+- onload-当图片加载成功时执行
+- onerror -当图片加载失败时执行
+- .src-设置图片路径
+
+**Promise**
+
+作用：解决回调地狱
+
+#### promise代码阅读
+- JS 执行顺序:自上而下、先同步再异步、先微任务后宏任务。
+- new Promise() -> Promise.resolve()
+- then 和 catch 内部没有 throw new Error 相当于resolve
+- async function 相当于返回 Promise.resolve()
+- await 后面的代码都是异步的
+
+```js
+async function fn1(){//相当于promise.resolve()
+	console.log("fn1 start")
+	await fn2();//await 后面的代码都是异步的
+	console.log("fn1 end");//异步
+}
+async function fn2(){
+	console.log("fn2 start");
+}
+
+console.log("start");
+fn1();
+console.log("end");
+
+//start
+//fn1 start
+//fn2 start 
+//end
+//fn1 end
+```
+
+#### for..in与for..of的区别
+| for...in | 遍历得到key | 可枚举的数据：数组、字符串、对象 |
+|--- |--- | --- |
+| for...of | 遍历得到value | 可迭代的数据：数组、字符串、Map、Set |
+
+是否可枚举: Object.getOwnPropertyDescriptors(obj) -> enumerable: true
+是否可迭代: arr[Symbol.iterator]() -> next()
+
+#### for await ... of作用
+用于遍历一组promise
+promise.all
+
+```js
+const p1 = getPromise(10);
+const p2 = getPromise(20);
+const p3 = getPromise(30);
+const list = [p1, p2, p3];
+(async function () {
+	for await (let res of list) {
+		console.log(res);//可以把单独的结果给出来10 20 30
+	}
+})();
+Promise.all(list).then((res) => {
+	console.log(res);//[10,20,30]，给出数组
+});
+```
+
+一条一条输出
+```js
+(async function () {
+	const data = [10,20,30]
+	//const res1 = await getPromise(data[0]);
+	//console.log(res1)
+	//const res2 = await getPromise(data[0]);
+	//console.log(res2)
+	//const res3 = await getPromise(data[0]);
+	//console.log(res3)
+	for (let val of data){
+		const res = await getPromise(val);
+		console.log(res);
+	}
+})();
+```
