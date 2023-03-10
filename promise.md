@@ -1062,3 +1062,92 @@ Promise.try(() => database.users.get({id: userId}))
 ```
 
 事实上，Promise.try就是模拟try代码块，就像promise.catch模拟的是catch代码块。
+
+## 题目
+### 2. Promise结合setTimeout
+#### 2.2 题目二
+```js
+const promise = new Promise((resolve, reject) => {
+  console.log(1);
+  setTimeout(() => {
+    console.log("timerStart");
+    resolve("success");
+    console.log("timerEnd");
+  }, 0);
+  console.log(2);
+});
+promise.then((res) => {
+  console.log(res);
+});
+console.log(4);
+```
+- 从上至下，先遇到new Promise，执行该构造函数中的代码1
+- 然后碰到了定时器，将这个定时器中的函数放到下一个宏任务的延迟队列中等待执行
+- 执行同步代码2
+- 跳出promise函数，遇到promise.then，但其状态还是为pending，这里理解为先不执行
+- 执行同步代码4
+- 一轮循环过后，进入第二次宏任务，发现延迟队列中有setTimeout定时器，执行它
+- 首先执行timerStart，然后遇到了resolve，将promise的状态改为resolved且保存结果并将之前的promise.then推入微任务队列
+- 继续执行同步代码timerEnd
+- 宏任务全部执行完毕，查找微任务队列，发现promise.then这个微任务，执行它。
+
+```js
+1
+2
+4
+"timerStart"
+"timerEnd"
+"success"
+```
+
+#### 2.3 题目三
+```js
+Promise.resolve().then(() => {
+  console.log('promise1');
+  const timer2 = setTimeout(() => {
+    console.log('timer2')
+  }, 0)
+});
+const timer1 = setTimeout(() => {
+  console.log('timer1')
+  Promise.resolve().then(() => {
+    console.log('promise2')
+  })
+}, 0)
+console.log('start');
+
+'start'
+'promise1'
+'timer1'
+'promise2'
+'timer2'
+```
+- 刚开始整个脚本作为第一次宏任务来执行，我们将它标记为宏1，从上至下执行
+- 遇到Promise.resolve().then这个微任务，将then中的内容加入第一次的微任务队列标记为微1
+- 遇到定时器timer1，将它加入下一次宏任务的延迟列表，标记为宏2，等待执行(先不管里面是什么内容)
+- 执行宏1中的同步代码start
+- 第一次宏任务(宏1)执行完毕，检查第一次的微任务队列(微1)，发现有一个promise.then这个微任务需要执行
+- 执行打印出微1中同步代码promise1，然后发现定时器timer2，将它加入宏2的后面，标记为宏3
+- 第一次微任务队列(微1)执行完毕，执行第二次宏任务(宏2)，首先执行同步代码timer1
+- 然后遇到了promise2这个微任务，将它加入此次循环的微任务队列，标记为微2
+- 宏2中没有同步代码可执行了，查找本次循环的微任务队列(微2)，发现了promise2，执行它
+- 第二轮执行完毕，执行宏3，打印出timer2
+
+![image-20230309140940936](image/image-20230309140940936.png)
+
+### Promise中的then\catch\finally
+throw new Error('我是finally中抛出的异常')//抛出异常
+return new Error('我是finally中抛出的异常')//返回promise对象
+#### 3.8
+```js
+Promise.resolve(1)
+  .then(2)
+  .then(Promise.resolve(3))
+  .then(console.log)
+```
+其实你只要记住原则8：.then 或者 .catch 的参数期望是函数，传入非函数则会发生值透传。
+
+第一个then和第二个then中传入的都不是函数，一个是数字类型，一个是对象类型，因此发生了透传，将resolve(1) 的值直接传到最后一个then里。
+
+所以输出为1.
+
