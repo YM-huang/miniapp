@@ -3023,3 +3023,9 @@ Promise.all(list).then((res) => {
 	}
 })();
 ```
+
+#### var,let和const有什么区别
+1. 块级作用域
+2. 变量提升
+3. 重名
+
