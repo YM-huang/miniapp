@@ -3029,3 +3029,147 @@ Promise.all(list).then((res) => {
 2. 变量提升
 3. 重名
 
+##### 变量提升
+var会将变量提升到最开始声明，但不会赋值
+
+const和let不会提升
+
+##### 暂时性死区
+let/const会被先创建出来，但未被绑定值，所以不能用。
+
+好习惯：不要再let/const声明前使用变量，用了就触发暂时性死区。
+
+```js
+a = 100;//触发暂时性死区
+let a = 20;
+```
+let声明的变量可以改变，值和类型都可以改变；const声明的常量不可以改变，这意味着，const一旦声明，就必须立即初始化，不能以后再赋值
+**数组和对象等复合类型的变量，变量名不指向数据，而是指向数据所在的地址。const只保证变量名指向的地址不变，并不保证该地址的数据不变，所以将一个复合类型的变量声明为常量必须非常小心。**
+
+#### 原型和原型链
+##### class的基础语法
+* class
+* construct
+* extends
+* super
+* instanceof
+
+```js
+//声明类
+class Persob {
+	constructor(name,age){
+		this,name = name;
+		this,age = age;
+	}
+	sayHello(){
+		console.log(`您好${this.name}`)
+	}
+}
+//实例化
+let zhangsan = new Person("zahngsan",18);
+zhangsan.sayHello();
+
+//子类 继承
+class Student extends Person{
+	constructor(name,age,sex){
+		super(name,age);
+		this.sex = sex;
+	}
+	learn(){
+		console.log(`您好${this.name}，今年${this.sex}`)
+	}
+}
+
+//实例化
+const zhangsan = new Student("zahngsan",18,"男");
+zhangsan.sayHello();
+zhangsan.learn();
+
+//instanceof
+console.log(zhangsan instanceof Student);//true
+console.log(zhangsan instanceof Person);//true
+console.log(zhangsan instanceof Object);//true
+console.log(zhangsan instanceof Array);//false
+
+//原型 原型链
+console.log(zhangsan._proto_);//隐式原型 Person{constructor:f,learn:f}
+console.log(Student.prototype);//显式原型 Person{constructor:f,learn:f}
+console.log(Student.prototype === zhangsan._proto_);//true
+```
+
+![image-20230312032237532](image/image-20230312032237532.png)
+
+![image-20230312032257030](image/image-20230312032257030.png)
+
+#### 手写instanceof
+
+instanceof运算符用于检测构造函数的prototype实例是否在某个实例对象的原型链上
+
+```js
+function myInstanceof(obj1,obj2){
+	//if(obj1._proto_ === obj2.prototype){
+	//	return true;
+	//}
+	//if(obj1._proto_._proto_ === obj2.prototype){
+	//	return true;
+	//}
+	//if(obj1._proto_._proto_._proto_ === obj2.prototype){
+	//	return true;
+	//}
+	let obj1Proto = obj1._proto_;
+	while(true){
+		if(obj1Proto === null){
+        	return false;
+        }
+        
+		if(obj1Proto === obj2.prototype){
+        	return true;
+        }
+        
+        obj1Proto = obj1Proto._proto;
+	}
+}
+```
+
+#### 手写bind函数
+```js
+Function.prototype.myBind = function(){
+	const fn = this;
+	
+	const _this = arguments[0];
+	const arg = Array.prototype.slice.call(arguments);//类数组变为真正的数组
+	const _this = arg.shift();//[1,2,3]=>[1](_this) [2,3](arg)
+	
+	return function(){
+		return fn.apply(_this,arg);
+	}
+}
+```
+
+#### this的不同场景，如何取值
+this的易混场景
+
+1， 普通函数下的this
+	- 非严格模式 this -> window
+	- 严格模式下 this -> undedined
+2. call apply bind 中的this
+	- 情况1：this -> window
+		- a.call();
+		- a.call(null)
+		- a.call(undefined)
+	- 情况2：传什么，this就是什么
+3. 定时器中的this
+	- 定时器+function this -> window
+	- 定时器+箭头函数 this -> 上层作用域的this
+4. 箭头函数中的this
+	- 有function作用域的，this是上层作用域的this
+	- 没有function作用域的，this是window
+
+#### 值类型和引用类型区别
+值类型：String、number、boolean、symbol
+引用类型：json、array、null
+![image-20230312045428971](image/image-20230312045428971.png)
+
+![image-20230312045528304](image/image-20230312045528304.png)
+
+#### 手写深拷贝
