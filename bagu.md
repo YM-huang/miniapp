@@ -1473,6 +1473,7 @@ Cache-Control 有哪些值：
 简单来讲，就是从地址A加载的页面，不能访问地址B的服务（如上图）。此时地址A与地址B不同源。
 
 **所谓同源，就是域名、协议、端口均相同。**举个例子：
+
 ```
 http://www.123.com/index.html 调用 http://www.123.com/abc.do （非跨域）
 http://www.123.com/index.html 调用 http://www.456.com/abc.do （主域名不同:123/456，跨域）
@@ -3173,3 +3174,184 @@ this的易混场景
 ![image-20230312045528304](image/image-20230312045528304.png)
 
 #### 手写深拷贝
+拷贝出来的对象不影响原对象
+
+```js
+function deepclone(obj){
+	//return JSON.parse(JSON.stringify(obj));//function、正则、事件对象等很多东西都不会复制
+	if(typeof obj !== "object" || obj == null){
+		return obj;
+	}
+	let res = obj instanceof Array ? [] : ();
+	
+	for(let key in obj){
+		if(obj.hasOwnProperty(key)){
+			res[key] = deepClone(obj[key]);//递归调用，清除循环引用
+		}
+	}
+	return res;
+}
+```
+
+#### 何时用== 何时用===
+只有 obj == null 可以用双等号 <=> obj===null || obj===undefined
+
+#### truely变量和falsely变量
+
+* truely变量：!!val === true
+* falsely变量：!!val === false
+
+除了falsely变量，都是truely变量
+* 数字0
+* Nah
+* 空字符串
+* null
+* undefined
+
+#### 谈谈闭包和闭包的使用场景
+
+自由变量：不在自己作用域里面的变量
+
+产生闭包的情况
+```js
+//情况1：函数当作返回值被返回
+function fn(){
+	const a = 1;
+	return function(){
+		console.log(a);
+	};
+}
+const a = 5;
+const cb = fn();
+cb();//1
+
+//情况2：函数当作参数传递
+function fn(cb){
+	const a = 100;
+	cb();
+}
+
+const a = 500;
+fn(function(){
+	console.log(a);
+});//500，定义的外层是500，与函数调用的位置无关
+
+//情况3：自执行匿名函数
+(function(index){
+	console.log(index);
+})(10);//10
+```
+
+##### 应用场景
+1. 
+```js
+//用户点击
+const aBtn = document.getElementByTagName("button");
+for(var i = 0;i<aBtn.length;i++){
+	aBtn[i].onclick = function(){
+		console.log(i);//无论按那个都弹五，因为网页全部加载完，for都执行完，用户才点击这个按钮，所以都是5
+	};
+}
+
+//使用闭包
+const aBtn = document.getElementByTagName("button");
+for(var i = 0;i<aBtn.length;i++){
+	(function(index){
+        aBtn[i].onclick = function(){
+            console.log(i);
+        };
+	})(i);
+}
+
+//或者把var改为let，就是在里面单独创造一个作用域
+```
+2. 
+```js
+//隐藏变量
+function fn(){
+	const data = {};
+	return {
+		set: function(key,val){
+			data[key] = val
+		},
+		get: function(val){
+			return data[val];
+		},
+	};
+}
+
+const json = fn();
+json.set("age",18);
+console.log(json.get（"age");//只能在fn里面用，不能在外面直接调用data
+```
+
+##### 总结
+
+- 什么是闭包
+	- 概念:闭包是作用域的一种特殊应用
+- 触发闭包的情况
+	- 1、函数当做返回值被返回
+	- 2、函数当做参数被传递
+	- 3、自执行名函数
+- 闭包的应用
+	- 1、变量
+	- 2、解决 for i 的问题
+- 作用域
+	- 全局作用域、局部作用域
+- 自由变量
+	- 不在自己作用域里的变量，就是自由变量
+	- 自由变量的值:在函数定义的地方向上层作用域查找。与函数调用位置无关
+
+
+#### 求数组最大值
+- Array.sort
+- Array.reduce
+- Math.max
+
+```js
+const arr = [100,5,20,3,200,6];
+console.log(getMax(arr));
+
+function getMax(arr){
+	//return Math.max(...arr)//打散
+	return Math.max.apply(null,arr);
+}
+
+function getMax(arr){
+	arr.sort((n1,n2)=>{
+		return n2-n1;
+	});
+	return arr[0];
+}
+
+function getMax(arr){
+	return arr.reduce((n1,n2)=>{
+		return n1>n2 ? n1 : n2;
+	});
+}
+```
+
+#### 数组去重
+set的使用
+
+```js
+const arr= [10,20,20,30,50,50,60];
+console.log(unique(arr));
+
+function unique(arr){
+	const res=[];
+	arr.foreach((item) => {
+		if(res.indexOf(item) === -1){
+			res.push(item);
+		}
+	});
+	
+	return res;
+}
+
+function unique(arr){
+	const set = new Set(arr);//自动去重
+	return [...set];//解构
+}
+```
+
