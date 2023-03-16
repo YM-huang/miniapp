@@ -2162,6 +2162,60 @@ Vue.component 用来注册全局组件。
 #### 移动端如何实现一个比较友好的 header 组件
 Header 一般分为左、中、右三个部分，分为三个区域来设计，中间为主标题，每个页面的标题肯定不同，所以可以通过 vue props的方式做成可配置对外进行暴露，左侧大部分页面可能都是回退按钮，但是样式和内容不尽相同，右侧一般都是具有功能性的操作按钮，所以左右两侧可以通过 vue slot 插槽的方式对外暴露以实现多样化，同时也可以提供 default slot 默认插槽来统一页面风格。
 
+#### 既然 Vue 通过数据劫持可以精准探测数据变化，为什么还需要虚拟 DOM 进行 diff 监测差异 ？
+现代前端框架有两种方式侦测变化，一种是 pull，一种是 push。
+
+##### pull
+其代表为 React，我们可以回忆一下 React 是如何侦测到变化的。
+
+我们通常会用 setState API 显式更新,然后 React 会进行一层层的 Virtual Dom Diff 操作找出差异，然后 Patch 到 DOM 上，React 从一开始就不知道到底是哪发生了变化,只是知道「有变化了」,然后再进行比较暴力的 Diff 操作查找「哪发生变化了」，另外一个代表就是 Angular 的脏检查操作。
+
+##### push
+Vue 的响应式系统则是 push 的代表，当 Vue 程序初始化的时候就会对数据 data 进行依赖的收集，一但数据发生变化，响应式系统就会立刻得知，因此 Vue 是一开始就知道是「在哪发生变化了」
+
+但是这又会产生一个问题，通常绑定一个数据就需要一个 Watcher，一但我们的绑定细粒度过高就会产生大量的 Watcher，这会带来内存以及依赖追踪的开销，而细粒度过低会无法精准侦测变化，因此 Vue 的设计是选择中等细粒度的方案，在组件级别进行 push 侦测的方式，也就是那套响应式系统。
+
+通常我们会第一时间侦测到发生变化的组件,然后在组件内部进行 Virtual Dom Diff 获取更加具体的差异，而 Virtual Dom Diff 则是 pull 操作，Vue 是 push + pull 结合的方式进行变化侦测的。
+
+#### Vue 为什么没有类似于 React 中 shouldComponentUpdate 的生命周期？（不会
+根本原因是 Vue 与 React 的变化侦测方式有所不同
+
+React 是 pull 的方式侦测变化，当 React 知道发生变化后，会使用 Virtual Dom Diff 进行差异检测,但是很多组件实际上是肯定不会发生变化的，这个时候需要用 shouldComponentUpdate 进行手动操作来减少 diff，从而提高程序整体的性能。
+
+Vue 是 pull+push 的方式侦测变化的，在一开始就知道那个组件发生了变化，因此在 push 的阶段并不需要手动控制 diff，而组件内部采用的 diff 方式实际上是可以引入类似于 shouldComponentUpdate 相关生命周期的，但是通常合理大小的组件不会有过量的 diff，手动优化的价值有限，因此目前 Vue 并没有考虑引入 shouldComponentUpdate 这种手动优化的生命周期。
+
+#### 说一下你对 vue 事件绑定原理的理解？（不会）
+vue 中的事件绑定是有两种，一种是原生的事件绑定，另一种是组件的事件绑定。
+
+原生的事件绑定在普通元素上是通过 @click _ 进行绑定，在组件上是通过 @click.native 进行绑定，组件中的 _nativeOn_ 是等价于 on 的。组件的事件绑定的 @click 是 vue 中自定义的 $on 方法来实现的，必须有 $emit 才可以触发。
+
+##### 原生事件绑定原理
+
+在 runtime 下的 patch.js 中 createPatchFunction 执行了之后再赋值给 patch。
+
+createPatchFunction 方法有两个参数，分别是 nodeOps 存放操作 dom 节点的方法和 modules，modules 是有两个数组拼接起来的，modules 拼接完的数组中有一个元素就是 events，事件添加就发生在这里。
+
+events 元素关联的就是 events.js 文件，在 events 中有一个 updateDOMListeners 方法，在 events 文件的结尾导出了一个对象，然后对象有一个属性叫做 create，这个属性关联的就是 updateDOMListeners 方法。
+
+在执行 createPatchFunction 方法时，就会将这两个参数传入，在 createPatchFunction 方法中接收了一个参数 backend，在该方法中一开始进行 backend 的解构，就是上面的 nodeOps 和 modules 参数，解构完之后进入 for 循环。
+
+在 createPatchFunction 开头定义了一个 cbs 对象。for 循环遍历一个叫 hooks 的数组。hooks 是文件一开头定义的一个数组，其中包括有 create，for 循环就是在 cbs 上定义一系列和 hooks 元素相同的属性，然后键值是一个数组，然后数组内容是 modules 里面的一些内容。这时就把 events 文件中导出来的 create 属性放在了 cbs 上。
+
+当我们进入首次渲染的时候，会执行到 patch 函数里面的 createElm 方法，这个方法中就会调用 invokeCreateHooks 函数，用来处理事件系统，这里就是真正准备进行原生事件绑定的入口。invokeCreateHooks 方法中，遍历了 cbs.create 数组里面的内容。然后把 cbs.create 里面的函数全部都执行一次，在 cbs.create 其中一个函数就是 updateDOMListeners。
+
+updateDOMListeners 就是用来添加事件的方法，在这方法中会根据 vnode 判断是否有定义一个点击事件。如果没有点击事件就 return。有的话就继续执行，给 on 进行赋值，然后进行一些赋值操作，将 vnode.elm 赋值给 target，elm 这个属性就是指向 vnode 所对应的真实 dom 节点，这里就是把我们要绑定事件的 dom 结点进行缓存，接下来执行 updateListeners 方法。在接下来执行 updateListeners 方法中调用了一个 add 的方法，然后在 app 方法中通过原生 addEventListener 把事件绑定到 dom 上。
+
+##### 组件事件绑定原理
+
+在组件实例初始化会调用 initMixin 方法中的 Vue.prototype._init，在 init 函数中，会通过 initInternalComponent 方法初始化组件信息，将自定义的组件事件放到_parentListeners 上，下来就会调用 initEvents 来初始化组件事件，在 initEvents 中会实例上添加一个 _event 对象，用于保存自定义事件，然后获取到 父组件给 子组件绑定的自定义事件，也就是刚才在初始化组件信息的时候将自定义的组件事件放在了_parentListeners 上，这时候 vm.$options._parentListeners 就是自定义的事件。
+
+最后进行判断，如果有自定义的组件事件就执行 updateComponentListeners 方法进行事件绑定，在 updateComponentListeners 方法中会调用 updateListeners 方法，并传传一个 add 方法进行执行，这个 add 方法里就是$on 方法。
+
+#### delete 和 Vue.delete 删除数组的区别是什么？
+delete 只是被删除的元素变成了 empty/undefined 其他的元素的键值还是不变。 Vue.delete 是直接将元素从数组中完全删除，改变了数组其他元素的键值。
+
+
+
 ## 常见手写
 ### 防抖和节流
 在前端开发中会遇到一些频繁的事件触发，比如：
