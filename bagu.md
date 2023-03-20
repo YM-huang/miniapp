@@ -3441,5 +3441,111 @@ const flat2 = function(arr){
 console.log(newArr(arr)); //[0, 1, 2, 3, 4, 5, 6, 7]
 ```
 
-### css
-#### 
+### CSS
+#### BFC的理解
+##### 什么是BFC
+- BFC 是 Block Formatting Context （块级格式上下文）的缩写
+- BFC是一个独立的空间，里面子元素的流染不影响外面的布局
+
+##### BFC作用
+1. 解决margin塌陷
+2. 清除浮动
+
+##### 如何触发BFC
+- overflow: hidden
+- display: inline-block / table-cell / flex
+- position: absolute / fixed
+
+#### 盒子模型的理解
+##### 什么是盒子模型
+盒子模型就是元素在网页中实际占据的大小
+##### 盒子模型的计算方式
+盒子模型 = width/height+padding+border
+注意: 没有margin
+##### box-sizing
+当box-sizing的值为 border-box(大小只有width/height，其他包含在里面) 时，会改变盒子模型的计算方式，默认是centent-box
+##### offsetWidth
+JavaScript中获取盒子模型的方式是 obj.offsetWidth / offsetHeight
+
+#### margin负值后，会怎样，有何应用
+
+##### margin负值有什么效果?
+- margin-left 负值，元素自身向左移动
+- margin-top 负值，元素自身向上移动了
+- margin-right 负值，右边的元素向左移动（相当于把这个元素当作宽度减少）
+- margin-bottom 负值，下边的元素向上移动
+
+##### margin负值的应用
+- 增加宽度
+- 圣布局
+- 双飞翼布局
+
+#### 圣杯布局（多看
+##### 什么是圣杯布局
+两边固定宽度，中间自适应宽度
+##### 难点
+- margin-left:-100%;100%是父级宽座的100%。
+- margin-right:150px; 其他元素当他宽度少了150px
+
+#### 双飞翼布局（多看
+左右宽度固定，中间宽度自适应，中间内容优先加载
+
+#### 清除浮动，手写clearfix
+清除浮动的方法：
+
+- 父级加 overflow:hidden
+- 父级设置 clearfix。
+- 父级也浮动
+
+#### 手写div垂直水平居中
+常见的垂直水平居中方法
+
+1. position(父relative，子absolute)+margin负值的方法 (宽高固定)(left,top:50%左上角的点在中间)
+2. position+margin:auto（固定宽高)（left,top.right,bottom:0)
+3. display:table-cel + vertical-align:middle (固定穿度）
+4. position+transform (不需要固定宽高)(场景最多，transform: translate(-50%，-50%);)
+5. flex (不需要固定宽高)
+```css
+父级元素
+display: flex;
+justify-content: center;
+align-items: center;
+```
+
+#### px、rem、em、vw、vh有什么区别？
+
+##### 基本概念
+1. `px`:就是像素`pixel`的缩写
+2. `em`:是相对单位，1`em`等于当前元素的 1`font-size` 的大小
+3. `rem`:是`CSS3`新增的相对单位，1`rem`等于html的 1`font-size` 大小
+4. `vw`和`vh`: 是相对单位，1`vw`是视口宽度1%，1`vh`是视口高度的1%
+
+##### 扩展知识点: vmax 和 vmin
+- `vmax`：`vh`和`vw`中较大的值
+- `vmin`：`vh`和`vw`中较小的值
+- 如果某个元素在手机横屏和竖屏时大小保持一致，可以考虑使用`vmax`或`vmin`
+
+
+#### 移动端适配（需要看）
+https://juejin.cn/post/6959047144065990663#heading-16
+
+#### 选择器优先级
+常规来说，大家都知道样式的优先级一般为 !important > style > id > class > 标签 ，但是涉及多类选择器作用于同一个元素时候怎么判断优先级呢？相信我，你在改一些第三方库（比如 antd 😂）样式时，理解这个会帮助很大！
+
+优先级是由 A 、B、C、D 的值来决定的，其中它们的值计算规则如下：
+1. 如果存在内联样式，那么 A = 1, 否则 A = 0;
+2. B 的值等于 ID选择器（#id） 出现的次数;
+3. C 的值等于 类选择器（.class） 和 属性选择器（a[href="https://example.org"]） 和 伪类（:first-child） 出现的总次数;
+4. D 的值等于 标签选择器（h1,a,div） 和 伪元素（::before,::after） 出现的总次数 。
+
+从左至右比较，如果是样式优先级相等，取后面出现的样式。
+
+#### css哪些样式可以继承
+
+![image-20230319210506011](image/image-20230319210506011.png)
+
+**line-height**
+
+- line-height:200px 直接继承
+- line-height: 1.5根据自己的字体大小计算
+- line-height:200% 根据父级的字体大小计算

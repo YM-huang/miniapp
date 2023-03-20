@@ -10,7 +10,7 @@
 //2. person01.__proto__ == Person.prototype // **准则2：实例（即person01）的__proto__和原型对象指向同一个地方**
 
 // 从上方 function Foo() 开始分析这一张经典之图
-// function Foo()
+function Foo()
 let f1 = new Foo();
 let f2 = new Foo();
 
@@ -25,7 +25,7 @@ Object.prototype.__proto__ = null; // 原型链到此停止
 // **此处注意Foo 和 Function的区别， Foo是 Function的实例**
 
 // 从中间 function Object()开始分析这一张经典之图
-// function Object()
+function Object()
 let o1 = new  Object();
 let o2 = new  Object();
 

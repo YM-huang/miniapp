@@ -34,7 +34,7 @@ console.log(a1); // true
 let a2 = arr.some(x => x > 4)
 console.log(a2); // true
 
-let arrNew = [1,3,5,7,9,9]
+let arrNew = [1,3,5,7,9,9];
 // find
 let a = arrNew.find(x => x > 4)
 console.log(a); // 5 (返回第一个符合要求的元素值)
