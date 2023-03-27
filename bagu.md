@@ -3433,7 +3433,7 @@ function flat(arr){
 	
 	return arr;
 }
-
+  
 let arr = [[0, 1], [2, 3], [4,[5,6,7]]]
 const flat2 = function(arr){
    return arr.reduce((pre,cur)=>pre.concat(Array.isArray(cur)?flat2(cur):cur),[])
