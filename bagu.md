@@ -3549,3 +3549,9 @@ https://juejin.cn/post/6959047144065990663#heading-16
 - line-height:200px 直接继承
 - line-height: 1.5根据自己的字体大小计算
 - line-height:200% 根据父级的字体大小计算
+
+## 计网
+
+### osi
+
+![image-20230407143457514](image/image-20230407143457514.png)
